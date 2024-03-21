@@ -30,7 +30,6 @@ export class ReportGeneratorComponent implements OnInit {
     public dialogRef: DynamicDialogRef,
     public authService: AuthService,
     private snackbarService: SnackbarService
-
   ) {}
 
   ngOnInit() {
