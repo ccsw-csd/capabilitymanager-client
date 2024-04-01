@@ -16,9 +16,8 @@ export class TableDetailComponent {
   @Input() isARDataTotalOK: boolean;
   @Input() isSEDataTotalOK: boolean;
 
-  ngOnInit() {
-    //console.log(this.columnas);
-    //console.log(this.data);
+  constructor() {
+    
   }
 
   getTotalIndex(): number {

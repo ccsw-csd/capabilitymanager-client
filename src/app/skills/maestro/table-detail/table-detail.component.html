@@ -65,13 +65,26 @@
               fila.profile == 'Total' ||
               fila.profile == 'Sum'
             "
-            [class.red-background]="
-              (fila.profile == 'Engagement Managers' && !isEMDataTotalOK && i === 0) ||
-              (fila.profile == 'Business Analysts' && !isBADataTotalOK) ||
-              (fila.profile == 'Architects' && !isARDataTotalOK) ||
-              (fila.profile == 'Total' && !isARDataTotalOK) && i === 0
-            "
-            class="flex-none"
+            [ngClass]="{
+              'flex-none': true,
+              'red-background':
+                (fila.profile == 'Software Engineers' &&
+                  isSEDataTotalOK == false &&
+                  i == 0) ||
+                (fila.profile == 'Engagement Managers' &&
+                  isEMDataTotalOK == false &&
+                  i == 0) ||
+                (fila.profile == 'Business Analysts' &&
+                  isBADataTotalOK == false &&
+                  i == 0) ||
+                (fila.profile == 'Total' &&
+                  isARDataTotalOK == false &&
+                  i === 0) ||
+                (fila.profile == 'Sum' && isEMDataTotalOK == false && i == 0) ||
+                (fila.profile == 'Sum' && isARDataTotalOK == false && i == 1) ||
+                (fila.profile == 'Sum' && isBADataTotalOK == false && i == 2) ||
+                (fila.profile == 'Sum' && isSEDataTotalOK == false && i == 3)
+            }"
             style="
               width: 80px;
               height: 47px;
