@@ -21,6 +21,8 @@ import { CapabilitiesUploadComponent } from './capabilities/capabilities-upload/
 import { StaffingUploadComponent } from './staffing/staffing-upload/staffing-upload.component';
 import { ReportGeneratorComponent } from './report/report-generator/report-generator.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { CertficationsListComponent } from './certifications/certifications-list/certifications-list.component';
+
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { DropdownModule } from 'primeng/dropdown';
     CapabilitiesUploadComponent,
     StaffingUploadComponent,
     ReportGeneratorComponent,
+    CertficationsListComponent
+    
   ],
   imports: [
     CommonModule,

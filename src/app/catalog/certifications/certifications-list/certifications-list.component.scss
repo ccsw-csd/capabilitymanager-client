@@ -1,0 +1,53 @@
+.id {
+  min-width: 100px;
+  max-width: 100px;
+}
+
+.descripcion {
+  min-width: 400px;
+  max-width: 400px;
+}
+
+.fechaImportacion {
+  min-width: 240px;
+  max-width: 240px;
+}
+
+.idTipoInterfaz {
+  min-width: 140px;
+  max-width: 140px;
+}
+
+.numRegistros {
+  min-width: 140px;
+  max-width: 140px;
+}
+
+.usuario {
+  min-width: 240px;
+  max-width: 240px;
+}
+
+.nombreFichero {
+  min-width: 330px;
+}
+
+.parents {
+  min-width: 140px;
+  max-width: 200px;
+}
+
+.center {
+  min-width: 115px;
+  max-width: 115px;
+}
+
+.buttons {
+  min-width: 80px;
+  max-width: 80px;
+}
+
+.p-button.p-button-icon-only.p-button-rounded {
+  width: 2rem;
+  height: 2rem;
+}
