@@ -149,7 +149,7 @@ export class ReportListComponent {
 
   generateReport(): void {
     const dialogRef = this.dialogService.open(ReportGeneratorComponent, {
-      header: 'Generar Dashboard',
+      header: 'Generar Informe modelo de capacidades',
       width: '1000px',
       height: '400px',
       closable: false,
