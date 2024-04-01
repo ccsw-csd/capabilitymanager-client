@@ -25,7 +25,7 @@ export class CapabilitiesService {
   }
 
   downloadFile(id: string, filename: string): void {
-    const url = `${this.baseUrl}/version-rols/download-file/${id}`;
+    const url = `${this.baseUrl}/version-role/download-file/${id}`;
 
     const httpOptions = {
       responseType: 'blob' as 'json',
