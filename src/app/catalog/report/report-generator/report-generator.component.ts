@@ -63,8 +63,8 @@ export class ReportGeneratorComponent implements OnInit {
       minute: 'numeric',
       hour12: false,
     } as const;
-    const formattedDate = today.toLocaleDateString('us-US', options);
-    const reportDescription = `${formattedDate} - Informe de Capacidades`;
+    const formattedDate = today.toLocaleDateString('es-ES', options);
+    const reportDescription = `Informe de Capacidades ${formattedDate}`;
   
     const reportVersion = {
       idRoleVersion: this.selectedCapability.id,
