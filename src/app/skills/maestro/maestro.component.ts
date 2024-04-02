@@ -146,9 +146,6 @@ export class MaestroComponent implements OnInit {
     ];
 
     this.userName = this.authService.userInfoSSO.displayName;
-
-    
-
   }
 
   loadAllReports() {
@@ -209,8 +206,10 @@ export class MaestroComponent implements OnInit {
     this.skillsService
       .getReportByScreenshotAndYear(year, this.screenshotValue)
       .subscribe(
-        (data) => {
-          this.reportVersions = data;
+        (data: Report[]) => {
+          // Ordenar los informes de forma descendente por el campo 'id'
+          this.reportVersions = data.sort((a, b) => b.id - a.id);
+          console.log(this.reportVersions);
         },
         (error) => {
           console.error(
@@ -432,11 +431,6 @@ export class MaestroComponent implements OnInit {
         if (this.SEDataTotal !== rolesSum[3]) {
           this.isSEDataTotalOK = false;
         }
-
-        console.log(this.isEMDataTotalOK);
-        console.log(this.isBADataTotalOK);
-        console.log(this.isARDataTotalOK);
-        console.log(this.isSEDataTotalOK);
 
         this.CCATotal =
           this.EMDataTotal +
