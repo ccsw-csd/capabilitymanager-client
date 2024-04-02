@@ -209,7 +209,6 @@ export class MaestroComponent implements OnInit {
         (data: Report[]) => {
           // Ordenar los informes de forma descendente por el campo 'id'
           this.reportVersions = data.sort((a, b) => b.id - a.id);
-          console.log(this.reportVersions);
         },
         (error) => {
           console.error(
