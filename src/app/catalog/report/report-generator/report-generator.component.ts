@@ -56,13 +56,16 @@ export class ReportGeneratorComponent implements OnInit {
   onGenerate() {
     const today = new Date();
     const options = {
-      day: '2-digit',
-      month: '2-digit',
       year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false,
     } as const;
     const formattedDate = today.toLocaleDateString('es-ES', options);
-    const reportDescription = `Informe capacidades ${formattedDate}`;
-
+    const reportDescription = `Informe de Capacidades ${formattedDate}`;
+  
     const reportVersion = {
       idRoleVersion: this.selectedCapability.id,
       idStaffingVersion: this.selectedStaffing.id,
@@ -70,7 +73,7 @@ export class ReportGeneratorComponent implements OnInit {
       user: this.userName,
       comments: this.reportComment,
     };
-
+  
     this.isLoading = true;
     this.reportService.generateReport(reportVersion).subscribe({
       next: (result) => {

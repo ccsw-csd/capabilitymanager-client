@@ -23,16 +23,16 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     this.items = [
-      { label: 'Dashboard', routerLink: '/dashboard' },
+      { label: 'Modelo Capacidades', routerLink: '/dashboard' },
       {
         label: 'Listados',
         expanded: false,
         visible: this.authService.hasRole('DASHBOARD'),
         items: [
-          { label: 'Informe Capacidades', routerLink: '/report'},
+          { label: 'Informe Capacidades', routerLink: '/report' },
           { label: 'Roles', routerLink: '/capabilities' },
           { label: 'Staffing', routerLink: '/staffing' },
-          { label:'Certificaciones',routerLink:'/certifications'},
+          { label: 'Certificaciones', routerLink: '/certifications' },
         ],
       },
     ];
