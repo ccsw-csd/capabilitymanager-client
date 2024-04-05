@@ -9,6 +9,7 @@ import { CapabilitiesListComponent } from './catalog/capabilities/capabilities-l
 import { StaffingListComponent } from './catalog/staffing/staffing-list/staffing-list.component';
 import { ReportListComponent } from './catalog/report/report-list/report-list.component';
 import { CertficationsListComponent } from './catalog/certifications/certifications-list/certifications-list.component';
+import { TrainingComponent } from './skills/training/training.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -23,6 +24,11 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: MaestroComponent,
+        data: { role: ['DASHBOARD'] },
+      },
+      {
+        path: 'training',
+        component: TrainingComponent,
         data: { role: ['DASHBOARD'] },
       },
       {
@@ -42,7 +48,7 @@ const routes: Routes = [
       },
       {
         path: 'certifications',
-        component:CertficationsListComponent,
+        component: CertficationsListComponent,
         data: { role: ['DASHBOARD'] },
       },
       { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
