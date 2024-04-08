@@ -7,6 +7,7 @@ import { Staffing } from '../model/staffing.model';
 import { Table } from 'primeng/table';
 import { Dropdown } from 'primeng/dropdown';
 import { DialogService } from 'primeng/dynamicdialog';
+import { StaffingUploadComponent } from '../staffing-upload/staffing-upload.component';
 
 @Component({
   selector: 'app-staffing-list',
@@ -228,5 +229,21 @@ export class StaffingListComponent {
       const defaultFileName = 'Archivo_Staffing_id_' + id + '.xlsx';
       this.staffingService.downloadFile(id, defaultFileName);
     }
+  }
+
+  importStaffingFile(): void {
+    console.log('Botón importar staffing');
+    const dialogRef = this.dialogService.open(StaffingUploadComponent, {
+      header: 'Importar archivo de Staffing',
+      width: '50%',
+      closable: false,
+    });
+    dialogRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Archivo subido:', result);
+      } else {
+        console.log('Archivo no subido.');
+      }
+    });
   }
 }

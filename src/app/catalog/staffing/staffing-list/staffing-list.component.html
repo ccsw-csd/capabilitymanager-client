@@ -19,6 +19,15 @@
   </div>
   <div>
     <button
+      #b
+      pButton
+      label="Importar staffing"
+      type="button"
+      class="p-button p-button-outlined m-2"
+      (click)="importStaffingFile()"
+      title="Importar archivo staffing"
+    ></button>
+    <button
       tooltipPosition="top"
       pButton
       pRipple

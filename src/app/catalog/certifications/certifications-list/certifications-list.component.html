@@ -6,14 +6,14 @@
 
 <div class="flex flex-row justify-content-between">
   <div
-    class="flex w-14rem h-2rem gap-2 border-round-2xl align-items-center mt-3"
+    class="flex w-16rem h-2rem gap-2 border-round-2xl align-items-center mt-3"
     style="background-color: #e7edef"
   >
     <div class="pl-3">
       <i class="pi pi-file text-xl text-primary"></i>
     </div>
     <div class="flex flex-row align-items-center gap-1 text-sm">
-      <p>{{  totalCertifications }}</p>
+      <p>{{ totalCertifications }}</p>
       Archivos de Certificaciones
     </div>
   </div>
@@ -209,7 +209,11 @@
             {{ Certifications[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
           <ng-container *ngIf="col.field === 'idTipoInterfaz'">
-            {{ Certifications[col.field] === 1 ? "Certifications" : Certifications[col.field] }}
+            {{
+              Certifications[col.field] === 1
+                ? "Certifications"
+                : Certifications[col.field]
+            }}
           </ng-container>
           <ng-container
             *ngIf="
