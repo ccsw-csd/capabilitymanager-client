@@ -19,6 +19,15 @@
   </div>
   <div>
     <button
+      #b
+      pButton
+      label="Importar roles"
+      type="button"
+      class="p-button p-button-outlined m-2"
+      (click)="importRolesFile()"
+      title="Importar archivo roles"
+    ></button>
+    <button
       tooltipPosition="top"
       pButton
       pRipple

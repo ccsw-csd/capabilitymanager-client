@@ -16,6 +16,7 @@ import {
 } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { Dropdown } from 'primeng/dropdown';
+import { CapabilitiesUploadComponent } from '../capabilities-upload/capabilities-upload.component';
 
 @Component({
   selector: 'app-capabilities-list',
@@ -251,5 +252,21 @@ export class CapabilitiesListComponent implements OnInit {
       const defaultFileName = 'Archivo_Roles_id_' + id + '.xlsx';
       this.capabilitiesService.downloadFile(id, defaultFileName);
     }
+  }
+
+  importRolesFile(): void {
+    console.log('Botón importar roles');
+    const dialogRef = this.dialogService.open(CapabilitiesUploadComponent, {
+      header: 'Importar archivo de Roles',
+      width: '50%',
+      closable: false,
+    });
+    dialogRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Archivo subido:', result);
+      } else {
+        console.log('Archivo no subido.');
+      }
+    });
   }
 }
