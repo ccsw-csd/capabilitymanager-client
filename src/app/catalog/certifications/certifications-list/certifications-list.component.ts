@@ -7,6 +7,7 @@ import { Certifications } from '../Model/certifications.model';
 import { Table } from 'primeng/table';
 import { Dropdown } from 'primeng/dropdown';
 import { DialogService } from 'primeng/dynamicdialog';
+import { CertificationsUploadComponent } from '../certifications-upload/certifications-upload.component';
 
 @Component({
   selector: 'app-certifications-list',
@@ -110,7 +111,21 @@ export class CertficationsListComponent {
         this.setDefaultFilters();
       });
   }
-
+  importCertificatesFile(): void {
+    console.log('Botón importar certificados');
+    const dialogRef = this.dialogService.open(CertificationsUploadComponent, {
+      header: 'Importar archivo de Certificaciones',
+      width: '50%',
+      closable: false,
+    });
+    dialogRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Archivo subido:', result);
+      } else {
+        console.log('Archivo no subido.');
+      }
+    }); 
+  }
   setDefaultFilters() {
     this.defaultFilters = {};
 

@@ -41,7 +41,7 @@ export class CertificationsUploadComponent {
       return;
     }
     let formData = new FormData();
-    formData.append('documentType', '1');
+    formData.append('documentType', '3');
     formData.append('fileData', this.certificationsFile);
     formData.append('user', this.userName);
     formData.append('description', this.certificationsFile.name);
