@@ -110,10 +110,67 @@ export class PersonalListComponent implements OnInit {
         field: 'cliente_ctual',
         filterType: 'input',
       },
-      // Añade aquí las columnas adicionales según sea necesario
+      {
+        header: 'Fecha de Inicio de Asignación',
+        composeField: 'fecha_Inicio_asignacion',
+        field: 'fecha_Inicio_asignacion',
+        filterType: 'input',
+      },
+      {
+        header: 'Fecha de Fin de Asignación',
+        composeField: 'fecha_Fin_signacion',
+        field: 'fecha_Fin_signacion',
+        filterType: 'input',
+      },
+      {
+        header: 'Fecha de Disponibilidad',
+        composeField: 'fecha_Disponibilidad',
+        field: 'fecha_Disponibilidad',
+        filterType: 'input',
+      },
+      {
+        header: 'Posición en Proyecto Futuro',
+        composeField: 'posicion_Proyecto_Futuro',
+        field: 'posicion_Proyecto_Futuro',
+        filterType: 'input',
+      },
+      {
+        header: 'Colaboraciones',
+        composeField: 'colaboraciones',
+        field: 'colaboraciones',
+        filterType: 'input',
+      },
+      {
+        header: 'Proyecto Anterior',
+        composeField: 'proyecto_anterior',
+        field: 'proyecto_anterior',
+        filterType: 'input',
+      },
+      {
+        header: 'GGID',
+        composeField: 'ggid',
+        field: 'ggid',
+        filterType: 'input',
+      },
+      {
+        header: 'Meses en Bench',
+        composeField: 'meses_Bench',
+        field: 'meses_Bench',
+        filterType: 'input',
+      },
     ];
 
-    this.selectedColumnNames = this.loadSelected();
+    this.selectedColumnNames = this.columnNames.filter((column) =>
+      [
+        'saga',
+        'nombre',
+        'apellidos',
+        'categoria',
+        'perfil_Tecnico',
+        'status',
+        'meses_Bench',
+      ].includes(column.field)
+    );
     this.loadData();
   }
 
