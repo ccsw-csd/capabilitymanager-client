@@ -19,10 +19,9 @@ import { AccordionModule } from 'primeng/accordion';
 import { ChipModule } from 'primeng/chip';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
-import { TrainingComponent } from './training/training.component';
 
 @NgModule({
-  declarations: [StatisticComponent, MaestroComponent, TableDetailComponent, TrainingComponent],
+  declarations: [StatisticComponent, MaestroComponent, TableDetailComponent ],
   imports: [
     CommonModule,
     ChartModule,
