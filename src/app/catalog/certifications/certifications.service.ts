@@ -13,7 +13,7 @@ export class CertificationsService {
   constructor(private http: HttpClient) {}
 
   getAllCertificationsImportsVersions(): Observable<Certifications[]> {
-    return this.http.get<Certifications[]>(`${this.baseUrl}/staffingimports/all`);
+    return this.http.get<Certifications[]>(`${this.baseUrl}/certificates/all`);
   }
 
   uploadCertifications(formData: FormData): Observable<String> {
@@ -25,7 +25,7 @@ export class CertificationsService {
   }
 
   downloadFile(id: string, filename: string): void {
-    const url = `${this.baseUrl}/version-certifications/download-file/${id}`;
+    const url = `${this.baseUrl}/version-certificaciones/download-file/${id}`;
 
     const httpOptions = {
       responseType: 'blob' as 'json',
