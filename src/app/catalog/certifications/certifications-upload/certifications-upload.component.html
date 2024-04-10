@@ -1,0 +1,47 @@
+<!-- Sección contenido -->
+<div class="mb-5">
+    <p-fileUpload
+      name="capability"
+      [showUploadButton]="false"
+      [showCancelButton]="false"
+      auto="false"
+      accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      invalidFileTypeMessageSummary="Error en tipo de archivo:"
+      invalidFileTypeMessageDetail="Debe subir un archivo de Microsoft Excel (.xls, .xlsx)"
+      (onSelect)="onSelect($event)"
+      (onRemove)="onRemove()"
+      chooseIcon="hidden"
+      chooseLabel="Seleccionar archivo"
+      [disabled]="this.isLoading"
+    >
+    </p-fileUpload>
+  </div>
+  
+  <!-- Sección botones de acción -->
+  <div class="flex justify-content-end gap-3">
+    <button
+      pButton
+      label="Cancelar"
+      class="p-button-secondary p-button-outlined"
+      (click)="onCancel()"
+      [disabled]="this.isLoading"
+    ></button>
+    <button
+      pButton
+      label="Importar"
+      class="p-button"
+      (click)="onImport()"
+      [disabled]="this.certificationsFile == null || this.isLoading"
+    ></button>
+
+  
+  </div>
+  
+  <!-- Mostrar animación en proceso de carga -->
+  <div
+    class="absolute m-auto right-0 left-0 top-0 bottom-0 bg-white-alpha-50 flex align-self-center align-items-center flex-column justify-content-center"
+    *ngIf="isLoading"
+  >
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+  

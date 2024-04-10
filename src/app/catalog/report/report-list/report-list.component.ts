@@ -13,7 +13,7 @@ import {
 import { CapabilitiesUploadComponent } from '../../capabilities/capabilities-upload/capabilities-upload.component';
 import { StaffingUploadComponent } from '../../staffing/staffing-upload/staffing-upload.component';
 import { ReportGeneratorComponent } from '../report-generator/report-generator.component';
-
+import { CertificationsUploadComponent } from '../../certifications/certifications-upload/certifications-upload.component';
 @Component({
   selector: 'app-report-list',
   templateUrl: './report-list.component.html',
@@ -133,8 +133,8 @@ export class ReportListComponent {
 
   importCertificatesFile(): void {
     console.log('Botón importar certificados');
-    /* const dialogRef = this.dialogService.open(StaffingUploadComponent, {
-      header: 'Importar archivo de Staffing',
+    const dialogRef = this.dialogService.open(CertificationsUploadComponent, {
+      header: 'Importar archivo de Certificaciones',
       width: '50%',
       closable: false,
     });
@@ -144,7 +144,7 @@ export class ReportListComponent {
       } else {
         console.log('Archivo no subido.');
       }
-    }); */
+    }); 
   }
 
   generateReport(): void {

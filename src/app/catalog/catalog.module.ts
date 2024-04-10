@@ -22,6 +22,7 @@ import { StaffingUploadComponent } from './staffing/staffing-upload/staffing-upl
 import { ReportGeneratorComponent } from './report/report-generator/report-generator.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { CertficationsListComponent } from './certifications/certifications-list/certifications-list.component';
+import { CertificationsUploadComponent } from './certifications/certifications-upload/certifications-upload.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { CertficationsListComponent } from './certifications/certifications-list
     CapabilitiesUploadComponent,
     StaffingUploadComponent,
     ReportGeneratorComponent,
-    CertficationsListComponent
+    CertficationsListComponent,
+    CertificationsUploadComponent
     
   ],
   imports: [

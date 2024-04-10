@@ -19,6 +19,16 @@
   </div>
   <div>
     <button
+    #b
+    pButton
+    label="Importar certificaciones"
+    type="button"
+    class="p-button p-button-outlined m-2"
+    (click)="importCertificatesFile()"
+    title="Importar archivo certificaciones"
+    
+  ></button>
+    <button
       tooltipPosition="top"
       pButton
       pRipple
@@ -189,30 +199,30 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-certifications let-columns="columns">
-    <tr [pSelectableRow]="Certifications">
+    <tr [pSelectableRow]="certifications">
       <td *ngFor="let col of selectedColumnNames" class="{{ col.field }}">
         <div
           *ngIf="!col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
           [pTooltip]="
             col.field === 'fechaImportacion'
-              ? (Certifications[col.field] | date : 'dd/MM/yyyy')
+              ? (certifications[col.field] | date : 'dd/MM/yyyy')
               : col.field === 'idTipoInterfaz'
-              ? Certifications[col.field] === 2
+              ? certifications[col.field] === 2
                 ? 'Certifications'
-                : Certifications[col.field]
-              : Certifications[col.field]
+                : certifications[col.field]
+              : certifications[col.field]
           "
           tooltipPosition="top"
         >
           <ng-container *ngIf="col.field === 'fechaImportacion'">
-            {{ Certifications[col.field] | date : "dd/MM/yyyy" }}
+            {{ certifications[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
           <ng-container *ngIf="col.field === 'idTipoInterfaz'">
             {{
-              Certifications[col.field] === 1
+              certifications[col.field] === 1
                 ? "Certifications"
-                : Certifications[col.field]
+                : certifications[col.field]
             }}
           </ng-container>
           <ng-container
@@ -220,24 +230,24 @@
               col.field !== 'fechaImportacion' && col.field !== 'idTipoInterfaz'
             "
           >
-            {{ Certifications[col.field] }}
+            {{ certifications[col.field] }}
           </ng-container>
         </div>
         <div
           *ngIf="col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          [pTooltip]="Certifications[col.field]?.[col.fieldExtra]"
+          [pTooltip]="certifications[col.field]?.[col.fieldExtra]"
           tooltipPosition="top"
         >
-          {{ Certifications[col.field]?.[col.fieldExtra] }}
+          {{ certifications[col.field]?.[col.fieldExtra] }}
         </div>
         <div
           *ngIf="col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          [pTooltip]="col.parse(staffing[col.field])"
+          [pTooltip]="col.parse(certifications[col.field])"
           tooltipPosition="top"
         >
-          {{ col.parse(staffing[col.field]) }}
+          {{ col.parse(certifications[col.field]) }}
         </div>
       </td>
       <td class="buttons">
@@ -248,7 +258,7 @@
           class="p-button-secondary"
           style="font-size: 1rem; background-color: transparent; color: gray"
           tooltip="Descargar"
-          (click)="downloadCertifications(Certifications.id)"
+          (click)="downloadCertifications(certifications.id)"
         ></button>
       </td>
     </tr>
