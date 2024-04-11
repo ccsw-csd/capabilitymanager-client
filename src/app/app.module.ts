@@ -17,13 +17,12 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { HttpInterceptorService } from './core/services/http-interceptor.service';
 import { RefreshTokenResolverService } from './core/services/refresh-token-resolver.service';
 import { CatalogModule } from './catalog/catalog.module';
+import { TrainingModule } from './training/training.module';
 
 registerLocaleData(localeEs, 'es');
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -34,18 +33,23 @@ registerLocaleData(localeEs, 'es');
     CardModule,
     DashboardModule,
     SkillsModule,
-    CatalogModule
+    CatalogModule,
+    TrainingModule,
   ],
   providers: [
     HttpClientModule,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true,
+    },
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
     DialogService,
     MessageService,
     RefreshTokenResolverService,
-    DatePipe
+    DatePipe,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

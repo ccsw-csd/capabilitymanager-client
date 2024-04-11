@@ -5,113 +5,185 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { CapabilitiesService } from '../capabilities.service';
-import { ConfirmationService, SortEvent } from 'primeng/api';
-import { Capability } from 'src/app/catalog/capabilities/model/Capability';
+import { SortEvent } from 'primeng/api';
 import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-config.component';
-import {
-  DialogService,
-  DynamicDialogConfig,
-  DynamicDialogRef,
-} from 'primeng/dynamicdialog';
+import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { Dropdown } from 'primeng/dropdown';
-import { CapabilitiesUploadComponent } from '../capabilities-upload/capabilities-upload.component';
+import { PersonService } from '../services/person.service';
+import { Person } from '../models/Person';
 
 @Component({
-  selector: 'app-capabilities-list',
-  templateUrl: './capabilities-list.component.html',
-  styleUrls: ['./capabilities-list.component.scss'],
-  providers: [
-    DialogService,
-    DynamicDialogConfig,
-    DynamicDialogRef,
-    ConfirmationService,
-  ],
+  selector: 'app-personal-list',
+  templateUrl: './personal-list.component.html',
+  styleUrls: ['./personal-list.component.scss'],
+  providers: [DialogService],
 })
-export class CapabilitiesListComponent implements OnInit {
+export class PersonalListComponent implements OnInit {
   @ViewChild(Table) table: Table;
   @ViewChildren('filterDropdown') filterDropdowns!: QueryList<Dropdown>;
 
   columnNames: any[];
   selectedColumnNames: any[];
-  changeCols: boolean = false;
   tableWidth: string;
   defaultFilters: any = {};
-  totalCapabilities: number;
-  capabilitiesToExport: Capability[];
-  capabilities: Capability[];
+  totalPersons: number;
+  personsToExport: Person[];
+  persons: Person[];
 
   constructor(
-    private capabilitiesService: CapabilitiesService,
+    private personService: PersonService,
     private dialogService: DialogService
   ) {}
 
   ngOnInit() {
     this.columnNames = [
       {
-        header: 'Versión',
+        header: 'ID',
         composeField: 'id',
         field: 'id',
         filterType: 'input',
       },
       {
-        header: 'Descripción',
-        composeField: 'descripcion',
-        field: 'descripcion',
+        header: 'Saga',
+        composeField: 'saga',
+        field: 'saga',
         filterType: 'input',
       },
       {
-        header: 'Fecha de Importación',
-        composeField: 'fechaImportacion',
-        field: 'fechaImportacion',
+        header: 'Nombre',
+        composeField: 'nombre',
+        field: 'nombre',
         filterType: 'input',
       },
       {
-        header: 'Tipo Interfaz',
-        composeField: 'idTipoInterfaz',
-        field: 'idTipoInterfaz',
+        header: 'Apellidos',
+        composeField: 'apellidos',
+        field: 'apellidos',
         filterType: 'input',
       },
       {
-        header: 'NºRegistros',
-        composeField: 'numRegistros',
-        field: 'numRegistros',
+        header: 'Práctica',
+        composeField: 'practica',
+        field: 'practica',
         filterType: 'input',
       },
       {
-        header: 'Usuario',
-        composeField: 'usuario',
-        field: 'usuario',
+        header: 'Grado',
+        composeField: 'grado',
+        field: 'grado',
         filterType: 'input',
       },
       {
-        header: 'Título',
-        composeField: 'nombreFichero',
-        field: 'nombreFichero',
+        header: 'Categoría',
+        composeField: 'categoria',
+        field: 'categoria',
+        filterType: 'input',
+      },
+      {
+        header: 'Perfil Técnico',
+        composeField: 'perfil_Tecnico',
+        field: 'perfil_Tecnico',
+        filterType: 'input',
+      },
+      {
+        header: 'Fecha de Incorporación',
+        composeField: 'fecha_Incorporacion',
+        field: 'fecha_Incorporacion',
+        filterType: 'input',
+      },
+      {
+        header: 'Asignación',
+        composeField: 'asignacion',
+        field: 'asignacion',
+        filterType: 'input',
+      },
+      {
+        header: 'Estado',
+        composeField: 'status',
+        field: 'status',
+        filterType: 'input',
+      },
+      {
+        header: 'Cliente Actual',
+        composeField: 'cliente_ctual',
+        field: 'cliente_ctual',
+        filterType: 'input',
+      },
+      {
+        header: 'Fecha de Inicio de Asignación',
+        composeField: 'fecha_Inicio_asignacion',
+        field: 'fecha_Inicio_asignacion',
+        filterType: 'input',
+      },
+      {
+        header: 'Fecha de Fin de Asignación',
+        composeField: 'fecha_Fin_signacion',
+        field: 'fecha_Fin_signacion',
+        filterType: 'input',
+      },
+      {
+        header: 'Fecha de Disponibilidad',
+        composeField: 'fecha_Disponibilidad',
+        field: 'fecha_Disponibilidad',
+        filterType: 'input',
+      },
+      {
+        header: 'Posición en Proyecto Futuro',
+        composeField: 'posicion_Proyecto_Futuro',
+        field: 'posicion_Proyecto_Futuro',
+        filterType: 'input',
+      },
+      {
+        header: 'Colaboraciones',
+        composeField: 'colaboraciones',
+        field: 'colaboraciones',
+        filterType: 'input',
+      },
+      {
+        header: 'Proyecto Anterior',
+        composeField: 'proyecto_anterior',
+        field: 'proyecto_anterior',
+        filterType: 'input',
+      },
+      {
+        header: 'GGID',
+        composeField: 'ggid',
+        field: 'ggid',
+        filterType: 'input',
+      },
+      {
+        header: 'Meses en Bench',
+        composeField: 'meses_Bench',
+        field: 'meses_Bench',
         filterType: 'input',
       },
     ];
 
-    this.selectedColumnNames = this.loadSelected();
+    this.selectedColumnNames = this.columnNames.filter((column) =>
+      [
+        'saga',
+        'nombre',
+        'apellidos',
+        'categoria',
+        'perfil_Tecnico',
+        'status',
+        'meses_Bench',
+      ].includes(column.field)
+    );
     this.loadData();
   }
 
   loadData() {
-    this.capabilitiesService
-      .getAllRoleImportsVersions()
-      .subscribe((capabilities) => {
-        //console.log(capabilities);
-        this.capabilities = capabilities;
-        this.totalCapabilities = capabilities.length;
-        this.setDefaultFilters();
-      });
+    this.personService.getAllPersons().subscribe((persons) => {
+      this.persons = persons;
+      this.totalPersons = persons.length;
+      this.setDefaultFilters();
+    });
   }
 
   loadSelected(): any[] {
-    let selectedColumnNames: any = localStorage.getItem(
-      'capabilitiesListColumns'
-    );
+    let selectedColumnNames: any = localStorage.getItem('personListColumns');
     if (selectedColumnNames == null) return this.columnNames;
 
     selectedColumnNames = JSON.parse(selectedColumnNames);
@@ -127,17 +199,13 @@ export class CapabilitiesListComponent implements OnInit {
     return columns;
   }
 
-  onYearChange() {
-    this.loadData();
-  }
-
   onFilter(event) {
-    this.capabilitiesToExport = event.filteredValue;
+    this.personsToExport = event.filteredValue;
   }
 
   saveSelected(selectedColumnNames: any[]) {
     localStorage.setItem(
-      'capabilityListColumns',
+      'personListColumns',
       JSON.stringify(selectedColumnNames.map((e) => e.header))
     );
   }
@@ -236,37 +304,5 @@ export class CapabilitiesListComponent implements OnInit {
       }
     });
     return data;
-  }
-
-  downloadCapability(id: string): void {
-    const capability = this.capabilities.find(
-      (capability) => capability.id === Number(id)
-    );
-
-    if (capability && capability.descripcion) {
-      const fileName = `${capability.descripcion.replace(
-        /[^a-zA-Z0-9]/g,
-        '_'
-      )}.xlsx`;
-      this.capabilitiesService.downloadFile(id, fileName);
-    } else {
-      const defaultFileName = 'Archivo_Roles_id_' + id + '.xlsx';
-      this.capabilitiesService.downloadFile(id, defaultFileName);
-    }
-  }
-
-  importRolesFile(): void {
-    const dialogRef = this.dialogService.open(CapabilitiesUploadComponent, {
-      header: 'Importar archivo de Roles',
-      width: '50%',
-      closable: false,
-    });
-    dialogRef.onClose.subscribe((result) => {
-      if (result) {
-        console.log('Archivo subido:', result);
-      } else {
-        console.log('Archivo no subido.');
-      }
-    });
   }
 }
