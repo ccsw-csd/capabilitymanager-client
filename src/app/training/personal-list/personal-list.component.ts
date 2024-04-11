@@ -82,14 +82,14 @@ export class PersonalListComponent implements OnInit {
       },
       {
         header: 'Perfil Técnico',
-        composeField: 'perfil_Tecnico',
-        field: 'perfil_Tecnico',
+        composeField: 'perfilTecnico',
+        field: 'perfilTecnico',
         filterType: 'input',
       },
       {
         header: 'Fecha de Incorporación',
-        composeField: 'fecha_Incorporacion',
-        field: 'fecha_Incorporacion',
+        composeField: 'fechaIncorporacion',
+        field: 'fechaIncorporacion',
         filterType: 'input',
       },
       {
@@ -106,32 +106,32 @@ export class PersonalListComponent implements OnInit {
       },
       {
         header: 'Cliente Actual',
-        composeField: 'cliente_ctual',
-        field: 'cliente_ctual',
+        composeField: 'clienteActual',
+        field: 'clienteActual',
         filterType: 'input',
       },
       {
         header: 'Fecha de Inicio de Asignación',
-        composeField: 'fecha_Inicio_asignacion',
-        field: 'fecha_Inicio_asignacion',
+        composeField: 'fechaInicioAsignacion',
+        field: 'fechaInicioAsignacion',
         filterType: 'input',
       },
       {
         header: 'Fecha de Fin de Asignación',
-        composeField: 'fecha_Fin_signacion',
-        field: 'fecha_Fin_signacion',
+        composeField: 'fechaFinAsignacion',
+        field: 'fechaFinAsignacion',
         filterType: 'input',
       },
       {
         header: 'Fecha de Disponibilidad',
-        composeField: 'fecha_Disponibilidad',
-        field: 'fecha_Disponibilidad',
+        composeField: 'fechaDisponibilidad',
+        field: 'fechaDisponibilidad',
         filterType: 'input',
       },
       {
         header: 'Posición en Proyecto Futuro',
-        composeField: 'posicion_Proyecto_Futuro',
-        field: 'posicion_Proyecto_Futuro',
+        composeField: 'posicionProyectoFuturo',
+        field: 'posicionProyectoFuturo',
         filterType: 'input',
       },
       {
@@ -142,8 +142,8 @@ export class PersonalListComponent implements OnInit {
       },
       {
         header: 'Proyecto Anterior',
-        composeField: 'proyecto_anterior',
-        field: 'proyecto_anterior',
+        composeField: 'proyectoAnterior',
+        field: 'proyectoAnterior',
         filterType: 'input',
       },
       {
@@ -154,8 +154,8 @@ export class PersonalListComponent implements OnInit {
       },
       {
         header: 'Meses en Bench',
-        composeField: 'meses_Bench',
-        field: 'meses_Bench',
+        composeField: 'mesesBench',
+        field: 'mesesBench',
         filterType: 'input',
       },
     ];
@@ -166,9 +166,9 @@ export class PersonalListComponent implements OnInit {
         'nombre',
         'apellidos',
         'categoria',
-        'perfil_Tecnico',
+        'perfilTecnico',
         'status',
-        'meses_Bench',
+        'mesesBench',
       ].includes(column.field)
     );
     this.loadData();
