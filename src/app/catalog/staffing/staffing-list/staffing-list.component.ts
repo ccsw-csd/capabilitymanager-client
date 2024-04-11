@@ -102,6 +102,7 @@ export class StaffingListComponent {
 
     return columns;
   }
+
   loadData() {
     this.staffingService
       .getAllStaffingImportsVersions()
@@ -121,9 +122,11 @@ export class StaffingListComponent {
       }
     });
   }
+
   setFilters(): void {
     this.setDefaultFilters();
   }
+
   cleanFilters(): void {
     this.table.clear();
     this.setFilters();
@@ -152,6 +155,7 @@ export class StaffingListComponent {
       }
     });
   }
+
   getData(data, att) {
     let atts = att.split('.');
     atts.forEach((a) => {
@@ -163,6 +167,7 @@ export class StaffingListComponent {
     });
     return data;
   }
+
   customSort(event: SortEvent) {
     event.data.sort((data1, data2) => {
       let value1 = data1[event.field];
@@ -232,7 +237,6 @@ export class StaffingListComponent {
   }
 
   importStaffingFile(): void {
-    console.log('Botón importar staffing');
     const dialogRef = this.dialogService.open(StaffingUploadComponent, {
       header: 'Importar archivo de Staffing',
       width: '50%',

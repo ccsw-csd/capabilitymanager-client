@@ -25,7 +25,7 @@ export class CertficationsListComponent {
   years: number[];
   selectedYear: number;
   totalCertifications: number;
-  certificationsToExport:Certifications[];
+  certificationsToExport: Certifications[];
 
   constructor(
     private certificationsService: CertificationsService,
@@ -87,7 +87,9 @@ export class CertficationsListComponent {
   }
 
   loadSelected(): any[] {
-    let selectedColumnNames: any = localStorage.getItem('certificationsListColumns');
+    let selectedColumnNames: any = localStorage.getItem(
+      'certificationsListColumns'
+    );
     if (selectedColumnNames == null) return this.columnNames;
 
     selectedColumnNames = JSON.parse(selectedColumnNames);
@@ -102,17 +104,18 @@ export class CertficationsListComponent {
 
     return columns;
   }
+
   loadData() {
     this.certificationsService
       .getAllCertificationsImportsVersions()
       .subscribe((certification) => {
         this.certifications = certification;
-        this.totalCertifications= certification.length;
+        this.totalCertifications = certification.length;
         this.setDefaultFilters();
       });
   }
+
   importCertificatesFile(): void {
-    console.log('Botón importar certificados');
     const dialogRef = this.dialogService.open(CertificationsUploadComponent, {
       header: 'Importar archivo de Certificaciones',
       width: '50%',
@@ -124,7 +127,7 @@ export class CertficationsListComponent {
       } else {
         console.log('Archivo no subido.');
       }
-    }); 
+    });
   }
   setDefaultFilters() {
     this.defaultFilters = {};
@@ -135,9 +138,11 @@ export class CertficationsListComponent {
       }
     });
   }
+
   setFilters(): void {
     this.setDefaultFilters();
   }
+
   cleanFilters(): void {
     this.table.clear();
     this.setFilters();
@@ -146,6 +151,7 @@ export class CertficationsListComponent {
   onFilter(event) {
     this.certificationsToExport = event.filteredValue;
   }
+
   showConfig() {
     const ref = this.dialogService.open(ColumnConfigComponent, {
       width: '50vw',
@@ -166,6 +172,7 @@ export class CertficationsListComponent {
       }
     });
   }
+
   getData(data, att) {
     let atts = att.split('.');
     atts.forEach((a) => {
@@ -177,6 +184,7 @@ export class CertficationsListComponent {
     });
     return data;
   }
+
   customSort(event: SortEvent) {
     event.data.sort((data1, data2) => {
       let value1 = data1[event.field];
@@ -229,7 +237,7 @@ export class CertficationsListComponent {
   }
 
   downloadCertifications(id: string): void {
-    const certifications= this.certifications.find(
+    const certifications = this.certifications.find(
       (certification) => certification.id === Number(id)
     );
 

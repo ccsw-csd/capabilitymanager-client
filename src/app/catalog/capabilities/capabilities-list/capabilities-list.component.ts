@@ -130,6 +130,7 @@ export class CapabilitiesListComponent implements OnInit {
   onYearChange() {
     this.loadData();
   }
+
   onFilter(event) {
     this.capabilitiesToExport = event.filteredValue;
   }
@@ -255,7 +256,6 @@ export class CapabilitiesListComponent implements OnInit {
   }
 
   importRolesFile(): void {
-    console.log('Botón importar roles');
     const dialogRef = this.dialogService.open(CapabilitiesUploadComponent, {
       header: 'Importar archivo de Roles',
       width: '50%',
