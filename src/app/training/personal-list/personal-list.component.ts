@@ -39,15 +39,15 @@ export class PersonalListComponent implements OnInit {
   ngOnInit() {
     this.columnNames = [
       {
-        header: 'ID',
-        composeField: 'id',
-        field: 'id',
-        filterType: 'input',
-      },
-      {
         header: 'Saga',
         composeField: 'saga',
         field: 'saga',
+        filterType: 'input',
+      },
+      {
+        header: 'GGID',
+        composeField: 'ggid',
+        field: 'ggid',
         filterType: 'input',
       },
       {
@@ -144,12 +144,6 @@ export class PersonalListComponent implements OnInit {
         header: 'Proyecto Anterior',
         composeField: 'proyectoAnterior',
         field: 'proyectoAnterior',
-        filterType: 'input',
-      },
-      {
-        header: 'GGID',
-        composeField: 'ggid',
-        field: 'ggid',
         filterType: 'input',
       },
       {
