@@ -5,7 +5,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { SortEvent } from 'primeng/api';
+import { MessageService, SortEvent } from 'primeng/api';
 import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-config.component';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
@@ -35,7 +35,8 @@ export class ItineraryListComponent implements OnInit {
   constructor(
     private itineraryService: ItineraryService,
     private dialogService: DialogService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit() {
@@ -211,11 +212,32 @@ export class ItineraryListComponent implements OnInit {
 
   confirmDeleteItinerary(id: string) {
     this.confirmationService.confirm({
+      target: event.target as EventTarget,
       message: '¿Estás seguro de que quieres eliminar este itinerario?',
       header: 'Confirmación',
-      icon: 'pi pi-exclamation-triangle',
+      icon: 'pi pi-question-circle',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+      acceptLabel: 'Si',
+      rejectLabel: 'No',
+      acceptButtonStyleClass:
+        'p-button p-button-success p-button-outlined mx-2',
+      rejectButtonStyleClass: 'p-button p-button-danger p-button-outlined mx-2',
       accept: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Confirmed',
+          detail: 'Se ha borrado el itinerario',
+        });
         this.deleteItinerary(id);
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Rejected',
+          detail: 'No se ha borrado el itinerario',
+          life: 3000,
+        });
       },
     });
   }

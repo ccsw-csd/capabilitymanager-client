@@ -10,9 +10,10 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { FormsModule } from '@angular/forms';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ItineraryListComponent } from './views/itinerary-list/itinerary-list.component';
+import { ItineraryEditComponent } from './views/itinerary-edit/itinerary-edit.component';
 
 @NgModule({
-  declarations: [PersonalListComponent, ItineraryListComponent],
+  declarations: [PersonalListComponent, ItineraryListComponent, ItineraryEditComponent],
   imports: [
     CommonModule,
     TableModule,
