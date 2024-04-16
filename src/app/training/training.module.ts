@@ -9,9 +9,10 @@ import { ToastModule } from 'primeng/toast';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { FormsModule } from '@angular/forms';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { ItineraryListComponent } from './itinerary-list/itinerary-list.component';
 
 @NgModule({
-  declarations: [PersonalListComponent],
+  declarations: [PersonalListComponent, ItineraryListComponent],
   imports: [
     CommonModule,
     TableModule,

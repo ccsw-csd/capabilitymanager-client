@@ -34,6 +34,7 @@ export class NavComponent implements OnInit {
           { label: 'Roles', routerLink: '/capabilities' },
           { label: 'Staffing', routerLink: '/staffing' },
           { label: 'Certificaciones', routerLink: '/certifications' },
+          { label: 'Itinerarios Formativos', routerLink: '/itinerary' },
         ],
       },
     ];
