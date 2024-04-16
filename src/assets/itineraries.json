@@ -1,0 +1,26 @@
+[
+  {
+    "id": "DWFA001",
+    "name": "Desarrollo Web Frontend Avanzado"
+  },
+  {
+    "id": "DWBN001",
+    "name": "Desarrollo Web Backend con Node.js"
+  },
+  {
+    "id": "DAMRN001",
+    "name": "Desarrollo de Aplicaciones Móviles con React Native"
+  },
+  {
+    "id": "DJUN001",
+    "name": "Desarrollo de Juegos con Unity"
+  },
+  {
+    "id": "IPPY001",
+    "name": "Introducción a la Programación con Python"
+  },
+  {
+    "id": "ADR001",
+    "name": "Análisis de Datos con R"
+  }
+]
