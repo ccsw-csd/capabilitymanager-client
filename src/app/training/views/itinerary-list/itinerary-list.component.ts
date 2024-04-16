@@ -10,8 +10,8 @@ import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-c
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { Dropdown } from 'primeng/dropdown';
-import { Itinerary } from '../models/Itinerary';
-import { ItineraryService } from '../services/itinerary.service';
+import { Itinerary } from '../../models/Itinerary';
+import { ItineraryService } from '../../services/itinerary.service';
 import { ConfirmationService } from 'primeng/api';
 
 @Component({
