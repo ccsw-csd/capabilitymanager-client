@@ -1,1 +1,42 @@
-<p>itinerary-edit works!</p>
+<div class="p-fluid">
+  <div class="p-field p-mb-6">
+    <label for="id" class="p-d-block">ID:</label>
+    <input
+      type="text"
+      pInputText
+      id="id"
+      [(ngModel)]="itinerary.id"
+      class="p-inputtext p-d-block"
+    />
+  </div>
+  <div class="p-field mt-4">
+    <label for="name" class="p-d-block">Nombre:</label>
+    <input
+      type="text"
+      pInputText
+      id="name"
+      [(ngModel)]="itinerary.name"
+      class="p-inputtext p-d-block"
+    />
+  </div>
+
+  <!-- Botones de guardar y cancelar -->
+  <div class="p-dialog-footer">
+    <button
+      type="button"
+      pButton
+      label="Cancelar"
+      icon="pi pi-times"
+      class="p-button-secondary p-button-outlined"
+      (click)="onClose()"
+    ></button>
+    <button
+      type="button"
+      pButton
+      label="Guardar"
+      icon="pi pi-check"
+      class="p-button-success p-button-outlined"
+      (click)="onSave()"
+    ></button>
+  </div>
+</div>
