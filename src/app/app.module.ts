@@ -8,7 +8,6 @@ import { LoginModule } from './login/login.module';
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { CardModule } from 'primeng/card';
-import { DashboardModule } from './dashboard/dashboard.module';
 import { SkillsModule } from './skills/skills.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
@@ -31,7 +30,6 @@ registerLocaleData(localeEs, 'es');
     CoreModule,
     LoginModule,
     CardModule,
-    DashboardModule,
     SkillsModule,
     CatalogModule,
     TrainingModule,

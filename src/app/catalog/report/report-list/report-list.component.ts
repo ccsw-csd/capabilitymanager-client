@@ -46,7 +46,7 @@ export class ReportListComponent {
         filterType: 'input',
       },
       {
-        header: 'Archivo Capacidades',
+        header: 'Archivo Roles',
         composeField: 'roleVersion',
         field: 'roleVersion',
         filterType: 'input',

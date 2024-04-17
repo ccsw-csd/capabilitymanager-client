@@ -10,8 +10,8 @@ import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-c
 import { DialogService } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { Dropdown } from 'primeng/dropdown';
-import { PersonService } from '../services/person.service';
-import { Person } from '../models/Person';
+import { PersonService } from '../../services/person.service';
+import { Person } from '../../models/Person';
 
 @Component({
   selector: 'app-personal-list',
