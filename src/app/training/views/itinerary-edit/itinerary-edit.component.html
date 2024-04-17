@@ -5,7 +5,8 @@
       type="text"
       pInputText
       id="id"
-      [(ngModel)]="itinerary.id"
+      [ngModel]="itinerary?.id"
+      (ngModelChange)="updateId($event)"
       class="p-inputtext p-d-block"
     />
   </div>
@@ -15,12 +16,13 @@
       type="text"
       pInputText
       id="name"
-      [(ngModel)]="itinerary.name"
+      [ngModel]="itinerary?.name"
+      (ngModelChange)="updateName($event)"
       class="p-inputtext p-d-block"
     />
   </div>
 
-  <!-- Botones de guardar y cancelar -->
+  <!-- Botones de cancelar y guardar -->
   <div class="p-dialog-footer">
     <button
       type="button"
@@ -35,7 +37,7 @@
       pButton
       label="Guardar"
       icon="pi pi-check"
-      class="p-button-success p-button-outlined"
+      class="p-button-primary p-button-outlined"
       (click)="onSave()"
     ></button>
   </div>

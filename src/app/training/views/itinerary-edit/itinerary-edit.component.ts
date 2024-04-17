@@ -10,6 +10,7 @@ import { ItineraryService } from '../../services/itinerary.service';
 })
 export class ItineraryEditComponent implements OnInit {
   itinerary: Itinerary | null = null;
+  updatedItinerary: Itinerary | null = null;
 
   constructor(
     public dialogRef: DynamicDialogRef,
@@ -18,16 +19,24 @@ export class ItineraryEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Obtener el itinerario pasado como datos al abrir el diálogo
     this.itinerary = this.config.data.itinerary;
+    this.updatedItinerary = { ...this.itinerary };
+  }
+
+  updateId(id: string) {
+    this.updatedItinerary = { ...this.updatedItinerary, id };
+  }
+
+  updateName(name: string) {
+    this.updatedItinerary = { ...this.updatedItinerary, name };
   }
 
   onSave() {
-    if (this.itinerary) {
+    if (this.updatedItinerary) {
       this.itineraryService
-        .saveItinerary(this.itinerary)
+        .saveItinerary(this.updatedItinerary)
         .subscribe((result) => {
-          this.dialogRef.close(this.itinerary); // Pasar el itinerario editado al cerrar el diálogo
+          this.dialogRef.close(this.updatedItinerary);
         });
     } else {
       console.error(
@@ -37,6 +46,6 @@ export class ItineraryEditComponent implements OnInit {
   }
 
   onClose() {
-    this.dialogRef.close(); // Cerrar el diálogo sin pasar ningún dato
+    this.dialogRef.close();
   }
 }

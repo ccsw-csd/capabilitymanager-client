@@ -207,7 +207,7 @@ export class ItineraryListComponent implements OnInit {
         header: 'Editar Itinerario',
         width: '50%',
         data: {
-          itinerary: itineraryToEdit, // Pasar el itinerario al componente de edición
+          itinerary: itineraryToEdit,
         },
         contentStyle: { 'max-height': '500px', overflow: 'auto' },
       });
@@ -225,18 +225,16 @@ export class ItineraryListComponent implements OnInit {
 
   createItinerary() {
     console.log('Crear nuevo itinerario');
-    // Abrir el diálogo de creación de itinerario
     const ref = this.dialogService.open(ItineraryEditComponent, {
       header: 'Crear Itinerario',
       width: '50%',
       data: {
-        itinerary: { id: '', name: '' }, // Puedes pasar un itinerario vacío como datos al componente de edición
+        itinerary: { id: '', name: '' },
       },
     });
 
     ref.onClose.subscribe((newItinerary: Itinerary | null) => {
       if (newItinerary) {
-        // Aquí puedes realizar acciones adicionales si es necesario
         console.log('Nuevo itinerario creado:', newItinerary);
       } else {
         console.log('Se canceló la creación del itinerario');
@@ -254,13 +252,12 @@ export class ItineraryListComponent implements OnInit {
       rejectIcon: 'none',
       acceptLabel: 'Si',
       rejectLabel: 'No',
-      acceptButtonStyleClass:
-        'p-button p-button-success p-button-outlined mx-2',
-      rejectButtonStyleClass: 'p-button p-button-danger p-button-outlined mx-2',
+      acceptButtonStyleClass: 'p-button p-button-danger p-button-outlined mx-2' ,
+      rejectButtonStyleClass: 'p-button p-button-info p-button-outlined mx-2',
       accept: () => {
         this.messageService.add({
           severity: 'info',
-          summary: 'Confirmed',
+          summary: 'Confirmado',
           detail: 'Se ha borrado el itinerario',
         });
         this.deleteItinerary(id);
@@ -268,7 +265,7 @@ export class ItineraryListComponent implements OnInit {
       reject: () => {
         this.messageService.add({
           severity: 'error',
-          summary: 'Rejected',
+          summary: 'Rechazado',
           detail: 'No se ha borrado el itinerario',
           life: 3000,
         });
