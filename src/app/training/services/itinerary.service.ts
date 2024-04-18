@@ -15,6 +15,7 @@ export class ItineraryService {
 
   getAllItineraries(): Observable<Itinerary[]> {
     return this.http.get<Itinerary[]>(this.itinerariesUrl);
+  }
 
   saveItinerary(itinerary: Itinerary): Observable<Itinerary> {
     return new Observable<Itinerary>((observer) => {
