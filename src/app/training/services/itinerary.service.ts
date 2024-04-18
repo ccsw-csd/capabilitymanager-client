@@ -9,12 +9,13 @@ import { Itinerary } from '../models/Itinerary';
 })
 export class ItineraryService {
   private baseUrl: string = environment.server;
-  private itinerariesUrl: string = 'assets/itineraries.json';
+  private itinerariesUrl: string = 'assets/itineraries.json'; // Ruta al archivo JSON de itinerarios
 
   constructor(private http: HttpClient) {}
 
   getAllItineraries(): Observable<Itinerary[]> {
-    return this.http.get<Itinerary[]>(this.itinerariesUrl);
+    return this.http.get<Itinerary[]>(this.itinerariesUrl); // Utilizar HttpClient para cargar el archivo JSON
+  }
 
   saveItinerary(itinerary: Itinerary): Observable<Itinerary> {
     return new Observable<Itinerary>((observer) => {
