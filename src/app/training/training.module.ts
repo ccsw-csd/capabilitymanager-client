@@ -13,7 +13,11 @@ import { ItineraryListComponent } from './views/itinerary-list/itinerary-list.co
 import { ItineraryEditComponent } from './views/itinerary-edit/itinerary-edit.component';
 
 @NgModule({
-  declarations: [PersonalListComponent, ItineraryListComponent, ItineraryEditComponent],
+  declarations: [
+    PersonalListComponent,
+    ItineraryListComponent,
+    ItineraryEditComponent,
+  ],
   imports: [
     CommonModule,
     TableModule,
