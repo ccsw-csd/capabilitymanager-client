@@ -248,12 +248,12 @@ export class ItineraryListComponent implements OnInit {
       message: '¿Estás seguro de que quieres eliminar este itinerario?',
       header: 'Confirmación',
       icon: 'pi pi-question-circle',
-      acceptIcon: 'none',
-      rejectIcon: 'none',
+      acceptIcon: 'pi pi-check',
+      rejectIcon: 'pi pi-times',
       acceptLabel: 'Si',
       rejectLabel: 'No',
-      acceptButtonStyleClass: 'p-button p-button-danger p-button-outlined mx-2' ,
-      rejectButtonStyleClass: 'p-button p-button-info p-button-outlined mx-2',
+      acceptButtonStyleClass: 'p-button-outlined p-button-danger',
+      rejectButtonStyleClass: 'p-button-outlined p-button-info',
       accept: () => {
         this.messageService.add({
           severity: 'info',
