@@ -124,11 +124,13 @@ export class CertficationsListComponent {
     dialogRef.onClose.subscribe((result) => {
       if (result) {
         console.log('Archivo subido:', result);
+        this.loadData();
       } else {
         console.log('Archivo no subido.');
       }
     });
   }
+
   setDefaultFilters() {
     this.defaultFilters = {};
 
@@ -242,13 +244,10 @@ export class CertficationsListComponent {
     );
 
     if (certifications && certifications.descripcion) {
-      const fileName = `${certifications.descripcion.replace(
-        /[^a-zA-Z0-9]/g,
-        '_'
-      )}.xlsx`;
+      const fileName = certifications.descripcion;
       this.certificationsService.downloadFile(id, fileName);
     } else {
-      const defaultFileName = 'Archivo_Certifications_id_' + id + '.xlsx';
+      const defaultFileName = 'Archivo_Certifications_id_' + id;
       this.certificationsService.downloadFile(id, defaultFileName);
     }
   }

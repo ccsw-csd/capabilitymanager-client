@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { StaffingService } from '../staffing.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
@@ -13,6 +13,7 @@ export class StaffingUploadComponent {
   staffingFile: File;
   isLoading: boolean;
   userName: string;
+  @Output() fileUploaded: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private staffingService: StaffingService,
@@ -40,6 +41,7 @@ export class StaffingUploadComponent {
       this.snackbarService.error('Por favor seleccione un archivo.');
       return;
     }
+
     let formData = new FormData();
     formData.append('documentType', '1');
     formData.append('fileData', this.staffingFile);
@@ -49,11 +51,14 @@ export class StaffingUploadComponent {
     this.isLoading = true;
     this.staffingService.uploadStaffing(formData).subscribe({
       next: (result) => {
-        if (result)
+        if (result) {
           this.snackbarService.showMessage('Archivo subido correctamente');
-        else this.snackbarService.showMessage('Archivo subido correctamente.');
+        } else {
+          this.snackbarService.showMessage('Archivo subido correctamente.');
+        }
         this.isLoading = false;
         this.close(true);
+        this.fileUploaded.emit();
       },
       error: (error) => {
         this.snackbarService.error(error);

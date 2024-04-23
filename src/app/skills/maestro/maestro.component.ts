@@ -415,7 +415,7 @@ export class MaestroComponent implements OnInit {
           totals: rolesSum,
         });
 
-        if (this.EMDataTotal - this.EMDataOthersTotal !== rolesSum[0]) {
+        if (this.EMDataTotal !== rolesSum[0]) {
           this.isEMDataTotalOK = false;
         }
 

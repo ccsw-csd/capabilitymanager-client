@@ -36,9 +36,10 @@
 </div>
 
 <!-- Mostrar animación en proceso de carga -->
-<div
-  class="absolute m-auto right-0 left-0 top-0 bottom-0 bg-white-alpha-50 flex align-self-center align-items-center flex-column justify-content-center"
-  *ngIf="isLoading"
->
-  <p-progressSpinner></p-progressSpinner>
+<div class="mt-6">
+  <p-progressBar
+    *ngIf="isLoading"
+    mode="indeterminate"
+    [style]="{ height: '6px' }"
+  ></p-progressBar>
 </div>

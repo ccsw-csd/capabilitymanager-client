@@ -225,13 +225,10 @@ export class StaffingListComponent {
     );
 
     if (staffing && staffing.descripcion) {
-      const fileName = `${staffing.descripcion.replace(
-        /[^a-zA-Z0-9]/g,
-        '_'
-      )}.xlsx`;
+      const fileName = staffing.descripcion;
       this.staffingService.downloadFile(id, fileName);
     } else {
-      const defaultFileName = 'Archivo_Staffing_id_' + id + '.xlsx';
+      const defaultFileName = 'Archivo_Staffing_id_' + id;
       this.staffingService.downloadFile(id, defaultFileName);
     }
   }
@@ -245,6 +242,7 @@ export class StaffingListComponent {
     dialogRef.onClose.subscribe((result) => {
       if (result) {
         console.log('Archivo subido:', result);
+        this.loadData();
       } else {
         console.log('Archivo no subido.');
       }

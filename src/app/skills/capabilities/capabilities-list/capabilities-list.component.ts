@@ -244,13 +244,10 @@ export class CapabilitiesListComponent implements OnInit {
     );
 
     if (capability && capability.descripcion) {
-      const fileName = `${capability.descripcion.replace(
-        /[^a-zA-Z0-9]/g,
-        '_'
-      )}.xlsx`;
+      const fileName = capability.descripcion;
       this.capabilitiesService.downloadFile(id, fileName);
     } else {
-      const defaultFileName = 'Archivo_Roles_id_' + id + '.xlsx';
+      const defaultFileName = 'Archivo_Roles_id_' + id;
       this.capabilitiesService.downloadFile(id, defaultFileName);
     }
   }
@@ -264,6 +261,7 @@ export class CapabilitiesListComponent implements OnInit {
     dialogRef.onClose.subscribe((result) => {
       if (result) {
         console.log('Archivo subido:', result);
+        this.loadData();
       } else {
         console.log('Archivo no subido.');
       }
