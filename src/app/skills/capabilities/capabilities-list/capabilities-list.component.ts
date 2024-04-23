@@ -261,6 +261,7 @@ export class CapabilitiesListComponent implements OnInit {
     dialogRef.onClose.subscribe((result) => {
       if (result) {
         console.log('Archivo subido:', result);
+        this.loadData();
       } else {
         console.log('Archivo no subido.');
       }

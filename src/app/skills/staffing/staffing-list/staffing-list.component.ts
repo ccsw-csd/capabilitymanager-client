@@ -242,6 +242,7 @@ export class StaffingListComponent {
     dialogRef.onClose.subscribe((result) => {
       if (result) {
         console.log('Archivo subido:', result);
+        this.loadData();
       } else {
         console.log('Archivo no subido.');
       }

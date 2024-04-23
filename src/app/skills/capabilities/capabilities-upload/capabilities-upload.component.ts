@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CapabilitiesService } from '../capabilities.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { AuthService } from 'src/app/core/services/auth.service';
-
 
 @Component({
   selector: 'app-capabilities-upload',
@@ -14,6 +13,7 @@ export class CapabilitiesUploadComponent {
   capabilityFile: File;
   isLoading: boolean;
   userName: string;
+  @Output() fileUploaded: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private capabilitiesService: CapabilitiesService,
@@ -30,7 +30,6 @@ export class CapabilitiesUploadComponent {
 
   onSelect(event: { currentFiles: File[] }) {
     this.capabilityFile = event.currentFiles[0];
-
   }
 
   onRemove() {
@@ -52,12 +51,11 @@ export class CapabilitiesUploadComponent {
     this.capabilitiesService.uploadCapability(formData).subscribe({
       next: (result) => {
         if (result)
-          this.snackbarService.showMessage(
-            'Archivo subido correctamente'
-          );
+          this.snackbarService.showMessage('Archivo subido correctamente');
         else this.snackbarService.showMessage('Archivo subido correctamente.');
         this.isLoading = false;
         this.close(true);
+        this.fileUploaded.emit();
       },
       error: (error) => {
         this.snackbarService.error(error);

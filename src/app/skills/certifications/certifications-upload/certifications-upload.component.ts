@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CertificationsService } from '../certifications.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
@@ -13,9 +13,10 @@ export class CertificationsUploadComponent {
   certificationsFile: File;
   isLoading: boolean;
   userName: string;
+  @Output() fileUploaded: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    private certificationsService : CertificationsService,
+    private certificationsService: CertificationsService,
     public authService: AuthService,
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
@@ -40,6 +41,7 @@ export class CertificationsUploadComponent {
       this.snackbarService.error('Por favor seleccione un archivo.');
       return;
     }
+
     let formData = new FormData();
     formData.append('documentType', '3');
     formData.append('fileData', this.certificationsFile);
@@ -49,11 +51,14 @@ export class CertificationsUploadComponent {
     this.isLoading = true;
     this.certificationsService.uploadCertifications(formData).subscribe({
       next: (result) => {
-        if (result)
+        if (result) {
           this.snackbarService.showMessage('Archivo subido correctamente');
-        else this.snackbarService.showMessage('Archivo subido correctamente.');
+        } else {
+          this.snackbarService.showMessage('Archivo subido correctamente.');
+        }
         this.isLoading = false;
         this.close(true);
+        this.fileUploaded.emit();
       },
       error: (error) => {
         this.snackbarService.error(error);
