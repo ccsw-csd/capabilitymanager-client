@@ -242,10 +242,7 @@ export class CertficationsListComponent {
     );
 
     if (certifications && certifications.descripcion) {
-      const fileName = `${certifications.descripcion.replace(
-        /[^a-zA-Z0-9]/g,
-        '_'
-      )}.xlsx`;
+      const fileName = certifications.descripcion;
       this.certificationsService.downloadFile(id, fileName);
     } else {
       const defaultFileName = 'Archivo_Certifications_id_' + id;

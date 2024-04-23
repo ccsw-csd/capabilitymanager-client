@@ -225,10 +225,7 @@ export class StaffingListComponent {
     );
 
     if (staffing && staffing.descripcion) {
-      const fileName = `${staffing.descripcion.replace(
-        /[^a-zA-Z0-9]/g,
-        '_'
-      )}.xlsx`;
+      const fileName = staffing.descripcion;
       this.staffingService.downloadFile(id, fileName);
     } else {
       const defaultFileName = 'Archivo_Staffing_id_' + id;

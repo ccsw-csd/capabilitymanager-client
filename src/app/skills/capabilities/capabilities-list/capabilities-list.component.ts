@@ -244,10 +244,7 @@ export class CapabilitiesListComponent implements OnInit {
     );
 
     if (capability && capability.descripcion) {
-      const fileName = `${capability.descripcion.replace(
-        /[^a-zA-Z0-9]/g,
-        '_'
-      )}.xlsx`;
+      const fileName = capability.descripcion;
       this.capabilitiesService.downloadFile(id, fileName);
     } else {
       const defaultFileName = 'Archivo_Roles_id_' + id;
