@@ -2,7 +2,7 @@ import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ReportService } from '../report.service';
 import { Dropdown } from 'primeng/dropdown';
 import { Table } from 'primeng/table';
-import { Report } from 'src/app/catalog/report/model/Report';
+import { Report } from '../model/Report';
 import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-config.component';
 import { SortEvent } from 'primeng/api/sortevent';
 import {

@@ -10,7 +10,7 @@ import * as FileSaver from 'file-saver';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { environment } from '../../../environments/environment';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { Report } from '../../catalog/report/model/Report';
+import { Report } from '../report/model/Report';
 import { Screenshot } from 'src/app/core/interfaces/Screenshot';
 import { Observable } from 'rxjs';
 

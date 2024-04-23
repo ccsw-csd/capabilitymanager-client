@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { Report } from 'src/app/catalog/report/model/Report';
+import { Report } from './model/Report';
 import { environment } from 'src/environments/environment';
 import { Capability } from '../capabilities/model/Capability';
 import { Staffing } from '../staffing/model/staffing.model';
