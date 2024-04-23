@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { CapabilitiesService } from '../capabilities.service';
 import { ConfirmationService, SortEvent } from 'primeng/api';
-import { Capability } from 'src/app/catalog/capabilities/model/Capability';
+import { Capability } from '../model/Capability';
 import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-config.component';
 import {
   DialogService,

@@ -5,10 +5,10 @@ import { RefreshTokenResolverService } from './core/services/refresh-token-resol
 import { LayoutComponent } from './core/views/layout/layout.component';
 import { LoginComponent } from './login/views/login/login.component';
 import { MaestroComponent } from './skills/maestro/maestro.component';
-import { CapabilitiesListComponent } from './catalog/capabilities/capabilities-list/capabilities-list.component';
-import { StaffingListComponent } from './catalog/staffing/staffing-list/staffing-list.component';
-import { ReportListComponent } from './catalog/report/report-list/report-list.component';
-import { CertficationsListComponent } from './catalog/certifications/certifications-list/certifications-list.component';
+import { CapabilitiesListComponent } from './skills/capabilities/capabilities-list/capabilities-list.component';
+import { StaffingListComponent } from './skills/staffing/staffing-list/staffing-list.component';
+import { ReportListComponent } from './skills/report/report-list/report-list.component';
+import { CertficationsListComponent } from './skills/certifications/certifications-list/certifications-list.component';
 import { PersonalListComponent } from './training/views/personal-list/personal-list.component';
 import { ItineraryListComponent } from './training/views/itinerary-list/itinerary-list.component';
 const routes: Routes = [
