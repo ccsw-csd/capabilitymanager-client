@@ -231,7 +231,7 @@ export class StaffingListComponent {
       )}.xlsx`;
       this.staffingService.downloadFile(id, fileName);
     } else {
-      const defaultFileName = 'Archivo_Staffing_id_' + id + '.xlsx';
+      const defaultFileName = 'Archivo_Staffing_id_' + id;
       this.staffingService.downloadFile(id, defaultFileName);
     }
   }

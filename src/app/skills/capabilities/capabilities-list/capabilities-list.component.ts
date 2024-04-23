@@ -250,7 +250,7 @@ export class CapabilitiesListComponent implements OnInit {
       )}.xlsx`;
       this.capabilitiesService.downloadFile(id, fileName);
     } else {
-      const defaultFileName = 'Archivo_Roles_id_' + id + '.xlsx';
+      const defaultFileName = 'Archivo_Roles_id_' + id;
       this.capabilitiesService.downloadFile(id, defaultFileName);
     }
   }

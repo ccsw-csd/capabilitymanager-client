@@ -248,7 +248,7 @@ export class CertficationsListComponent {
       )}.xlsx`;
       this.certificationsService.downloadFile(id, fileName);
     } else {
-      const defaultFileName = 'Archivo_Certifications_id_' + id + '.xlsx';
+      const defaultFileName = 'Archivo_Certifications_id_' + id;
       this.certificationsService.downloadFile(id, defaultFileName);
     }
   }
