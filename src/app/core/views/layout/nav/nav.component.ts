@@ -26,7 +26,7 @@ export class NavComponent implements OnInit {
       { label: 'Modelo Capacidades', routerLink: '/dashboard' },
       { label: 'Formación', routerLink: '/training' },
       {
-        label: 'Listados',
+        label: 'Mantenimiento',
         expanded: false,
         visible: this.authService.hasRole('DASHBOARD'),
         items: [

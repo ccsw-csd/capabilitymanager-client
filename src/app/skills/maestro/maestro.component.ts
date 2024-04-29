@@ -415,28 +415,29 @@ export class MaestroComponent implements OnInit {
           totals: rolesSum,
         });
 
-        if (this.EMDataTotal !== rolesSum[0]) {
-          this.isEMDataTotalOK = false;
-        }
-
-        if (this.BADataTotal !== rolesSum[2]) {
+        if (this.BADataTotal != rolesSum[2]) {
           this.isBADataTotalOK = false;
+        } else {
+          this.isBADataTotalOK = true;
         }
 
-        if (this.ARDataTotal !== rolesSum[1]) {
+        if (this.EMDataTotal != rolesSum[0]) {
+          this.isEMDataTotalOK = false;
+        } else {
+          this.isIEDataTotalOK = true;
+        }
+
+        if (this.ARDataTotal != rolesSum[1]) {
           this.isARDataTotalOK = false;
+        } else {
+          this.isARDataTotalOK = true;
         }
 
-        if (this.SEDataTotal !== rolesSum[3]) {
+        if (this.SEDataTotal != rolesSum[3]) {
           this.isSEDataTotalOK = false;
+        } else {
+          this.isSEDataTotalOK = true;
         }
-
-        this.CCATotal =
-          this.EMDataTotal +
-          this.EMDataOthersTotal +
-          this.BADataTotal +
-          this.ARDataTotal +
-          this.SEDataTotal;
 
         this.load = true;
       },
