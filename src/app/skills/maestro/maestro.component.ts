@@ -174,6 +174,7 @@ export class MaestroComponent implements OnInit {
           this.initPyramide();
 
           this.selectedReport = lastReport;
+          console.log(this.selectedReport);
         }
       },
       (error) => {
@@ -256,6 +257,7 @@ export class MaestroComponent implements OnInit {
   onVersionChange() {
     this.idReport = this.selectedReport.id;
     this.disableButtonSearch = false;
+    console.log(this.selectedReport);
   }
 
   reloadComponent() {
@@ -283,6 +285,7 @@ export class MaestroComponent implements OnInit {
 
       this.screenshotEnabled = this.selectedReport.screenshot !== 0;
       this.comentarios = this.selectedReport.comentarios || '';
+      console.log(this.selectedReport);
     }
   }
 
@@ -604,7 +607,49 @@ export class MaestroComponent implements OnInit {
     return dataTable;
   }
 
+  formatTableParam(data: any): any {
+    const dataTable = [];
+
+    const reportId = data.idVersionCapacidades;
+    if (reportId && this.reportVersions) {
+      const report = this.reportVersions.find(
+        (report) => report.id === reportId
+      );
+      if (report && report.descripcion) {
+        const reportLine: Record<string, string> = {};
+        reportLine['Parámetros'] = 'Descripción del informe';
+        reportLine['Valor'] = report.descripcion;
+        dataTable.push(reportLine);
+      }
+    }
+
+    const propertiesOrder = [
+      'id',
+      'screenshot',
+      'fechaImportacion',
+      'descripcion',
+      'usuario',
+      'fechaModificacion',
+      'comentarios',
+    ];
+
+    for (const prop of propertiesOrder) {
+      if (data[prop] !== undefined && data[prop] !== null) {
+        const propLine: Record<string, string> = {};
+        propLine['Parámetros'] = prop;
+        propLine['Valor'] =
+          typeof data[prop] === 'object'
+            ? JSON.stringify(data[prop])
+            : data[prop].toString();
+        dataTable.push(propLine);
+      }
+    }
+
+    return dataTable;
+  }
+
   exportExcelTotales() {
+    let dataTable0 = this.formatTableParam(this.selectedReport);
     let dataTable1 = this.formatTable(this.EMData, this.EMCol);
     let dataTable2 = this.formatTable(this.ARData, this.ARCol);
     let dataTable3 = this.formatTable(this.BAData, this.BACol);
@@ -615,6 +660,7 @@ export class MaestroComponent implements OnInit {
     let dataTable8 = this.formatTable(this.gradesRoles, this.rolesCol);
 
     import('xlsx').then((xlsx) => {
+      const worksheet0 = xlsx.utils.json_to_sheet(dataTable0);
       const worksheet1 = xlsx.utils.json_to_sheet(dataTable1);
       const worksheet2 = xlsx.utils.json_to_sheet(dataTable2);
       const worksheet3 = xlsx.utils.json_to_sheet(dataTable3);
@@ -625,6 +671,7 @@ export class MaestroComponent implements OnInit {
       const worksheet8 = xlsx.utils.json_to_sheet(dataTable8);
 
       const workbook = xlsx.utils.book_new();
+      xlsx.utils.book_append_sheet(workbook, worksheet0, 'Parámetros');
       xlsx.utils.book_append_sheet(workbook, worksheet1, 'Engagement Managers');
       xlsx.utils.book_append_sheet(workbook, worksheet2, 'Architects');
       xlsx.utils.book_append_sheet(workbook, worksheet3, 'Business Analyst');
