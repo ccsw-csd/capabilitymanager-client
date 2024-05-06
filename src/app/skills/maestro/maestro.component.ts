@@ -689,7 +689,6 @@ export class MaestroComponent implements OnInit {
   }
 
   exportExcelTotales() {
-
     let dataTable0 = this.formatTableParam(this.selectedReport);
     let dataTable1 = this.formatTable(this.EMData, this.EMCol);
     let dataTable2 = this.formatTable(this.ARData, this.ARCol);
