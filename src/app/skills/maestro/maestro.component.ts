@@ -624,23 +624,60 @@ export class MaestroComponent implements OnInit {
     }
 
     const propertiesOrder = [
-      'id',
-      'screenshot',
-      'fechaImportacion',
-      'descripcion',
-      'usuario',
-      'fechaModificacion',
-      'comentarios',
+      'ID',
+      'Screenshot',
+      'Fecha de importación',
+      'Descripción',
+      'Usuario',
+      'Fecha de modificación',
+      'Comentarios',
     ];
 
     for (const prop of propertiesOrder) {
-      if (data[prop] !== undefined && data[prop] !== null) {
+      let propName;
+      switch (prop) {
+        case 'ID':
+          propName = 'id';
+          break;
+        case 'Screenshot':
+          propName = 'screenshot';
+          break;
+        case 'Fecha de importación':
+          propName = 'fechaImportacion';
+          break;
+        case 'Descripción':
+          propName = 'descripcion';
+          break;
+        case 'Usuario':
+          propName = 'usuario';
+          break;
+        case 'Fecha de modificación':
+          propName = 'fechaModificacion';
+          break;
+        case 'Comentarios':
+          propName = 'comentarios';
+          break;
+        default:
+          break;
+      }
+      if (data[propName] !== undefined && data[propName] !== null) {
         const propLine: Record<string, string> = {};
         propLine['Parámetros'] = prop;
-        propLine['Valor'] =
-          typeof data[prop] === 'object'
-            ? JSON.stringify(data[prop])
-            : data[prop].toString();
+        if (propName === 'screenshot') {
+          propLine['Valor'] = data[propName] === 1 ? 'Sí' : 'No';
+        } else if (
+          propName === 'fechaImportacion' ||
+          propName === 'fechaModificacion'
+        ) {
+          // Formatear fechas
+          const date = new Date(data[propName]);
+          propLine['Valor'] = date.toLocaleString();
+        } else {
+          propLine['Valor'] =
+            typeof data[propName] === 'object'
+              ? JSON.stringify(data[propName])
+              : data[propName].toString();
+        }
         dataTable.push(propLine);
       }
     }
