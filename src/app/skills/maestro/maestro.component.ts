@@ -720,11 +720,9 @@ export class MaestroComponent implements OnInit {
         const worksheet7 = xlsx.utils.json_to_sheet(dataTable7);
         const worksheet8 = xlsx.utils.json_to_sheet(dataTable8);
 
-        // Merge cells A1 and B1
         const mergeCell = 'A1:B1';
         worksheet0['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 1 } }];
 
-        // Apply style to A1
         worksheet0['A1'].s = {
           font: { bold: true },
           alignment: { horizontal: 'center' },
