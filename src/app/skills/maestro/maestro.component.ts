@@ -13,6 +13,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { Report } from '../report/model/Report';
 import { Screenshot } from 'src/app/core/interfaces/Screenshot';
 import { Observable } from 'rxjs';
+import * as XLSX from 'xlsx';
+import * as Style from 'xlsx-js-style';
 
 @Component({
   selector: 'app-maestro',
@@ -174,6 +176,7 @@ export class MaestroComponent implements OnInit {
           this.initPyramide();
 
           this.selectedReport = lastReport;
+          console.log(this.selectedReport);
         }
       },
       (error) => {
@@ -256,6 +259,7 @@ export class MaestroComponent implements OnInit {
   onVersionChange() {
     this.idReport = this.selectedReport.id;
     this.disableButtonSearch = false;
+    console.log(this.selectedReport);
   }
 
   reloadComponent() {
@@ -283,6 +287,7 @@ export class MaestroComponent implements OnInit {
 
       this.screenshotEnabled = this.selectedReport.screenshot !== 0;
       this.comentarios = this.selectedReport.comentarios || '';
+      console.log(this.selectedReport);
     }
   }
 
@@ -604,7 +609,90 @@ export class MaestroComponent implements OnInit {
     return dataTable;
   }
 
+  formatTableParam(data: any): any {
+    const dataTable = [];
+
+    const reportId = data.idVersionCapacidades;
+    if (reportId && this.reportVersions) {
+      const report = this.reportVersions.find(
+        (report) => report.id === reportId
+      );
+      if (report && report.descripcion) {
+        const reportLine: Record<string, string> = {};
+        reportLine['Parámetros'] = 'Descripción del informe';
+        reportLine['Valor'] = report.descripcion;
+        dataTable.push(reportLine);
+      }
+    }
+
+    const propertiesOrder = [
+      'ID',
+      'Screenshot',
+      'Fecha de importación',
+      'Descripción',
+      'Usuario',
+      'Fecha de modificación',
+      'Comentarios',
+    ];
+
+    const formattedData = [];
+
+    for (const prop of propertiesOrder) {
+      let propName;
+      switch (prop) {
+        case 'ID':
+          propName = 'id';
+          break;
+        case 'Screenshot':
+          propName = 'screenshot';
+          break;
+        case 'Fecha de importación':
+          propName = 'fechaImportacion';
+          break;
+        case 'Descripción':
+          propName = 'descripcion';
+          break;
+        case 'Usuario':
+          propName = 'usuario';
+          break;
+        case 'Fecha de modificación':
+          propName = 'fechaModificacion';
+          break;
+        case 'Comentarios':
+          propName = 'comentarios';
+          break;
+        default:
+          break;
+      }
+      if (data[propName] !== undefined && data[propName] !== null) {
+        const propLine: Record<string, string> = {};
+        propLine['Parámetros'] = prop;
+        if (propName === 'screenshot') {
+          propLine['Valor'] = data[propName] === 1 ? 'Sí' : 'No';
+        } else if (
+          propName === 'fechaImportacion' ||
+          propName === 'fechaModificacion'
+        ) {
+          // Formatear fechas
+          const date = new Date(data[propName]);
+          propLine['Valor'] = date.toLocaleString();
+        } else {
+          propLine['Valor'] =
+            typeof data[propName] === 'object'
+              ? JSON.stringify(data[propName])
+              : data[propName].toString();
+        }
+        dataTable.push(propLine);
+
+        formattedData.push(propLine);
+      }
+    }
+
+    return formattedData;
+  }
+
   exportExcelTotales() {
+    let dataTable0 = this.formatTableParam(this.selectedReport);
     let dataTable1 = this.formatTable(this.EMData, this.EMCol);
     let dataTable2 = this.formatTable(this.ARData, this.ARCol);
     let dataTable3 = this.formatTable(this.BAData, this.BACol);
@@ -615,6 +703,7 @@ export class MaestroComponent implements OnInit {
     let dataTable8 = this.formatTable(this.gradesRoles, this.rolesCol);
 
     import('xlsx').then((xlsx) => {
+      const worksheet0 = xlsx.utils.json_to_sheet(dataTable0);
       const worksheet1 = xlsx.utils.json_to_sheet(dataTable1);
       const worksheet2 = xlsx.utils.json_to_sheet(dataTable2);
       const worksheet3 = xlsx.utils.json_to_sheet(dataTable3);
@@ -625,6 +714,7 @@ export class MaestroComponent implements OnInit {
       const worksheet8 = xlsx.utils.json_to_sheet(dataTable8);
 
       const workbook = xlsx.utils.book_new();
+      xlsx.utils.book_append_sheet(workbook, worksheet0, 'Parámetros');
       xlsx.utils.book_append_sheet(workbook, worksheet1, 'Engagement Managers');
       xlsx.utils.book_append_sheet(workbook, worksheet2, 'Architects');
       xlsx.utils.book_append_sheet(workbook, worksheet3, 'Business Analyst');
@@ -641,7 +731,15 @@ export class MaestroComponent implements OnInit {
         bookType: 'xlsx',
         type: 'array',
       });
-      this.saveAsExcelFile(excelBuffer, 'Informes');
+
+      const currentDate = new Date();
+      const formattedDate =
+        ('0' + currentDate.getDate()).slice(-2) +
+        ('0' + (currentDate.getMonth() + 1)).slice(-2) +
+        currentDate.getFullYear();
+      const fileName = `Informe_Capacidades_${formattedDate}.xlsx`;
+
+      this.saveAsExcelFile(excelBuffer, fileName);
     });
   }
 
@@ -652,10 +750,7 @@ export class MaestroComponent implements OnInit {
     const data: Blob = new Blob([buffer], {
       type: EXCEL_TYPE,
     });
-    FileSaver.saveAs(
-      data,
-      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
-    );
+    FileSaver.saveAs(data, fileName);
   }
 
   downloadExcel() {
