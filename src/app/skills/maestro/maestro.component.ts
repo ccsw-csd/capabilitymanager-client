@@ -610,7 +610,7 @@ export class MaestroComponent implements OnInit {
   }
 
   formatTableParam(data: any): any {
-    const dataTable = [];
+    const formattedData = [];
 
     const reportId = data.idVersionCapacidades;
     if (reportId && this.reportVersions) {
@@ -620,33 +620,34 @@ export class MaestroComponent implements OnInit {
       if (report && report.descripcion) {
         const reportLine: Record<string, string> = {};
         reportLine['Parámetros'] = 'Descripción del informe';
-        reportLine['Valor'] = report.descripcion;
-        dataTable.push(reportLine);
+        reportLine[''] = ''; // Espacio en blanco para la segunda columna
+        formattedData.push(reportLine);
       }
     }
 
+    // Insertar una línea en blanco después del título de los parámetros
+    formattedData.push({});
+
     const propertiesOrder = [
-      'ID',
+      'Versión',
       'Screenshot',
-      'Fecha de importación',
+      'Fecha de generación',
       'Descripción',
       'Usuario',
       'Fecha de modificación',
       'Comentarios',
     ];
 
-    const formattedData = [];
-
     for (const prop of propertiesOrder) {
       let propName;
       switch (prop) {
-        case 'ID':
+        case 'Versión':
           propName = 'id';
           break;
         case 'Screenshot':
           propName = 'screenshot';
           break;
-        case 'Fecha de importación':
+        case 'Fecha de generación':
           propName = 'fechaImportacion';
           break;
         case 'Descripción':
@@ -666,24 +667,20 @@ export class MaestroComponent implements OnInit {
       }
       if (data[propName] !== undefined && data[propName] !== null) {
         const propLine: Record<string, string> = {};
-        propLine['Parámetros'] = prop;
-        if (propName === 'screenshot') {
-          propLine['Valor'] = data[propName] === 1 ? 'Sí' : 'No';
-        } else if (
-          propName === 'fechaImportacion' ||
-          propName === 'fechaModificacion'
-        ) {
-          // Formatear fechas
-          const date = new Date(data[propName]);
-          propLine['Valor'] = date.toLocaleString();
+        if (prop === 'Descripción') {
+          propLine['Parámetros'] = prop;
+          propLine[''] = ''; // Espacio en blanco para la segunda columna
         } else {
-          propLine['Valor'] =
-            typeof data[propName] === 'object'
+          propLine['Parámetros'] = prop;
+          propLine[''] =
+            propName === 'screenshot'
+              ? data[propName] === 1
+                ? 'Sí'
+                : 'No'
+              : typeof data[propName] === 'object'
               ? JSON.stringify(data[propName])
               : data[propName].toString();
         }
-        dataTable.push(propLine);
-
         formattedData.push(propLine);
       }
     }
@@ -692,6 +689,7 @@ export class MaestroComponent implements OnInit {
   }
 
   exportExcelTotales() {
+
     let dataTable0 = this.formatTableParam(this.selectedReport);
     let dataTable1 = this.formatTable(this.EMData, this.EMCol);
     let dataTable2 = this.formatTable(this.ARData, this.ARCol);
