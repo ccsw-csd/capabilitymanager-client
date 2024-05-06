@@ -14,7 +14,6 @@ import { Report } from '../report/model/Report';
 import { Screenshot } from 'src/app/core/interfaces/Screenshot';
 import { Observable } from 'rxjs';
 
-
 @Component({
   selector: 'app-maestro',
   templateUrl: './maestro.component.html',
@@ -668,6 +667,17 @@ export class MaestroComponent implements OnInit {
         if (prop === 'Descripción') {
           propLine['PARÁMETROS'] = prop;
           propLine[''] = '';
+        } else if (
+          prop === 'Fecha de generación' ||
+          prop === 'Fecha de modificación'
+        ) {
+          const date = new Date(data[propName]);
+          const formattedDate = `${('0' + date.getDate()).slice(-2)}/${(
+            '0' +
+            (date.getMonth() + 1)
+          ).slice(-2)}/${date.getFullYear()}`;
+          propLine['PARÁMETROS'] = prop;
+          propLine[''] = formattedDate;
         } else {
           propLine['PARÁMETROS'] = prop;
           propLine[''] =
