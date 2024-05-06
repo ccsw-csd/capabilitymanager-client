@@ -13,6 +13,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { Report } from '../report/model/Report';
 import { Screenshot } from 'src/app/core/interfaces/Screenshot';
 import { Observable } from 'rxjs';
+import * as XLSX from 'xlsx';
+import * as Style from 'xlsx-js-style';
 
 @Component({
   selector: 'app-maestro',
@@ -633,6 +635,8 @@ export class MaestroComponent implements OnInit {
       'Comentarios',
     ];
 
+    const formattedData = [];
+
     for (const prop of propertiesOrder) {
       let propName;
       switch (prop) {
@@ -679,10 +683,12 @@ export class MaestroComponent implements OnInit {
               : data[propName].toString();
         }
         dataTable.push(propLine);
+
+        formattedData.push(propLine);
       }
     }
 
-    return dataTable;
+    return formattedData;
   }
 
   exportExcelTotales() {
@@ -725,7 +731,15 @@ export class MaestroComponent implements OnInit {
         bookType: 'xlsx',
         type: 'array',
       });
-      this.saveAsExcelFile(excelBuffer, 'Informes');
+
+      const currentDate = new Date();
+      const formattedDate =
+        ('0' + currentDate.getDate()).slice(-2) +
+        ('0' + (currentDate.getMonth() + 1)).slice(-2) +
+        currentDate.getFullYear();
+      const fileName = `Informe_Capacidades_${formattedDate}.xlsx`;
+
+      this.saveAsExcelFile(excelBuffer, fileName);
     });
   }
 
@@ -736,10 +750,7 @@ export class MaestroComponent implements OnInit {
     const data: Blob = new Blob([buffer], {
       type: EXCEL_TYPE,
     });
-    FileSaver.saveAs(
-      data,
-      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
-    );
+    FileSaver.saveAs(data, fileName);
   }
 
   downloadExcel() {
