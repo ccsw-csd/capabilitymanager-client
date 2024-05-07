@@ -13,6 +13,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { Report } from '../report/model/Report';
 import { Screenshot } from 'src/app/core/interfaces/Screenshot';
 import { Observable } from 'rxjs';
+import * as XLSX from 'xlsx';
+import * as Style from 'xlsx-js-style';
 
 @Component({
   selector: 'app-maestro',
@@ -689,7 +691,7 @@ export class MaestroComponent implements OnInit {
               ? JSON.stringify(data[propName])
               : data[propName].toString();
         }
-        formattedData.push(propLine);
+       formattedData.push(propLine);
       }
     }
 
