@@ -623,7 +623,7 @@ export class MaestroComponent implements OnInit {
       }
     }
 
-    formattedData.push({});
+    //formattedData.push({});
 
     const propertiesOrder = [
       'Versión',
@@ -732,7 +732,7 @@ export class MaestroComponent implements OnInit {
         const ws0Cols = [{ wch: 30 }, { wch: 30 }];
         worksheet0['!cols'] = ws0Cols;
 
-        for (let row = 2; row <= 8; row++) {
+        for (let row = 1; row <= 7; row++) {
           const cell = xlsx.utils.encode_cell({ r: row, c: 0 });
           worksheet0[cell].s = {
             font: { bold: true },
