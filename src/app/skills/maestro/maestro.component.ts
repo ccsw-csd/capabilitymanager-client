@@ -610,7 +610,7 @@ export class MaestroComponent implements OnInit {
   }
 
   formatTableParam(data: any): any {
-    const dataTable = [];
+    const formattedData = [];
 
     const reportId = data.idVersionCapacidades;
     if (reportId && this.reportVersions) {
@@ -619,34 +619,34 @@ export class MaestroComponent implements OnInit {
       );
       if (report && report.descripcion) {
         const reportLine: Record<string, string> = {};
-        reportLine['Parámetros'] = 'Descripción del informe';
-        reportLine['Valor'] = report.descripcion;
-        dataTable.push(reportLine);
+        reportLine['PARÁMETROS'] = 'Descripción del informe';
+        reportLine[''] = '';
+        formattedData.push(reportLine);
       }
     }
 
+    //formattedData.push({});
+
     const propertiesOrder = [
-      'ID',
+      'Versión',
       'Screenshot',
-      'Fecha de importación',
+      'Fecha de generación',
       'Descripción',
       'Usuario',
       'Fecha de modificación',
       'Comentarios',
     ];
 
-    const formattedData = [];
-
     for (const prop of propertiesOrder) {
       let propName;
       switch (prop) {
-        case 'ID':
+        case 'Versión':
           propName = 'id';
           break;
         case 'Screenshot':
           propName = 'screenshot';
           break;
-        case 'Fecha de importación':
+        case 'Fecha de generación':
           propName = 'fechaImportacion';
           break;
         case 'Descripción':
@@ -666,25 +666,32 @@ export class MaestroComponent implements OnInit {
       }
       if (data[propName] !== undefined && data[propName] !== null) {
         const propLine: Record<string, string> = {};
-        propLine['Parámetros'] = prop;
-        if (propName === 'screenshot') {
-          propLine['Valor'] = data[propName] === 1 ? 'Sí' : 'No';
+        if (prop === 'Descripción') {
+          propLine['PARÁMETROS'] = prop;
+          propLine[''] = '';
         } else if (
-          propName === 'fechaImportacion' ||
-          propName === 'fechaModificacion'
+          prop === 'Fecha de generación' ||
+          prop === 'Fecha de modificación'
         ) {
-          // Formatear fechas
           const date = new Date(data[propName]);
-          propLine['Valor'] = date.toLocaleString();
+          const formattedDate = `${('0' + date.getDate()).slice(-2)}/${(
+            '0' +
+            (date.getMonth() + 1)
+          ).slice(-2)}/${date.getFullYear()}`;
+          propLine['PARÁMETROS'] = prop;
+          propLine[''] = formattedDate;
         } else {
-          propLine['Valor'] =
-            typeof data[propName] === 'object'
+          propLine['PARÁMETROS'] = prop;
+          propLine[''] =
+            propName === 'screenshot'
+              ? data[propName] === 1
+                ? 'Sí'
+                : 'No'
+              : typeof data[propName] === 'object'
               ? JSON.stringify(data[propName])
               : data[propName].toString();
         }
-        dataTable.push(propLine);
-
-        formattedData.push(propLine);
+       formattedData.push(propLine);
       }
     }
 
@@ -703,43 +710,74 @@ export class MaestroComponent implements OnInit {
     let dataTable8 = this.formatTable(this.gradesRoles, this.rolesCol);
 
     import('xlsx').then((xlsx) => {
-      const worksheet0 = xlsx.utils.json_to_sheet(dataTable0);
-      const worksheet1 = xlsx.utils.json_to_sheet(dataTable1);
-      const worksheet2 = xlsx.utils.json_to_sheet(dataTable2);
-      const worksheet3 = xlsx.utils.json_to_sheet(dataTable3);
-      const worksheet4 = xlsx.utils.json_to_sheet(dataTable4);
-      const worksheet5 = xlsx.utils.json_to_sheet(dataTable5);
-      const worksheet6 = xlsx.utils.json_to_sheet(dataTable6);
-      const worksheet7 = xlsx.utils.json_to_sheet(dataTable7);
-      const worksheet8 = xlsx.utils.json_to_sheet(dataTable8);
+      import('xlsx-js-style').then((Style) => {
+        const workbook = xlsx.utils.book_new();
+        const worksheet0 = xlsx.utils.json_to_sheet(dataTable0);
+        const worksheet1 = xlsx.utils.json_to_sheet(dataTable1);
+        const worksheet2 = xlsx.utils.json_to_sheet(dataTable2);
+        const worksheet3 = xlsx.utils.json_to_sheet(dataTable3);
+        const worksheet4 = xlsx.utils.json_to_sheet(dataTable4);
+        const worksheet5 = xlsx.utils.json_to_sheet(dataTable5);
+        const worksheet6 = xlsx.utils.json_to_sheet(dataTable6);
+        const worksheet7 = xlsx.utils.json_to_sheet(dataTable7);
+        const worksheet8 = xlsx.utils.json_to_sheet(dataTable8);
 
-      const workbook = xlsx.utils.book_new();
-      xlsx.utils.book_append_sheet(workbook, worksheet0, 'Parámetros');
-      xlsx.utils.book_append_sheet(workbook, worksheet1, 'Engagement Managers');
-      xlsx.utils.book_append_sheet(workbook, worksheet2, 'Architects');
-      xlsx.utils.book_append_sheet(workbook, worksheet3, 'Business Analyst');
-      xlsx.utils.book_append_sheet(workbook, worksheet4, 'Software Engineer');
-      xlsx.utils.book_append_sheet(workbook, worksheet5, 'Industry Experts');
-      xlsx.utils.book_append_sheet(
-        workbook,
-        worksheet6,
-        'Custom Apps Development'
-      );
-      xlsx.utils.book_append_sheet(workbook, worksheet7, 'Integration & APIs');
-      xlsx.utils.book_append_sheet(workbook, worksheet8, 'Pyramid');
-      const excelBuffer: any = xlsx.write(workbook, {
-        bookType: 'xlsx',
-        type: 'array',
+        const mergeCell = 'A1:B1';
+        worksheet0['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 1 } }];
+
+        worksheet0['A1'].s = {
+          font: { bold: true },
+          alignment: { horizontal: 'center' },
+          fill: { fgColor: { rgb: '31ccd0' } },
+        };
+
+        const ws0Cols = [{ wch: 30 }, { wch: 30 }];
+        worksheet0['!cols'] = ws0Cols;
+
+        for (let row = 1; row <= 7; row++) {
+          const cell = xlsx.utils.encode_cell({ r: row, c: 0 });
+          worksheet0[cell].s = {
+            font: { bold: true },
+            fill: { fgColor: { rgb: 'c0c0c0' } },
+          };
+        }
+
+        xlsx.utils.book_append_sheet(workbook, worksheet0, 'Parámetros');
+        xlsx.utils.book_append_sheet(
+          workbook,
+          worksheet1,
+          'Engagement Managers'
+        );
+        xlsx.utils.book_append_sheet(workbook, worksheet2, 'Architects');
+        xlsx.utils.book_append_sheet(workbook, worksheet3, 'Business Analyst');
+        xlsx.utils.book_append_sheet(workbook, worksheet4, 'Software Engineer');
+        xlsx.utils.book_append_sheet(workbook, worksheet5, 'Industry Experts');
+        xlsx.utils.book_append_sheet(
+          workbook,
+          worksheet6,
+          'Custom Apps Development'
+        );
+        xlsx.utils.book_append_sheet(
+          workbook,
+          worksheet7,
+          'Integration & APIs'
+        );
+        xlsx.utils.book_append_sheet(workbook, worksheet8, 'Pyramid');
+
+        const excelBuffer: any = Style.write(workbook, {
+          bookType: 'xlsx',
+          type: 'buffer',
+        });
+
+        const currentDate = new Date();
+        const formattedDate =
+          ('0' + currentDate.getDate()).slice(-2) +
+          ('0' + (currentDate.getMonth() + 1)).slice(-2) +
+          currentDate.getFullYear();
+        const fileName = `Informe_Capacidades_${formattedDate}.xlsx`;
+
+        this.saveAsExcelFile(excelBuffer, fileName);
       });
-
-      const currentDate = new Date();
-      const formattedDate =
-        ('0' + currentDate.getDate()).slice(-2) +
-        ('0' + (currentDate.getMonth() + 1)).slice(-2) +
-        currentDate.getFullYear();
-      const fileName = `Informe_Capacidades_${formattedDate}.xlsx`;
-
-      this.saveAsExcelFile(excelBuffer, fileName);
     });
   }
 
