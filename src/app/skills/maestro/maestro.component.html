@@ -191,7 +191,7 @@
 
   <p-divider></p-divider>
 
-  <div class="flex items-centerml-2 mt-4">
+  <div class="flex items-centerml-2 mt-4" *ngIf="authService.hasRole('GESTOR')">
     <div class="small-input-switch">
       <p-inputSwitch
         [(ngModel)]="screenshotEnabled"
@@ -217,7 +217,7 @@
   </div>
 
   <!-- Comentarios-->
-  <div class="py-4 mt-2 flex">
+  <div class="py-4 mt-2 flex" *ngIf="authService.hasRole('GESTOR')">
     <span class="p-float-label">
       <textarea
         class="p-6"
@@ -234,7 +234,10 @@
   <!-- Botón guardar-->
   <p-toast></p-toast>
   <p-confirmDialog></p-confirmDialog>
-  <div class="flex align-items-center justify-content-between">
+  <div
+    class="flex align-items-center justify-content-between"
+    *ngIf="authService.hasRole('GESTOR')"
+  >
     <button
       pButton
       type="button"
