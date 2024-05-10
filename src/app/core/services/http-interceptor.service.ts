@@ -29,6 +29,7 @@ export class HttpInterceptorService implements HttpInterceptor {
               errorMessage = 'Error de usuario: ' + error.error;
               break;
             case 401:
+            case 403:
               this.auth.logout();
               errorMessage = 'Token expirado.';
               break;

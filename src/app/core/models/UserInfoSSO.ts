@@ -8,4 +8,6 @@ export class UserInfoSSO {
     saga: string;
     grade: string;
     roles: [][];
+    globalId: string;
+    location: string;  
 }

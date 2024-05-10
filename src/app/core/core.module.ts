@@ -18,6 +18,7 @@ import { NavComponent } from './views/layout/nav/nav.component';
 import { ColumnConfigComponent } from './views/column-config/column-config.component';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { DividerModule } from 'primeng/divider';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     PickListModule,
     PanelMenuModule,
     OverlayPanelModule,
+    DividerModule,
   ],
 })
 export class CoreModule {}

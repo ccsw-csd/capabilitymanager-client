@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output  } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { DialogService } from 'primeng/dynamicdialog';
-import { MenuItem } from 'primeng/api';
 import { UserInfoSSO } from 'src/app/core/models/UserInfoSSO';
 import { environment } from 'src/environments/environment';
+import { ApplicationData } from 'src/app/core/models/ResponseCredentials';
 
 @Component({
   selector: 'app-header',
@@ -12,11 +12,12 @@ import { environment } from 'src/environments/environment';
 })
 export class HeaderComponent implements OnInit {
 
+  applications: ApplicationData[] = [];
   userPicture: string = null;
   user : UserInfoSSO | null = null;
   navOpen = true;
   isloading : boolean = false;
-  @Output() navOpenEvent = new EventEmitter();
+  @Output() navOpenEvent = new EventEmitter();  
 
   constructor(
     public auth: AuthService,
@@ -26,7 +27,14 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.auth.getUserInfo();
     this.userPicture = this.auth.getSSOPicture();
+    this.applications = this.auth.getApplications().sort((a, b) => a.name.localeCompare(b.name)); 
   }
+
+  getAppPicture(application: ApplicationData): string | null {
+
+    if (application == null || application.photo == null) return null;
+    return 'data:image/png;base64,'+application.photo;
+  }    
 
   toggleSideNav() {
     this.navOpen = !this.navOpen;
@@ -38,17 +46,22 @@ export class HeaderComponent implements OnInit {
     return this.user.email;
   }  
 
-  getName() : string {
+  getFullName() : string {
     if (this.user == null) return "";
     return this.user.displayName;
+  }
+
+  getName() : string {
+    if (this.user == null) return "";
+    return this.user.firstName;
   }
 
   logout() {
     this.auth.logout();
   }
 
-  apps() : void {
-    window.open('https://cca.'+this.getDomain()+'.com'+environment.ssoApp, "_blank");
+  openApp(application: ApplicationData) : void {
+    window.open(application.url, "_blank");
   }
 
   getDomain() : string {
@@ -64,6 +77,6 @@ export class HeaderComponent implements OnInit {
 
   emailRef() {
     window.open("mailto:ccsw.support@"+this.getDomain()+".com?subject=["+environment.appCode+"] Consulta / Feedback");
-  } 
+  }  
 
 }

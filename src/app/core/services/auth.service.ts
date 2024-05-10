@@ -5,7 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-import { ResponseCredentials } from '../models/ResponseCredentials';
+import { ApplicationData, ResponseCredentials } from '../models/ResponseCredentials';
 import { UserInfoDetailed } from '../models/UserInfoDetailed';
 import { UserInfoSSO } from '../models/UserInfoSSO';
 
@@ -18,6 +18,7 @@ export class AuthService {
   ssoPictureKey : string = 'ssoPicture';
   ssoToken : string = null;
   ssoPicture : string = null;
+  applications: ApplicationData[] = [];
 
   userInfoSSO: UserInfoSSO | null = null;
   userInfoDetailed: UserInfoDetailed | null = null;
@@ -26,13 +27,14 @@ export class AuthService {
     private jwtHelper: JwtHelperService,
     private router: Router,
     private http: HttpClient,
-  ) { 
+  ) {
 
     if (environment.production == false) {
       this.ssoCredentialsKey += 'Dev';
       this.ssoPictureKey += 'Dev';
     }
-  }
+
+   }
 
 
   // *************************** //
@@ -43,6 +45,7 @@ export class AuthService {
   public putSSOCredentials(res: ResponseCredentials) : void {
     this.ssoToken = res.token;
     this.ssoPicture = res.photo;
+    this.applications = res.apps;
 
     localStorage.setItem(this.ssoCredentialsKey, this.ssoToken);
     localStorage.setItem(this.ssoPictureKey, this.ssoPicture);
@@ -58,6 +61,7 @@ export class AuthService {
     return this.ssoToken;
   }
 
+  
   public getSSOPicture(): string | null {
 
     if (this.ssoPicture == null) {
@@ -67,7 +71,6 @@ export class AuthService {
     if (this.ssoPicture == null || this.ssoPicture == "null") return null;
     return 'data:image/jpg;base64,'+this.ssoPicture;
   }  
-  
 
   // *************************** //
   // **       LOGOUT          ** //
@@ -87,6 +90,7 @@ export class AuthService {
     this.ssoPicture = null;
     this.userInfoDetailed = null;
     this.userInfoSSO = null;
+    this.applications = [];
   }  
     
   // *************************** //
@@ -135,7 +139,9 @@ export class AuthService {
         username: data.sub,
         saga: data.saga,
         grade: data.grade,
-        roles: data.roles
+        roles: data.roles,
+        location: data.location,
+        globalId: data.globalId
       };
 
     }
@@ -167,6 +173,7 @@ export class AuthService {
   
   public refreshToken(credentials : ResponseCredentials): void {
     this.putSSOCredentials(credentials);
+    this.userInfoSSO = null;
   }   
 
   public hasRole(role : string) : boolean  {
@@ -175,4 +182,30 @@ export class AuthService {
     if (roles == null || roles.length == 0) return false;
     return roles.indexOf(role) >= 0;
   }  
+
+
+  setProperty(key: string, value: any) {
+    let composedKey = environment.appCode + '_' + key;
+
+    if (environment.production == false) {
+      composedKey += '_Dev';
+    }
+
+    localStorage.setItem(composedKey, JSON.stringify(value));
+  }
+
+  getProperty(key: string) : any{
+    let composedKey = environment.appCode + '_' + key;
+
+    if (environment.production == false) {
+      composedKey += '_Dev';
+    }
+
+    return JSON.parse(localStorage.getItem(composedKey));
+  }
+
+  getApplications() : ApplicationData[] {
+    return this.applications;
+  }
+
 }
