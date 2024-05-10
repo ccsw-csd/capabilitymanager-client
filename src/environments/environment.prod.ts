@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  appCode: 'dashboard',
-  server: '../dashboard-data',
+  appCode: 'capabilitymanager',
+  server: '../capabilitymanager-data',
   sso: '../sso',
   ssoCredentials: 'ssoCredentials',
   ssoApp: '/apps'

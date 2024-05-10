@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  appCode: 'dashboard',
-  server: '../dashboard-data',
+  appCode: 'capabilitymanager',
+  server: '../capabilitymanager-data',
   sso: '../sso',
   ssoCredentials: 'ssoCredentialsDev',
   ssoApp: '/dev/apps'

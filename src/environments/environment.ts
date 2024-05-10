@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  appCode: 'dashboard',
+  appCode: 'capabilitymanager',
   server: 'http://localhost:8080',
   sso: 'http://frparccsw/dev/sso',
   ssoCredentials: 'ssoCredentialsDev',
