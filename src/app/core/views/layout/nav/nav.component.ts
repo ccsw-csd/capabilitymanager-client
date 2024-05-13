@@ -23,7 +23,7 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     this.items = [
-      { label: 'Modelo Capacidades', routerLink: '/dashboard' },
+      { label: 'Modelo Capacidades', routerLink: '/capabilitymanager' },
       { label: 'Formación', routerLink: '/training' },
       {
         label: 'Mantenimiento',
