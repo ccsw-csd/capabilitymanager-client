@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "dashboard": {
+    "capabilitymanager": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,16 +20,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/dashboard",
+            "outputPath": "dist/capabilitymanager",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "./node_modules/quill/dist/quill.core.css",
               "./node_modules/quill/dist/quill.snow.css",
@@ -39,9 +36,7 @@
               "./node_modules/primeflex/primeflex.css",
               "src/styles.scss"
             ],
-            "scripts": [
-              "./node_modules/chart.js/dist/chart.js"
-            ]
+            "scripts": ["./node_modules/chart.js/dist/chart.js"]
           },
           "configurations": {
             "production": {
@@ -94,10 +89,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "dashboard:build:production"
+              "browserTarget": "capabilitymanager:build:production"
             },
             "development": {
-              "browserTarget": "dashboard:build:development"
+              "browserTarget": "capabilitymanager:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -105,7 +100,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "dashboard:build"
+            "browserTarget": "capabilitymanager:build"
           }
         },
         "test": {
@@ -116,13 +111,8 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         }
