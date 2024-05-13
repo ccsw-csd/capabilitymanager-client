@@ -20,10 +20,8 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     resolve: { credentials: RefreshTokenResolverService },
     children: [
-      // { path: 'dashboard', component: MainComponent},
-      // { path: 'statistic', component: StatisticComponent },
       {
-        path: 'dashboard',
+        path: 'capabilitymanager',
         component: MaestroComponent,
         data: { role: ['CONSULTA'] },
       },
@@ -57,7 +55,7 @@ const routes: Routes = [
         component: CertficationsListComponent,
         data: { role: ['CONSULTA'] },
       },
-      { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: '**', redirectTo: 'capabilitymanager', pathMatch: 'full' },
     ],
   },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
