@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  appCode: 'capabilityManager',
+  appCode: 'capabilitymanager',
   server: '../capabilitymanager-data',
   sso: '../sso',
   ssoCredentials: 'ssoCredentials',

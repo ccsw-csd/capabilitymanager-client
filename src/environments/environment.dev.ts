@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  appCode: 'capabilityManager',
+  appCode: 'capabilitymanager',
   server: '../capabilitymanager-data',
   sso: '../sso',
   ssoCredentials: 'ssoCredentialsDev',
