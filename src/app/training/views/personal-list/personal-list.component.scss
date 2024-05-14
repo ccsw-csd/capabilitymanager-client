@@ -95,5 +95,17 @@
 
 .mesesBench {
   min-width: 150px;
-  max-width: 150px;
+}
+
+.active {
+  min-width: 100px;
+  max-width: 100px;
+}
+.buttons {
+  min-width: 80px;
+  max-width: 80px;
+}
+.p-button.p-button-icon-only.p-button-rounded {
+  width: 2rem;
+  height: 2rem;
 }

@@ -1,1 +1,32 @@
-<p>personal-edit works!</p>
+<div class="flex flex-column gap-3">
+  <h2 class="p-0 m-0">Editar Persona</h2>
+  <div class="p-field">
+    <label for="ggid">GGID:</label>
+    <input id="ggid" type="text" pInputText [value]="person.ggid" readonly />
+  </div>
+  <div class="p-field">
+    <label for="saga">Saga:</label>
+    <input id="saga" type="text" pInputText [value]="person.saga" readonly />
+  </div>
+  <div class="p-field">
+    <label for="nombre">Nombre:</label>
+    <input
+      id="nombre"
+      type="text"
+      pInputText
+      [value]="person.nombre"
+      readonly
+    />
+  </div>
+  <div class="p-field">
+    <label for="apellidos">Apellidos:</label>
+    <input
+      id="apellidos"
+      type="text"
+      pInputText
+      [value]="person.apellidos"
+      readonly
+    />
+  </div>
+  <!-- Listado de actividades -->
+</div>

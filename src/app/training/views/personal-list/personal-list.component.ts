@@ -12,6 +12,7 @@ import { Table } from 'primeng/table';
 import { Dropdown } from 'primeng/dropdown';
 import { PersonService } from '../../services/person.service';
 import { Person } from '../../models/Person';
+import { PersonalEditComponent } from '../personal-edit/personal-edit.component';
 
 @Component({
   selector: 'app-personal-list',
@@ -285,6 +286,23 @@ export class PersonalListComponent implements OnInit {
       } else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
 
       return event.order * result;
+    });
+  }
+
+  editPerson(person?: Person) {
+    let header = person ? 'Modificar Persona' : 'Nueva Persona';
+    const ref = this.dialogService.open(PersonalEditComponent, {
+      width: '50vw',
+      data: {
+        person: person,
+      },
+      closable: false,
+      showHeader: true,
+      header: header,
+    });
+
+    ref.onClose.subscribe((result: boolean) => {
+      if (result) this.personService.getAllPersons();
     });
   }
 
