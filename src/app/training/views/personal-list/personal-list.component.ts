@@ -12,6 +12,7 @@ import { Table } from 'primeng/table';
 import { Dropdown } from 'primeng/dropdown';
 import { PersonService } from '../../services/person.service';
 import { Person } from '../../models/Person';
+import { PersonalEditComponent } from '../personal-edit/personal-edit.component';
 
 @Component({
   selector: 'app-personal-list',
@@ -81,9 +82,27 @@ export class PersonalListComponent implements OnInit {
         filterType: 'input',
       },
       {
+        header: 'Centro',
+        composeField: 'centro',
+        field: 'centro',
+        filterType: 'input',
+      },
+      {
+        header: 'Rol',
+        composeField: 'rol',
+        field: 'rol',
+        filterType: 'input',
+      },
+      {
         header: 'Perfil Técnico',
         composeField: 'perfilTecnico',
         field: 'perfilTecnico',
+        filterType: 'input',
+      },
+      {
+        header: 'Primary Skill',
+        composeField: 'primarySkill',
+        field: 'primarySkill',
         filterType: 'input',
       },
       {
@@ -147,6 +166,24 @@ export class PersonalListComponent implements OnInit {
         filterType: 'input',
       },
       {
+        header: 'Inglés Escrito',
+        composeField: 'inglesEscrito',
+        field: 'inglesEscrito',
+        filterType: 'input',
+      },
+      {
+        header: 'Inglés Hablado',
+        composeField: 'inglesHablado',
+        field: 'inglesHablado',
+        filterType: 'input',
+      },
+      {
+        header: 'Jornada',
+        composeField: 'jornada',
+        field: 'jornada',
+        filterType: 'input',
+      },
+      {
         header: 'Meses en Bench',
         composeField: 'mesesBench',
         field: 'mesesBench',
@@ -156,11 +193,13 @@ export class PersonalListComponent implements OnInit {
 
     this.selectedColumnNames = this.columnNames.filter((column) =>
       [
-        'saga',
+        'ggid',
         'nombre',
         'apellidos',
         'categoria',
+        'rol',
         'perfilTecnico',
+        'primarySkill',
         'status',
         'mesesBench',
       ].includes(column.field)
@@ -285,6 +324,23 @@ export class PersonalListComponent implements OnInit {
       } else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
 
       return event.order * result;
+    });
+  }
+
+  editPerson(person?: Person) {
+    let header = person ? 'Modificar Persona' : 'Nueva Persona';
+    const ref = this.dialogService.open(PersonalEditComponent, {
+      width: '50vw',
+      data: {
+        person: person,
+      },
+      closable: false,
+      showHeader: true,
+      header: header,
+    });
+
+    ref.onClose.subscribe((result: boolean) => {
+      if (result) this.personService.getAllPersons();
     });
   }
 

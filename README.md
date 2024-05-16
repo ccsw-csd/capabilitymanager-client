@@ -1,4 +1,4 @@
-# dashboard
+# capabilitymanager
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.8.
 
@@ -14,9 +14,9 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-ng build --configuration=production  --base-href "/dashboard/" --deploy-url "/dashboard/"
+ng build --configuration=production  --base-href "/capabilitymanager/" --deploy-url "/capabilitymanager/"
 
-ng build --configuration=pre  --base-href "/dev/dashboard/" --deploy-url "/dev/dashboard/"
+ng build --configuration=pre  --base-href "/dev/capabilitymanager/" --deploy-url "/dev/capabilitymanager/"
 
 
 ## Running unit tests
