@@ -51,17 +51,20 @@ export class StaffingUploadComponent {
     this.isLoading = true;
     this.staffingService.uploadStaffing(formData).subscribe({
       next: (result) => {
-        if (result) {
-          this.snackbarService.showMessage('Archivo subido correctamente');
-        } else {
-          this.snackbarService.showMessage('Archivo subido correctamente.');
-        }
+        const message = result
+          ? 'Archivo subido correctamente'
+          : 'Archivo subido correctamente.';
+        this.snackbarService.showMessage(message);
         this.isLoading = false;
         this.close(true);
         this.fileUploaded.emit();
       },
       error: (error) => {
-        this.snackbarService.error(error);
+        let errorMessage = 'Ocurrió un error al subir el archivo.';
+        if (error && error.message) {
+          errorMessage = error.message;
+        }
+        this.snackbarService.error(errorMessage);
         this.isLoading = false;
       },
     });
