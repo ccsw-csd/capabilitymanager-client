@@ -88,6 +88,12 @@ export class PersonalListComponent implements OnInit {
         filterType: 'input',
       },
       {
+        header: 'Primary Skill',
+        composeField: 'primarySkill',
+        field: 'primarySkill',
+        filterType: 'input',
+      },
+      {
         header: 'Fecha de Incorporación',
         composeField: 'fechaIncorporacion',
         field: 'fechaIncorporacion',
@@ -148,6 +154,24 @@ export class PersonalListComponent implements OnInit {
         filterType: 'input',
       },
       {
+        header: 'Inglés Escrito',
+        composeField: 'inglesEscrito',
+        field: 'inglesEscrito',
+        filterType: 'input',
+      },
+      {
+        header: 'Inglés Hablado',
+        composeField: 'inglesHablado',
+        field: 'inglesHablado',
+        filterType: 'input',
+      },
+      {
+        header: 'Jornada',
+        composeField: 'jornada',
+        field: 'jornada',
+        filterType: 'input',
+      },
+      {
         header: 'Meses en Bench',
         composeField: 'mesesBench',
         field: 'mesesBench',
@@ -157,11 +181,12 @@ export class PersonalListComponent implements OnInit {
 
     this.selectedColumnNames = this.columnNames.filter((column) =>
       [
-        'saga',
+        'ggid',
         'nombre',
         'apellidos',
         'categoria',
         'perfilTecnico',
+        'primarySkill',
         'status',
         'mesesBench',
       ].includes(column.field)
