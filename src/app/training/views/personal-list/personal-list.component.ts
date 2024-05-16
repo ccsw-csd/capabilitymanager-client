@@ -82,6 +82,18 @@ export class PersonalListComponent implements OnInit {
         filterType: 'input',
       },
       {
+        header: 'Centro',
+        composeField: 'centro',
+        field: 'centro',
+        filterType: 'input',
+      },
+      {
+        header: 'Rol',
+        composeField: 'rol',
+        field: 'rol',
+        filterType: 'input',
+      },
+      {
         header: 'Perfil Técnico',
         composeField: 'perfilTecnico',
         field: 'perfilTecnico',
@@ -185,6 +197,7 @@ export class PersonalListComponent implements OnInit {
         'nombre',
         'apellidos',
         'categoria',
+        'rol',
         'perfilTecnico',
         'primarySkill',
         'status',
