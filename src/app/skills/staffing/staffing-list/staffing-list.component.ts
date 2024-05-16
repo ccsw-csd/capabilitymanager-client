@@ -248,4 +248,9 @@ export class StaffingListComponent {
       }
     });
   }
+
+  onPageChange(event) {
+    const currentPage = event.page + 1;
+    console.log('Página actual:', currentPage);
+  }
 }
