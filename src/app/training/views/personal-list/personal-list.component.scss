@@ -4,8 +4,13 @@
 }
 
 .saga {
-  min-width: 140px;
-  max-width: 140px;
+  min-width: 120px;
+  max-width: 120px;
+}
+
+.ggid {
+  min-width: 120px;
+  max-width: 120px;
 }
 
 .nombre {
@@ -14,8 +19,8 @@
 }
 
 .apellidos {
-  min-width: 350px;
-  max-width: 350px;
+  min-width: 330px;
+  max-width: 330px;
 }
 
 .practica {
@@ -38,6 +43,11 @@
   max-width: 200px;
 }
 
+.primarySkill {
+  min-width: 200px;
+  max-width: 200px;
+}
+
 .fechaIncorporacion {
   min-width: 230px;
   max-width: 230px;
@@ -49,8 +59,13 @@
 }
 
 .status {
-  min-width: 150px;
-  max-width: 150px;
+  min-width: 120px;
+  max-width: 120px;
+}
+
+.rol {
+  min-width: 180px;
+  max-width: 180px;
 }
 
 .clienteActual {
@@ -88,9 +103,19 @@
   max-width: 200px;
 }
 
-.ggid {
-  min-width: 100px;
-  max-width: 100px;
+.inglesEscrito {
+  min-width: 150px;
+  max-width: 150px;
+}
+
+.inglesHablado {
+  min-width: 150px;
+  max-width: 150px;
+}
+
+.jornada {
+  min-width: 150px;
+  max-width: 150px;
 }
 
 .mesesBench {
