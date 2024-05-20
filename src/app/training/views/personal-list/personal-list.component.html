@@ -121,10 +121,14 @@
         <div
           *ngIf="!col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          [pTooltip]="col.field === 'fecha_Incorporacion' ? (person[col.field] | date : 'dd/MM/yyyy') : person[col.field]"
+          [pTooltip]="
+            col.field === 'fecha_Incorporacion'
+              ? (person[col.field] | date : 'dd/MM/yyyy')
+              : person[col.field]
+          "
         >
           <ng-container *ngIf="col.field === 'fecha_Incorporacion'">
-            {{ person[col.field] | date: 'dd/MM/yyyy' }}
+            {{ person[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
           <ng-container *ngIf="col.field !== 'fecha_Incorporacion'">
             {{ person[col.field] }}
