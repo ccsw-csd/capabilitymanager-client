@@ -1,8 +1,4 @@
-.id {
-  min-width: 100px;
-  max-width: 100px;
-}
-
+/* Column styles */
 .saga {
   min-width: 120px;
   max-width: 120px;
@@ -28,39 +24,14 @@
   max-width: 150px;
 }
 
-.grado {
-  min-width: 150px;
-  max-width: 150px;
-}
-
 .categoria {
   min-width: 150px;
   max-width: 150px;
 }
 
-.perfilTecnico {
-  min-width: 200px;
-  max-width: 200px;
-}
-
-.primarySkill {
-  min-width: 200px;
-  max-width: 200px;
-}
-
-.fechaIncorporacion {
-  min-width: 230px;
-  max-width: 230px;
-}
-
-.asignacion {
+.centro {
   min-width: 150px;
   max-width: 150px;
-}
-
-.status {
-  min-width: 120px;
-  max-width: 120px;
 }
 
 .rol {
@@ -68,39 +39,24 @@
   max-width: 180px;
 }
 
-.clienteActual {
-  min-width: 240px;
-  max-width: 240px;
+.perfilTecnico {
+  min-width: 160px;
+  max-width: 160px;
+}
+
+.primarySkill {
+  min-width: 200px;
+  max-width: 200px;
+}
+
+.status {
+  min-width: 120px;
+  max-width: 120px;
 }
 
 .fechaInicioAsignacion {
   min-width: 230px;
   max-width: 230px;
-}
-
-.fechaFinAsignacion {
-  min-width: 230px;
-  max-width: 230px;
-}
-
-.fechaDisponibilidad {
-  min-width: 230px;
-  max-width: 230px;
-}
-
-.posicionProyectoFuturo {
-  min-width: 330px;
-  max-width: 330px;
-}
-
-.colaboraciones {
-  min-width: 200px;
-  max-width: 200px;
-}
-
-.proyectoAnterior {
-  min-width: 200px;
-  max-width: 200px;
 }
 
 .inglesEscrito {
@@ -120,16 +76,15 @@
 
 .mesesBench {
   min-width: 150px;
+  max-width: auto;
 }
 
-.active {
-  min-width: 100px;
-  max-width: 100px;
-}
+/* Additional styles */
 .buttons {
   min-width: 80px;
   max-width: 80px;
 }
+
 .p-button.p-button-icon-only.p-button-rounded {
   width: 2rem;
   height: 2rem;
