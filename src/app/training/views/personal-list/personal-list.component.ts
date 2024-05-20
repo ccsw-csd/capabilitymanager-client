@@ -70,12 +70,6 @@ export class PersonalListComponent implements OnInit {
         filterType: 'input',
       },
       {
-        header: 'Grado',
-        composeField: 'grado',
-        field: 'grado',
-        filterType: 'input',
-      },
-      {
         header: 'Categoría',
         composeField: 'categoria',
         field: 'categoria',
@@ -106,63 +100,15 @@ export class PersonalListComponent implements OnInit {
         filterType: 'input',
       },
       {
-        header: 'Fecha de Incorporación',
-        composeField: 'fechaIncorporacion',
-        field: 'fechaIncorporacion',
-        filterType: 'input',
-      },
-      {
-        header: 'Asignación',
-        composeField: 'asignacion',
-        field: 'asignacion',
-        filterType: 'input',
-      },
-      {
         header: 'Estado',
         composeField: 'status',
         field: 'status',
         filterType: 'input',
       },
       {
-        header: 'Cliente Actual',
-        composeField: 'clienteActual',
-        field: 'clienteActual',
-        filterType: 'input',
-      },
-      {
         header: 'Fecha de Inicio de Asignación',
         composeField: 'fechaInicioAsignacion',
         field: 'fechaInicioAsignacion',
-        filterType: 'input',
-      },
-      {
-        header: 'Fecha de Fin de Asignación',
-        composeField: 'fechaFinAsignacion',
-        field: 'fechaFinAsignacion',
-        filterType: 'input',
-      },
-      {
-        header: 'Fecha de Disponibilidad',
-        composeField: 'fechaDisponibilidad',
-        field: 'fechaDisponibilidad',
-        filterType: 'input',
-      },
-      {
-        header: 'Posición en Proyecto Futuro',
-        composeField: 'posicionProyectoFuturo',
-        field: 'posicionProyectoFuturo',
-        filterType: 'input',
-      },
-      {
-        header: 'Colaboraciones',
-        composeField: 'colaboraciones',
-        field: 'colaboraciones',
-        filterType: 'input',
-      },
-      {
-        header: 'Proyecto Anterior',
-        composeField: 'proyectoAnterior',
-        field: 'proyectoAnterior',
         filterType: 'input',
       },
       {
