@@ -13,7 +13,7 @@
       <i class="pi pi-user text-xl text-primary"></i>
     </div>
     <div class="flex flex-row align-items-center gap-1 text-sm">
-      <p>{{ totalPersons }}</p>
+      <p>{{ totalPersons$ | async }}</p>
       Empleados
     </div>
   </div>
@@ -48,8 +48,8 @@
   [scrollable]="true"
   scrollHeight="flex"
   selectionMode="single"
-  [value]="persons"
-  styleClass="p-datatable-striped "
+  [value]="persons$ | async"
+  styleClass="p-datatable-striped"
   [paginator]="false"
   sortField="id"
   [sortOrder]="-1"
@@ -82,13 +82,13 @@
         <div class="w-full foot-header">
           <!-- Filtros para las columnas -->
           <p-columnFilter
-            *ngIf="col.filterType == 'input'"
+            *ngIf="col.filterType === 'input'"
             class="w-full"
             type="text"
             field="{{ col.composeField }}"
             [showMenu]="false"
             [showClearButton]="false"
-            matchMode="contains-and-null"
+            matchMode="contains"
           >
             <ng-template
               pTemplate="filter"
@@ -113,6 +113,7 @@
       </th>
     </tr>
   </ng-template>
+
   <ng-template pTemplate="body" let-person let-columns="columns">
     <!-- Cuerpo de la tabla -->
     <tr [pSelectableRow]="person">
@@ -120,11 +121,11 @@
         <div
           *ngIf="!col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          pTooltip="{{
+          [pTooltip]="
             col.field === 'fecha_Incorporacion'
               ? (person[col.field] | date : 'dd/MM/yyyy')
               : person[col.field]
-          }}"
+          "
         >
           <ng-container *ngIf="col.field === 'fecha_Incorporacion'">
             {{ person[col.field] | date : "dd/MM/yyyy" }}
@@ -136,15 +137,16 @@
         <div
           *ngIf="col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          pTooltip="{{person[col.field]?.[col.fieldExtra]}}"
+          [pTooltip]="person[col.field]?.[col.fieldExtra]"
           tooltipPosition="top"
         >
-          {{person[col.field]?.[col.fieldExtra]}}
+          {{ person[col.field]?.[col.fieldExtra] }}
+
         </div>
         <div
           *ngIf="col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-          pTooltip="{{ col.parse(person[col.field]) }}"
+          [pTooltip]="col.parse(person[col.field])"
           tooltipPosition="top"
         >
           {{ col.parse(person[col.field]) }}

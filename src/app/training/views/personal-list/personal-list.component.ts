@@ -13,6 +13,9 @@ import { Dropdown } from 'primeng/dropdown';
 import { PersonService } from '../../services/person.service';
 import { Person } from '../../models/Person';
 import { PersonalEditComponent } from '../personal-edit/personal-edit.component';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-personal-list',
@@ -28,9 +31,9 @@ export class PersonalListComponent implements OnInit {
   selectedColumnNames: any[];
   tableWidth: string;
   defaultFilters: any = {};
-  totalPersons: number;
-  personsToExport: Person[];
-  persons: Person[];
+  totalPersons$: Observable<number>;
+  persons$: Observable<Person[]>;
+  personsToExport: Person[] = [];
 
   constructor(
     private personService: PersonService,
@@ -70,12 +73,6 @@ export class PersonalListComponent implements OnInit {
         filterType: 'input',
       },
       {
-        header: 'Grado',
-        composeField: 'grado',
-        field: 'grado',
-        filterType: 'input',
-      },
-      {
         header: 'Categoría',
         composeField: 'categoria',
         field: 'categoria',
@@ -87,12 +84,7 @@ export class PersonalListComponent implements OnInit {
         field: 'centro',
         filterType: 'input',
       },
-      {
-        header: 'Rol',
-        composeField: 'rol',
-        field: 'rol',
-        filterType: 'input',
-      },
+      { header: 'Rol', composeField: 'rol', field: 'rol', filterType: 'input' },
       {
         header: 'Perfil Técnico',
         composeField: 'perfilTecnico',
@@ -106,27 +98,9 @@ export class PersonalListComponent implements OnInit {
         filterType: 'input',
       },
       {
-        header: 'Fecha de Incorporación',
-        composeField: 'fechaIncorporacion',
-        field: 'fechaIncorporacion',
-        filterType: 'input',
-      },
-      {
-        header: 'Asignación',
-        composeField: 'asignacion',
-        field: 'asignacion',
-        filterType: 'input',
-      },
-      {
         header: 'Estado',
         composeField: 'status',
         field: 'status',
-        filterType: 'input',
-      },
-      {
-        header: 'Cliente Actual',
-        composeField: 'clienteActual',
-        field: 'clienteActual',
         filterType: 'input',
       },
       {
@@ -136,33 +110,21 @@ export class PersonalListComponent implements OnInit {
         filterType: 'input',
       },
       {
-        header: 'Fecha de Fin de Asignación',
-        composeField: 'fechaFinAsignacion',
-        field: 'fechaFinAsignacion',
+        header: 'Inglés Escrito',
+        composeField: 'inglesEscrito',
+        field: 'inglesEscrito',
         filterType: 'input',
       },
       {
-        header: 'Fecha de Disponibilidad',
-        composeField: 'fechaDisponibilidad',
-        field: 'fechaDisponibilidad',
+        header: 'Inglés Hablado',
+        composeField: 'inglesHablado',
+        field: 'inglesHablado',
         filterType: 'input',
       },
       {
-        header: 'Posición en Proyecto Futuro',
-        composeField: 'posicionProyectoFuturo',
-        field: 'posicionProyectoFuturo',
-        filterType: 'input',
-      },
-      {
-        header: 'Colaboraciones',
-        composeField: 'colaboraciones',
-        field: 'colaboraciones',
-        filterType: 'input',
-      },
-      {
-        header: 'Proyecto Anterior',
-        composeField: 'proyectoAnterior',
-        field: 'proyectoAnterior',
+        header: 'Jornada',
+        composeField: 'jornada',
+        field: 'jornada',
         filterType: 'input',
       },
       {
@@ -208,11 +170,10 @@ export class PersonalListComponent implements OnInit {
   }
 
   loadData() {
-    this.personService.getAllPersons().subscribe((persons) => {
-      this.persons = persons;
-      this.totalPersons = persons.length;
-      this.setDefaultFilters();
-    });
+    this.totalPersons$ = this.personService
+      .getAllPersons()
+      .pipe(map((persons) => persons.length));
+    this.persons$ = this.personService.getAllPersons();
   }
 
   loadSelected(): any[] {
@@ -232,7 +193,7 @@ export class PersonalListComponent implements OnInit {
     return columns;
   }
 
-  onFilter(event) {
+  onFilter(event: any) {
     this.personsToExport = event.filteredValue;
   }
 
@@ -276,7 +237,7 @@ export class PersonalListComponent implements OnInit {
     }
   }
 
-  onColReorder(event): void {
+  onColReorder(event: any): void {
     this.saveSelected(this.columnNames);
   }
 
@@ -340,11 +301,11 @@ export class PersonalListComponent implements OnInit {
     });
 
     ref.onClose.subscribe((result: boolean) => {
-      if (result) this.personService.getAllPersons();
+      if (result) this.loadData();
     });
   }
 
-  getData(data, att) {
+  getData(data: any, att: string) {
     let atts = att.split('.');
     atts.forEach((a) => {
       if (data[a] != undefined) {
