@@ -16,7 +16,6 @@ import { PersonalEditComponent } from '../personal-edit/personal-edit.component'
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-
 @Component({
   selector: 'app-personal-list',
   templateUrl: './personal-list.component.html',
@@ -125,18 +124,6 @@ export class PersonalListComponent implements OnInit {
         header: 'Jornada',
         composeField: 'jornada',
         field: 'jornada',
-        filterType: 'input',
-      },
-      {
-        header: 'Inglés Escrito',
-        composeField: 'inglesEscrito',
-        field: 'inglesEscrito',
-        filterType: 'input',
-      },
-      {
-        header: 'Inglés Hablado',
-        composeField: 'inglesHablado',
-        field: 'inglesHablado',
         filterType: 'input',
       },
       {
