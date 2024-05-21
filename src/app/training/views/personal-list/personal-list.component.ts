@@ -127,12 +127,6 @@ export class PersonalListComponent implements OnInit {
         filterType: 'input',
       },
       {
-        header: 'Jornada',
-        composeField: 'jornada',
-        field: 'jornada',
-        filterType: 'input',
-      },
-      {
         header: 'Meses en Bench',
         composeField: 'mesesBench',
         field: 'mesesBench',
