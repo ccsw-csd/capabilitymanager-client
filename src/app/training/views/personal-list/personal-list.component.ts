@@ -272,7 +272,8 @@ export class PersonalListComponent implements OnInit {
   editPerson(person?: Person) {
     let header = person ? 'Lista de Activiades' : 'Nueva Persona';
     const ref = this.dialogService.open(PersonalEditComponent, {
-      width: '50vw',
+      width: '70%',
+      height: '80%',
       data: {
         person: person,
       },

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Person } from '../../models/Person';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ActivityService } from '../../services/activity.service';
+import { PersonService } from '../../services/person.service';
 import { Activity } from '../../models/Activity';
 
 @Component({
@@ -17,59 +18,36 @@ export class PersonalEditComponent implements OnInit {
 
   constructor(
     public dialogRef: DynamicDialogRef,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private personService: PersonService
   ) {}
 
   ngOnInit(): void {
+    this.loadFakePerson();
     this.loadActivities();
+    this.initializeColumns();
+  }
+
+  loadFakePerson(): void {
+    this.person = {
+      ggid: 'GGID123',
+      saga: 'SAGA123',
+      nombre: 'Paco',
+      apellidos: 'González',
+    } as Person;
+  }
+
+  initializeColumns() {
     this.columnNames = [
-      {
-        header: 'Código',
-        composeField: 'codigoActividad',
-        field: 'codigoActividad',
-      },
-      {
-        header: 'Nombre',
-        composeField: 'nombreActividad',
-        field: 'nombreActividad',
-      },
-      { header: 'Estado', composeField: 'estado', field: 'estado' },
-      {
-        header: 'Fecha Última Actividad',
-        composeField: 'fechaUltimaActividad',
-        field: 'fechaUltimaActividad',
-      },
-      {
-        header: 'Fecha Inicio',
-        composeField: 'fechaInicio',
-        filterType: 'input',
-      },
-      {
-        header: 'Fecha Finalización',
-        composeField: 'fechaFinalizacion',
-        field: 'fechaFinalizacion',
-      },
-      {
-        header: 'Porcentaje Avance',
-        composeField: 'porcentajeAvance',
-        field: 'porcentajeAvance',
-      },
-      {
-        header: 'Observaciones',
-        composeField: 'observaciones',
-        field: 'observaciones',
-      },
-      { header: 'Saga', composeField: 'saga', field: 'saga' },
-      {
-        header: 'GGID',
-        composeField: 'ggid',
-        field: 'ggid',
-      },
-      {
-        header: 'ID Tipo Actividad',
-        composeField: 'tipoActividadId',
-        field: 'tipoActividadId',
-      },
+      { header: 'Código', field: 'codigoActividad' },
+      { header: 'Nombre', field: 'nombreActividad' },
+      { header: 'Estado', field: 'estado' },
+      { header: 'Fecha Última Actividad', field: 'fechaUltimaActividad' },
+      { header: 'Fecha Inicio', field: 'fechaInicio' },
+      { header: 'Fecha Finalización', field: 'fechaFinalizacion' },
+      { header: 'Porcentaje Avance', field: 'porcentajeAvance' },
+      { header: 'Observaciones', field: 'observaciones' },
+      { header: 'ID Tipo Actividad', field: 'tipoActividadId' },
     ];
   }
 
@@ -85,6 +63,14 @@ export class PersonalEditComponent implements OnInit {
     );
   }
 
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const day = ('0' + date.getDate()).slice(-2);
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
   closeWindow(): void {
     this.dialogRef.close();
   }
@@ -93,5 +79,11 @@ export class PersonalEditComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  save(): void {}
+  save(): void {
+    
+  }
+
+  trackByActivityId(index: number, activity: Activity): number {
+    return activity.id;
+  }
 }

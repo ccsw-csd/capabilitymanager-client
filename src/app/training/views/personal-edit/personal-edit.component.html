@@ -33,20 +33,28 @@
     </div>
   </div>
 
+  <!-- Verificador de actividades -->
+  <div *ngIf="activities.length === 0">No hay actividades disponibles.</div>
+
   <!-- Listado de actividades -->
-  <div class="card" style="overflow-x: auto">
-    <p-table [value]="activities" [tableStyle]="{ 'min-width': '50rem' }">
-      <ng-template pTemplate="header">
+  <div class="card" style="overflow-x: auto; max-height: 400px">
+    <p-table
+      [columns]="columnNames"
+      [value]="activities"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [scrollable]="true"
+    >
+      <ng-template pTemplate="header" let-columns>
         <tr>
-          <th *ngFor="let col of columnNames">
+          <th *ngFor="let col of columns">
             {{ col.header }}
           </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-activity>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr>
-          <td *ngFor="let col of columnNames">
-            {{ activity[col.field] }}
+          <td *ngFor="let col of columns">
+            {{ rowData[col.field] }}
           </td>
         </tr>
       </ng-template>
