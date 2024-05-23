@@ -3,15 +3,18 @@
     <h2 class="title">Actividades del empleado</h2>
     <button class="close-btn" (click)="closeWindow()">X</button>
   </div>
+
   <div class="form flex flex-column gap-3">
     <div class="p-field">
       <label for="ggid">GGID:</label>
       <input id="ggid" type="text" pInputText [value]="person.ggid" readonly />
     </div>
+
     <div class="p-field">
       <label for="saga">Saga:</label>
       <input id="saga" type="text" pInputText [value]="person.saga" readonly />
     </div>
+
     <div class="p-field">
       <label for="nombre">Nombre:</label>
       <input
@@ -22,6 +25,7 @@
         readonly
       />
     </div>
+
     <div class="p-field">
       <label for="apellidos">Apellidos:</label>
       <input
@@ -33,13 +37,15 @@
       />
     </div>
   </div>
-</div>
 
-<!-- Listado de actividades -->
-<app-activity-list></app-activity-list>
+  <!-- Listado de actividades -->
+  <div>
+    <app-activity-list></app-activity-list>
+  </div>
 
-<!-- Botones de Cancelar y Guardar-->
-<div class="buttons">
-  <button class="cancel-btn" (click)="cancel()">Cancelar</button>
-  <button class="save-btn" (click)="save()">Guardar</button>
+  <!-- Botones de Cancelar y Guardar-->
+  <div class="buttons">
+    <button class="cancel-btn" (click)="cancel()">Cancelar</button>
+    <button class="save-btn" (click)="save()">Guardar</button>
+  </div>
 </div>
