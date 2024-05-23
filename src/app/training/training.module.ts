@@ -12,6 +12,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ItineraryListComponent } from './views/itinerary-list/itinerary-list.component';
 import { ItineraryEditComponent } from './views/itinerary-edit/itinerary-edit.component';
 import { PersonalEditComponent } from './views/personal-edit/personal-edit.component';
+import { ActivityListComponent } from './views/activity-list/activity-list.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { PersonalEditComponent } from './views/personal-edit/personal-edit.compo
     ItineraryListComponent,
     ItineraryEditComponent,
     PersonalEditComponent,
+    ActivityListComponent,
   ],
   imports: [
     CommonModule,

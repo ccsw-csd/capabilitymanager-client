@@ -1,6 +1,6 @@
 <div class="container">
   <div class="header">
-    <h2 class="title">Editar Persona</h2>
+    <h2 class="title">Actividades del empleado</h2>
     <button class="close-btn" (click)="closeWindow()">X</button>
   </div>
   <div class="form flex flex-column gap-3">
@@ -14,11 +14,23 @@
     </div>
     <div class="p-field">
       <label for="nombre">Nombre:</label>
-      <input id="nombre" type="text" pInputText [value]="person.nombre" readonly />
+      <input
+        id="nombre"
+        type="text"
+        pInputText
+        [value]="person.nombre"
+        readonly
+      />
     </div>
     <div class="p-field">
       <label for="apellidos">Apellidos:</label>
-      <input id="apellidos" type="text" pInputText [value]="person.apellidos" readonly />
+      <input
+        id="apellidos"
+        type="text"
+        pInputText
+        [value]="person.apellidos"
+        readonly
+      />
     </div>
   </div>
   <div class="buttons">
