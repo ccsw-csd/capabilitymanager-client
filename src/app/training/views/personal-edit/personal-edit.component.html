@@ -1,30 +1,73 @@
-<div class="container">
-  <div class="header">
-    <h2 class="title">Editar Persona</h2>
-    <button class="close-btn" (click)="closeWindow()">X</button>
-  </div>
-  <div class="form flex flex-column gap-3">
+<div class="form flex flex-column gap-3">
+  <div class="flex justify-center gap-2">
     <div class="p-field">
       <label for="ggid">GGID:</label>
       <input id="ggid" type="text" pInputText [value]="person.ggid" readonly />
     </div>
+
     <div class="p-field">
       <label for="saga">Saga:</label>
       <input id="saga" type="text" pInputText [value]="person.saga" readonly />
     </div>
+
     <div class="p-field">
       <label for="nombre">Nombre:</label>
-      <input id="nombre" type="text" pInputText [value]="person.nombre" readonly />
+      <input
+        id="nombre"
+        type="text"
+        pInputText
+        [value]="person.nombre"
+        readonly
+      />
     </div>
+
     <div class="p-field">
       <label for="apellidos">Apellidos:</label>
-      <input id="apellidos" type="text" pInputText [value]="person.apellidos" readonly />
+      <input
+        id="apellidos"
+        type="text"
+        pInputText
+        [value]="person.apellidos"
+        readonly
+      />
     </div>
   </div>
-  <div class="buttons">
-    <button class="cancel-btn" (click)="cancel()">Cancelar</button>
-    <button class="save-btn" (click)="save()">Guardar</button>
+
+  <!-- Verificador de actividades -->
+  <div *ngIf="activities.length === 0">No hay actividades disponibles.</div>
+
+  <!-- Listado de actividades -->
+  <div class="card" style="overflow-x: auto; max-height: 400px">
+    <p-table
+      [columns]="columnNames"
+      [value]="activities"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [scrollable]="true"
+    >
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{ col.header }}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">
+            {{ rowData[col.field] }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- Botones de Cancelar y Guardar -->
+  <div class="buttons flex justify-content-end gap-2">
+    <button class="cancel-btn p-button p-component" (click)="cancel()">
+      Cancelar
+    </button>
+    <button class="save-btn p-button p-component" (click)="save()">
+      Guardar
+    </button>
   </div>
 </div>
-
-<!-- Listado de actividades -->

@@ -1,97 +1,143 @@
 .container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 500px;
-    margin: 0 auto;
-    position: relative;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .title {
-    margin: 0;
-    font-size: 24px;
-    color: #000;
+  margin: 0;
+  font-size: 24px;
+  color: #000;
 }
 
 .close-btn {
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: #000;
-    cursor: pointer;
-    position: absolute;
-    top: 20px;
-    right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #000;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
 .form .p-field {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #000;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #000;
 }
 
 .form input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 .cancel-btn,
 .save-btn {
-    padding: 10px 20px;
-    border: 2px solid;
-    background: none;
-    cursor: pointer;
-    border-radius: 4px;
+  padding: 10px 20px;
+  border: 2px solid;
+  background: none;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 .cancel-btn {
-    border-color: red;
-    color: red;
+  border-color: red;
+  color: red;
 }
 
 .save-btn {
-    border-color: blue;
-    color: blue;
+  border-color: blue;
+  color: blue;
 }
 
 .p-field {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .p-field label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #000;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #000;
 }
 
 .p-field input,
 .p-field p-dropdown {
-    width: 100%;
+  width: 100%;
 }
 
 .p-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Column styles */
+.codigo {
+  min-width: 120px;
+  max-width: 120px;
+}
+
+.nombre {
+  min-width: 450px;
+  max-width: 450px;
+}
+
+.estado {
+  min-width: 140px;
+  max-width: 140px;
+}
+
+.fecha-ultima-actividad {
+  min-width: 180px;
+  max-width: 180px;
+}
+
+.fecha-inicio {
+  min-width: 250px;
+  max-width: 250px;
+}
+
+.fecha-finalizacion {
+  min-width: 250px;
+  max-width: 250px;
+}
+
+.porcentaje-avance {
+  min-width: 150px;
+  max-width: 150px;
+}
+
+.observaciones {
+  min-width: 200px;
+  max-width: 200px;
+}
+
+.tipo-actividad {
+  min-width: 120px;
+  max-width: 120px;
 }
