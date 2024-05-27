@@ -13,7 +13,7 @@ export class ActivityService {
   constructor(private http: HttpClient) {}
 
   findAll(): Observable<Activity[]> {
-    return this.http.get<Activity[]>(`${this.baseUrl}/activity/all`);
+    return this.http.get<Activity[]>(`${this.baseUrl}/activity`);
   }
 
   findBySaga(saga: string): Observable<Activity[]> {
