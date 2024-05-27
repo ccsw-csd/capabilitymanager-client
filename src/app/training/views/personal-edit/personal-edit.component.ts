@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Person } from '../../models/Person';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ActivityService } from '../../services/activity.service';
 import { PersonService } from '../../services/person.service';
 import { Activity } from '../../models/Activity';
@@ -11,30 +11,21 @@ import { Activity } from '../../models/Activity';
   styleUrls: ['./personal-edit.component.scss'],
 })
 export class PersonalEditComponent implements OnInit {
-  @Input() person: Person;
+  person: Person;
   display = true;
   activities: Activity[] = [];
   columnNames: any[] = [];
 
   constructor(
     public dialogRef: DynamicDialogRef,
+    public config: DynamicDialogConfig,
     private activityService: ActivityService,
-    private personService: PersonService
   ) {}
 
   ngOnInit(): void {
-    this.loadFakePerson();
+    this.person = this.config.data.person;
     this.loadActivities();
     this.initializeColumns();
-  }
-
-  loadFakePerson(): void {
-    this.person = {
-      ggid: 'GGID123',
-      saga: 'SAGA123',
-      nombre: 'Paco',
-      apellidos: 'González',
-    } as Person;
   }
 
   initializeColumns() {
@@ -80,7 +71,7 @@ export class PersonalEditComponent implements OnInit {
   }
 
   save(): void {
-    
+    // Implementar lógica de guardado
   }
 
   trackByActivityId(index: number, activity: Activity): number {
