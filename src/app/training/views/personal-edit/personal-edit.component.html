@@ -1,73 +1,103 @@
-<div class="form flex flex-column gap-3">
-  <div class="flex justify-center gap-2">
-    <div class="p-field">
-      <label for="ggid">GGID:</label>
-      <input id="ggid" type="text" pInputText [value]="person.ggid" readonly />
-    </div>
-
-    <div class="p-field">
-      <label for="saga">Saga:</label>
-      <input id="saga" type="text" pInputText [value]="person.saga" readonly />
-    </div>
-
-    <div class="p-field">
-      <label for="nombre">Nombre:</label>
-      <input
-        id="nombre"
-        type="text"
-        pInputText
-        [value]="person.nombre"
-        readonly
-      />
-    </div>
-
-    <div class="p-field">
-      <label for="apellidos">Apellidos:</label>
-      <input
-        id="apellidos"
-        type="text"
-        pInputText
-        [value]="person.apellidos"
-        readonly
-      />
-    </div>
+<div class="container">
+  <div class="header">
+    <h2 class="title">Lista de Actividades</h2>
+    <button class="close-btn" (click)="closeWindow()">&times;</button>
   </div>
 
-  <!-- Verificador de actividades -->
-  <div *ngIf="activities.length === 0">No hay actividades disponibles.</div>
+  <div class="form flex flex-column gap-3">
+    <div class="flex justify-center gap-2">
+      <div class="p-field">
+        <label for="ggid">GGID:</label>
+        <input
+          id="ggid"
+          type="text"
+          pInputText
+          [value]="person.ggid"
+          readonly
+        />
+      </div>
 
-  <!-- Listado de actividades -->
-  <div class="card" style="overflow-x: auto; max-height: 400px">
-    <p-table
-      [columns]="columnNames"
-      [value]="activities"
-      [tableStyle]="{ 'min-width': '50rem' }"
-      [scrollable]="true"
-    >
-      <ng-template pTemplate="header" let-columns>
-        <tr>
-          <th *ngFor="let col of columns">
-            {{ col.header }}
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr>
-          <td *ngFor="let col of columns">
-            {{ rowData[col.field] }}
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
+      <div class="p-field">
+        <label for="saga">Saga:</label>
+        <input
+          id="saga"
+          type="text"
+          pInputText
+          [value]="person.saga"
+          readonly
+        />
+      </div>
 
-  <!-- Botones de Cancelar y Guardar -->
-  <div class="buttons flex justify-content-end gap-2">
-    <button class="cancel-btn p-button p-component" (click)="cancel()">
-      Cancelar
-    </button>
-    <button class="save-btn p-button p-component" (click)="save()">
-      Guardar
-    </button>
+      <div class="p-field">
+        <label for="nombre">Nombre:</label>
+        <input
+          id="nombre"
+          type="text"
+          pInputText
+          [value]="person.nombre"
+          readonly
+        />
+      </div>
+
+      <div class="p-field">
+        <label for="apellidos">Apellidos:</label>
+        <input
+          id="apellidos"
+          type="text"
+          pInputText
+          [value]="person.apellidos"
+          readonly
+        />
+      </div>
+    </div>
+
+    <!-- Verificador de actividades -->
+    <div *ngIf="activities.length === 0">No hay actividades disponibles.</div>
+
+    <!-- Listado de actividades -->
+    <div class="card" style="overflow-x: auto; max-height: 400px">
+      <p-table
+        [value]="activities"
+        [tableStyle]="{ 'min-width': '60rem', 'min-height': '500px' }"
+        [scrollable]="true"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th
+              *ngFor="let col of columnNames"
+              [ngClass]="col.field"
+              pSortableColumn="{{ col.field }}"
+              style="height: 40px"
+            >
+              {{ col.header }}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-activity>
+          <tr>
+            <td *ngFor="let col of columnNames" [ngClass]="col.field">
+              {{
+                col.field === "fechaUltimaActividad" ||
+                col.field === "fechaInicio" ||
+                col.field === "fechaFinalizacion"
+                  ? formatDate(activity[col.field])
+                  : activity[col.field]
+              }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- Botones de Cancelar y Guardar -->
+    <div class="buttons flex justify-content-end gap-2">
+      <button class="cancel-btn p-button p-component" (click)="cancel()">
+        Cancelar
+      </button>
+      <button class="save-btn p-button p-component" (click)="save()">
+        Guardar
+      </button>
+    </div>
   </div>
 </div>

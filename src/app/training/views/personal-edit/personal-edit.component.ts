@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Person } from '../../models/Person';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ActivityService } from '../../services/activity.service';
-import { PersonService } from '../../services/person.service';
 import { Activity } from '../../models/Activity';
 
 @Component({
@@ -19,7 +18,7 @@ export class PersonalEditComponent implements OnInit {
   constructor(
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
-    private activityService: ActivityService,
+    private activityService: ActivityService
   ) {}
 
   ngOnInit(): void {
@@ -36,7 +35,7 @@ export class PersonalEditComponent implements OnInit {
       { header: 'Fecha Última Actividad', field: 'fechaUltimaActividad' },
       { header: 'Fecha Inicio', field: 'fechaInicio' },
       { header: 'Fecha Finalización', field: 'fechaFinalizacion' },
-      { header: 'Porcentaje Avance', field: 'porcentajeAvance' },
+      { header: '% Avance', field: 'porcentajeAvance' },
       { header: 'Observaciones', field: 'observaciones' },
       { header: 'ID Tipo Actividad', field: 'tipoActividadId' },
     ];
@@ -46,7 +45,6 @@ export class PersonalEditComponent implements OnInit {
     this.activityService.findAll().subscribe(
       (activities: Activity[]) => {
         this.activities = activities;
-        console.log(this.activities);
       },
       (error) => {
         console.error('Error loading activities:', error);
@@ -71,7 +69,7 @@ export class PersonalEditComponent implements OnInit {
   }
 
   save(): void {
-    // Implementar lógica de guardado
+    // TODO
   }
 
   trackByActivityId(index: number, activity: Activity): number {

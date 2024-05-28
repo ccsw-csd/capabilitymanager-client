@@ -2,7 +2,8 @@
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  max-width: 500px;
+  width: 100%; /* Ajusta el ancho al 100% del contenedor padre */
+  box-sizing: border-box; /* Asegura que el padding se incluya en el ancho total */
   margin: 0 auto;
   position: relative;
 }
@@ -29,6 +30,10 @@
   position: absolute;
   top: 20px;
   right: 20px;
+}
+
+.form {
+  width: 100%; /* Asegura que el formulario ocupe todo el ancho del contenedor */
 }
 
 .form .p-field {
@@ -97,47 +102,50 @@
 }
 
 /* Column styles */
-.codigo {
-  min-width: 120px;
-  max-width: 120px;
+.codigoActividad {
+  min-width: 100px;
+  max-width: 100px;
 }
 
-.nombre {
-  min-width: 450px;
-  max-width: 450px;
+.nombreActividad {
+  min-width: 350px;
+  max-width: 350px;
 }
 
 .estado {
-  min-width: 140px;
-  max-width: 140px;
+  min-width: 100px;
+  max-width: 100px;
 }
 
-.fecha-ultima-actividad {
+.fechaUltimaActividad {
   min-width: 180px;
   max-width: 180px;
 }
 
-.fecha-inicio {
-  min-width: 250px;
-  max-width: 250px;
+.fechaInicio {
+  min-width: 150px;
+  max-width: 150px;
 }
 
-.fecha-finalizacion {
-  min-width: 250px;
-  max-width: 250px;
+.fechaFinalizacion {
+  min-width: 150px;
+  max-width: 150px;
 }
 
-.porcentaje-avance {
+.porcentajeAvance {
   min-width: 150px;
   max-width: 150px;
 }
 
 .observaciones {
-  min-width: 200px;
-  max-width: 200px;
+  min-width: 240px;
+  max-width: 240px;
 }
 
-.tipo-actividad {
+.tipoActividadId {
   min-width: 120px;
-  max-width: 120px;
+}
+
+.p-table thead th {
+  text-align: center;
 }
