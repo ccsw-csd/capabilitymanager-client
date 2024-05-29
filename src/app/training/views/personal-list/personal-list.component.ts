@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { SortEvent } from 'primeng/api';
 import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-config.component';
-import { DialogService } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Table } from 'primeng/table';
 import { Dropdown } from 'primeng/dropdown';
 import { PersonService } from '../../services/person.service';
@@ -15,6 +15,8 @@ import { Person } from '../../models/Person';
 import { PersonalEditComponent } from '../personal-edit/personal-edit.component';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DialogModule } from 'primeng/dialog';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-personal-list',
@@ -25,6 +27,7 @@ import { map } from 'rxjs/operators';
 export class PersonalListComponent implements OnInit {
   @ViewChild(Table) table: Table;
   @ViewChildren('filterDropdown') filterDropdowns!: QueryList<Dropdown>;
+  ref: DynamicDialogRef;
 
   columnNames: any[];
   selectedColumnNames: any[];
@@ -270,20 +273,20 @@ export class PersonalListComponent implements OnInit {
   }
 
   editPerson(person?: Person) {
-    let header = person ? 'Lista de Actividades' : 'Nueva Persona';
     const ref = this.dialogService.open(PersonalEditComponent, {
-      width: '70%',
+      width: '80%',
       height: '80%',
       data: {
         person: person,
       },
       closable: false,
       showHeader: true,
-      header: header,
     });
 
     ref.onClose.subscribe((result: boolean) => {
-      if (result) this.loadData();
+      if (result) {
+        this.loadData();
+      }
     });
   }
 

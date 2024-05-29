@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Person } from '../../models/Person';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ActivityService } from '../../services/activity.service';
-import { PersonService } from '../../services/person.service';
 import { Activity } from '../../models/Activity';
 
 @Component({
@@ -11,30 +10,21 @@ import { Activity } from '../../models/Activity';
   styleUrls: ['./personal-edit.component.scss'],
 })
 export class PersonalEditComponent implements OnInit {
-  @Input() person: Person;
+  person: Person;
   display = true;
   activities: Activity[] = [];
   columnNames: any[] = [];
 
   constructor(
     public dialogRef: DynamicDialogRef,
-    private activityService: ActivityService,
-    private personService: PersonService
+    public config: DynamicDialogConfig,
+    private activityService: ActivityService
   ) {}
 
   ngOnInit(): void {
-    this.loadFakePerson();
+    this.person = this.config.data.person;
     this.loadActivities();
     this.initializeColumns();
-  }
-
-  loadFakePerson(): void {
-    this.person = {
-      ggid: 'GGID123',
-      saga: 'SAGA123',
-      nombre: 'Paco',
-      apellidos: 'González',
-    } as Person;
   }
 
   initializeColumns() {
@@ -45,7 +35,7 @@ export class PersonalEditComponent implements OnInit {
       { header: 'Fecha Última Actividad', field: 'fechaUltimaActividad' },
       { header: 'Fecha Inicio', field: 'fechaInicio' },
       { header: 'Fecha Finalización', field: 'fechaFinalizacion' },
-      { header: 'Porcentaje Avance', field: 'porcentajeAvance' },
+      { header: '% Avance', field: 'porcentajeAvance' },
       { header: 'Observaciones', field: 'observaciones' },
       { header: 'ID Tipo Actividad', field: 'tipoActividadId' },
     ];
@@ -55,7 +45,6 @@ export class PersonalEditComponent implements OnInit {
     this.activityService.findAll().subscribe(
       (activities: Activity[]) => {
         this.activities = activities;
-        console.log(this.activities);
       },
       (error) => {
         console.error('Error loading activities:', error);
@@ -80,7 +69,7 @@ export class PersonalEditComponent implements OnInit {
   }
 
   save(): void {
-    
+    // TODO
   }
 
   trackByActivityId(index: number, activity: Activity): number {

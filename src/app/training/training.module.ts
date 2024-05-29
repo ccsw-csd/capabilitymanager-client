@@ -6,12 +6,13 @@ import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { FormsModule } from '@angular/forms';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ItineraryListComponent } from './views/itinerary-list/itinerary-list.component';
 import { ItineraryEditComponent } from './views/itinerary-edit/itinerary-edit.component';
 import { PersonalEditComponent } from './views/personal-edit/personal-edit.component';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,8 @@ import { PersonalEditComponent } from './views/personal-edit/personal-edit.compo
     DynamicDialogModule,
     FormsModule,
     MultiSelectModule,
+    DialogModule,
   ],
+  providers: [DialogService],
 })
 export class TrainingModule {}

@@ -16,7 +16,7 @@ export class PersonService {
     return this.http.get<Person[]>(`${this.baseUrl}/listadobench`);
   }
 
-  getPersonById(saga: string): Observable<Person[]> {
+  getPersonBySaga(saga: string): Observable<Person[]> {
     return this.http.get<Person[]>(`${this.baseUrl}/listadobench/${saga}`);
   }
 }
