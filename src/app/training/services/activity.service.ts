@@ -16,7 +16,7 @@ export class ActivityService {
     return this.http.get<Activity[]>(`${this.baseUrl}/activity`);
   }
 
-  findBySaga(saga: string): Observable<Activity[]> {
-    return this.http.get<Activity[]>(`${this.baseUrl}/activity/${saga}`);
+  findBySaga(ggid: string): Observable<Activity[]> {
+    return this.http.get<Activity[]>(`${this.baseUrl}/activity/${ggid}`);
   }
 }
