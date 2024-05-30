@@ -92,10 +92,6 @@
                 <p-sortIcon field="{{ col.field }}"></p-sortIcon>
               </div>
             </th>
-            <th class="buttons flex flex-column">
-              <div class="flex flex-row w-full top-header"></div>
-              <div class="w-full foot-header"></div>
-            </th>
           </tr>
         </ng-template>
 
@@ -140,7 +136,7 @@
       <button class="cancel-btn p-button p-component" (click)="cancel()">
         Cancelar
       </button>
-      <button class="save-btn p-button p-component" (click)="save()">
+      <button class="save-btn p-button p-component" disabled (click)="save()">
         Guardar
       </button>
     </div>
