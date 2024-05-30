@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { StaffingService } from '../staffing.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
@@ -9,11 +9,11 @@ import { AuthService } from 'src/app/core/services/auth.service';
   templateUrl: './staffing-upload.component.html',
   styleUrls: ['./staffing-upload.component.scss'],
 })
-export class StaffingUploadComponent {
-  staffingFile: File;
-  isLoading: boolean;
-  userName: string;
-  @Output() fileUploaded: EventEmitter<any> = new EventEmitter();
+export class StaffingUploadComponent implements OnInit {
+  staffingFile: File | null = null;
+  isLoading = false;
+  userName = '';
+  @Output() fileUploaded = new EventEmitter<void>();
 
   constructor(
     private staffingService: StaffingService,
@@ -24,25 +24,24 @@ export class StaffingUploadComponent {
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = false;
     this.userName = this.authService.userInfoSSO.displayName;
   }
 
-  onSelect(event: { currentFiles: File[] }) {
-    this.staffingFile = event.currentFiles[0];
+  onSelect(event: { currentFiles: File[] }): void {
+    this.staffingFile = event.currentFiles[0] || null;
   }
 
-  onRemove() {
+  onRemove(): void {
     this.staffingFile = null;
   }
 
-  onImport() {
+  onImport(): void {
     if (!this.staffingFile) {
       this.snackbarService.error('Por favor seleccione un archivo.');
       return;
     }
 
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('documentType', '1');
     formData.append('fileData', this.staffingFile);
     formData.append('user', this.userName);
@@ -50,31 +49,32 @@ export class StaffingUploadComponent {
 
     this.isLoading = true;
     this.staffingService.uploadStaffing(formData).subscribe({
-      next: (result) => {
-        const message = result
-          ? 'Archivo subido correctamente'
-          : 'Archivo subido correctamente.';
-        this.snackbarService.showMessage(message);
+      next: () => {
+        this.snackbarService.showMessage('Archivo subido correctamente');
         this.isLoading = false;
         this.close(true);
         this.fileUploaded.emit();
       },
       error: (error) => {
-        let errorMessage = 'Ocurrió un error al subir el archivo.';
-        if (error && error.message) {
-          errorMessage = error.message;
-        }
+        const errorMessage = this.getErrorMessage(error);
         this.snackbarService.error(errorMessage);
         this.isLoading = false;
       },
     });
   }
 
-  onCancel() {
+  onCancel(): void {
     this.close(false);
   }
 
-  close(isUpload: boolean) {
+  close(isUpload: boolean): void {
     this.dialogRef.close(isUpload);
+  }
+
+  private getErrorMessage(error: any): string {
+    if (error?.error?.message) {
+      return error.error.message;
+    }
+    return 'Ocurrió un error al subir el archivo.';
   }
 }
