@@ -8,58 +8,123 @@
     <div class="flex justify-center gap-2">
       <div class="p-field">
         <label for="ggid">GGID:</label>
-        <input id="ggid" type="text" pInputText [value]="person.ggid" readonly />
+        <input
+          id="ggid"
+          type="text"
+          pInputText
+          [value]="person.ggid"
+          readonly
+        />
       </div>
 
       <div class="p-field">
         <label for="saga">Saga:</label>
-        <input id="saga" type="text" pInputText [value]="person.saga" readonly />
+        <input
+          id="saga"
+          type="text"
+          pInputText
+          [value]="person.saga"
+          readonly
+        />
       </div>
 
       <div class="p-field">
         <label for="nombre">Nombre:</label>
-        <input id="nombre" type="text" pInputText [value]="person.nombre" readonly />
+        <input
+          id="nombre"
+          type="text"
+          pInputText
+          [value]="person.nombre"
+          readonly
+        />
       </div>
 
       <div class="p-field">
         <label for="apellidos">Apellidos:</label>
-        <input id="apellidos" type="text" pInputText [value]="person.apellidos" readonly />
+        <input
+          id="apellidos"
+          type="text"
+          pInputText
+          [value]="person.apellidos"
+          readonly
+        />
       </div>
     </div>
 
     <!-- Verificador de actividades -->
-    <div *ngIf="activities.length === 0">No hay actividades disponibles.</div>
+    <div *ngIf="activities.length === 0" class="no-activities-message">
+      <h3>No hay actividades disponibles</h3>
+    </div>
 
     <!-- Listado de actividades -->
-    <div class="card" style="overflow-x: auto; max-height: 400px">
+    <div
+      *ngIf="activities.length > 0"
+      class="card"
+      style="overflow-x: auto; max-height: 500px"
+    >
       <p-table
-        [value]="activities"
-        [tableStyle]="{ 'min-width': '60rem', 'min-height': '500px' }"
         [scrollable]="true"
+        scrollHeight="flex"
+        selectionMode="single"
+        [value]="activities"
+        styleClass="p-datatable-striped"
+        [paginator]="false"
+        [customSort]="true"
+        (sortFunction)="customSort($event)"
+        [columns]="columnNames"
+        [reorderableColumns]="true"
       >
-        <ng-template pTemplate="header">
-          <tr>
+        <ng-template pTemplate="header" let-columns>
+          <tr class="table-header">
+            <!-- Encabezados de las columnas -->
             <th
               *ngFor="let col of columnNames"
-              [ngClass]="col.field"
-              pSortableColumn="{{ col.field }}"
-              style="height: 40px"
+              class="{{ col.field }} flex flex-column"
+              pReorderableColumn
             >
-              {{ col.header }}
-              <p-sortIcon [field]="col.field"></p-sortIcon>
+              <div
+                class="flex flex-row w-full top-header"
+                pSortableColumn="{{ col.field }}"
+              >
+                <span class="flex flex-1 justify-content-center">{{
+                  col.header
+                }}</span>
+                <p-sortIcon field="{{ col.field }}"></p-sortIcon>
+              </div>
             </th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-activity>
-          <tr>
-            <td *ngFor="let col of columnNames" [ngClass]="col.field">
-              {{
-                col.field === "fechaUltimaActividad" ||
-                col.field === "fechaInicio" ||
-                col.field === "fechaFinalizacion"
-                  ? formatDate(activity[col.field])
-                  : activity[col.field]
-              }}
+
+        <ng-template pTemplate="body" let-activity let-columns="columns">
+          <!-- Cuerpo de la tabla -->
+          <tr [pSelectableRow]="activity">
+            <td *ngFor="let col of columnNames" class="{{ col.field }}">
+              <div
+                *ngIf="
+                  col.field !== 'fechaUltimaActividad' &&
+                  col.field !== 'fechaInicio' &&
+                  col.field !== 'fechaFinalizacion'
+                "
+                class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+                [pTooltip]="activity[col.field]"
+              >
+                {{
+                  col.field === "tipoActividadId"
+                    ? getTipoActividadName(activity[col.field])
+                    : activity[col.field]
+                }}
+              </div>
+              <div
+                *ngIf="
+                  col.field === 'fechaUltimaActividad' ||
+                  col.field === 'fechaInicio' ||
+                  col.field === 'fechaFinalizacion'
+                "
+                class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+                [pTooltip]="formatDate(activity[col.field])"
+              >
+                {{ formatDate(activity[col.field]) }}
+              </div>
             </td>
           </tr>
         </ng-template>
@@ -71,7 +136,7 @@
       <button class="cancel-btn p-button p-component" (click)="cancel()">
         Cancelar
       </button>
-      <button class="save-btn p-button p-component" (click)="save()">
+      <button class="save-btn p-button p-component" disabled (click)="save()">
         Guardar
       </button>
     </div>

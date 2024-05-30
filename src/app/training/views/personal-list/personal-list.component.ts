@@ -15,8 +15,6 @@ import { Person } from '../../models/Person';
 import { PersonalEditComponent } from '../personal-edit/personal-edit.component';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DialogModule } from 'primeng/dialog';
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-personal-list',

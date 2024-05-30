@@ -17,6 +17,11 @@
   margin-bottom: 20px;
 }
 
+h3 {
+  color: #272936;
+  font-size: 20px;
+}
+
 .title {
   margin: 0;
   font-size: 24px;
@@ -83,7 +88,7 @@
 
   &:hover {
     background-color: red;
-    color: white; 
+    color: white;
   }
 }
 
@@ -124,15 +129,19 @@
   gap: 10px;
 }
 
+.table-header th {
+  height: 36px;
+}
+
 /* Column styles */
 .codigoActividad {
-  min-width: 100px;
-  max-width: 100px;
+  min-width: 90px;
+  max-width: 90px;
 }
 
 .nombreActividad {
-  min-width: 350px;
-  max-width: 350px;
+  min-width: 300px;
+  max-width: 300px;
 }
 
 .estado {
@@ -151,22 +160,22 @@
 }
 
 .fechaFinalizacion {
-  min-width: 150px;
-  max-width: 150px;
+  min-width: 170px;
+  max-width: 170px;
 }
 
 .porcentajeAvance {
-  min-width: 150px;
-  max-width: 150px;
+  min-width: 170px;
+  max-width: 170px;
 }
 
 .observaciones {
-  min-width: 240px;
-  max-width: 240px;
+  min-width: 200px;
+  max-width: 200px;
 }
 
 .tipoActividadId {
-  min-width: 120px;
+  min-width: 160px;
 }
 
 .p-table thead th {
