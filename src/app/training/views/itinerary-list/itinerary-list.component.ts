@@ -252,7 +252,7 @@ export class ItineraryListComponent implements OnInit {
       rejectIcon: 'none',
       acceptLabel: 'Si',
       rejectLabel: 'No',
-      acceptButtonStyleClass: 'p-button p-button-danger p-button-outlined mx-2' ,
+      acceptButtonStyleClass: 'p-button p-button-danger p-button-outlined mx-2',
       rejectButtonStyleClass: 'p-button p-button-info p-button-outlined mx-2',
       accept: () => {
         this.messageService.add({
@@ -275,5 +275,10 @@ export class ItineraryListComponent implements OnInit {
 
   deleteItinerary(id: string) {
     console.log('Eliminar itinerario con ID:', id);
+  }
+
+  onPageChange(event) {
+    const currentPage = event.page + 1;
+    console.log('Página actual:', currentPage);
   }
 }

@@ -251,4 +251,9 @@ export class CertficationsListComponent {
       this.certificationsService.downloadFile(id, defaultFileName);
     }
   }
+  
+  onPageChange(event) {
+    const currentPage = event.page + 1;
+    console.log('Página actual:', currentPage);
+  }
 }

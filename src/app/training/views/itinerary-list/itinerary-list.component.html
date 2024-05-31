@@ -28,7 +28,7 @@
       class="p-button-lg m-2 p-button-outlined p-button-primary"
       pTooltip="Añadir Itinerario"
       (click)="createItinerary()"
-    ></button>    
+    ></button>
     <!-- Botón para limpiar filtros -->
     <button
       tooltipPosition="top"
@@ -39,7 +39,7 @@
       class="p-button-lg m-2 p-button-outlined p-button-secondary"
       pTooltip="Limpiar filtros"
       (click)="cleanFilters()"
-    ></button>    
+    ></button>
   </div>
 </div>
 
@@ -50,7 +50,10 @@
   selectionMode="single"
   [value]="itineraries"
   styleClass="p-datatable-striped "
-  [paginator]="false"
+  [paginator]="true"
+  [rows]="18"
+  [totalRecords]="totalItineraries"
+  (onPage)="onPageChange($event)"
   sortField="id"
   [sortOrder]="-1"
   [(filters)]="defaultFilters"
