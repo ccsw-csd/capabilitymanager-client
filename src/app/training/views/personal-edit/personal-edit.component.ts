@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Person } from '../../models/Person';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ActivityService } from '../../services/activity.service';
 import { Activity } from '../../models/Activity';
 import { SortEvent } from 'primeng/api';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 @Component({
   selector: 'app-personal-edit',
@@ -18,23 +19,28 @@ export class PersonalEditComponent implements OnInit {
   constructor(
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
     this.person = this.config.data.person;
-    this.loadActivities();
     this.initializeColumns();
+    this.loadActivities();
   }
 
   initializeColumns() {
     this.columnNames = [
       { header: 'Código', field: 'codigoActividad' },
       { header: 'Nombre', field: 'nombreActividad' },
-      { header: 'Estado', field: 'estado' },
+      { header: 'Estado', field: 'estado', class: this.getEstadoClass },
       { header: 'Fecha Última Act.', field: 'fechaUltimaActividad' },
       { header: 'Fecha Inicio', field: 'fechaInicio' },
-      { header: 'Fecha Finalización', field: 'fechaFinalizacion' },
+      {
+        header: 'Fecha Finalización',
+        field: 'fechaFinalizacion',
+        class: this.getFechaFinalizacionClass,
+      },
       { header: '% Avance', field: 'porcentajeAvance' },
       { header: 'Observaciones', field: 'observaciones' },
       { header: 'Tipo Actividad', field: 'tipoActividadId' },
@@ -44,10 +50,23 @@ export class PersonalEditComponent implements OnInit {
   loadActivities(): void {
     this.activityService.findByGgid(this.person.ggid).subscribe(
       (activities: Activity[]) => {
-        this.activities = activities;
+        this.activities = activities.map((activity) => {
+          if (
+            activity.porcentajeAvance > 0 &&
+            activity.porcentajeAvance < 100
+          ) {
+            activity.estado = 'Iniciado';
+          } else if (activity.porcentajeAvance === 100) {
+            activity.estado = 'Completado';
+          }
+          return activity;
+        });
       },
       (error) => {
         console.error('Error loading activities:', error);
+        this.snackbarService.error(
+          'Error al cargar las actividades. Inténtelo de nuevo más tarde.'
+        );
       }
     );
   }
@@ -119,5 +138,53 @@ export class PersonalEditComponent implements OnInit {
       default:
         return 'Desconocido';
     }
+  }
+
+  getEstadoClass(activity: Activity): string {
+    const dias = this.getDaysDifference(
+      activity.fechaUltimaActividad,
+      new Date()
+    );
+    if (
+      (activity.estado === 'No iniciado' ||
+        activity.estado === 'Pausado' ||
+        activity.estado === 'Bloqueado') &&
+      dias > 5
+    ) {
+      return 'alerta-roja';
+    } else if (
+      (activity.estado === 'No iniciado' ||
+        activity.estado === 'Pausado' ||
+        activity.estado === 'Bloqueado') &&
+      dias > 3
+    ) {
+      return 'alerta-amarilla';
+    }
+    return '';
+  }
+
+  getFechaFinalizacionClass(activity: Activity): string {
+    const diasParaFinalizacion = this.getDaysDifference(
+      new Date(),
+      new Date(activity.fechaFinalizacion)
+    );
+    if (
+      ((activity.estado === 'No iniciado' || activity.estado === 'Pausado') &&
+        diasParaFinalizacion <= 7) ||
+      activity.porcentajeAvance < 50
+    ) {
+      return 'alerta-roja';
+    } else if (
+      (activity.estado === 'En curso' && diasParaFinalizacion <= 7) ||
+      (activity.porcentajeAvance >= 50 && activity.porcentajeAvance < 85)
+    ) {
+      return 'alerta-amarilla';
+    }
+    return '';
+  }
+
+  getDaysDifference(date1: Date, date2: Date): number {
+    const diffTime = Math.abs(date2.getTime() - date1.getTime());
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   }
 }
