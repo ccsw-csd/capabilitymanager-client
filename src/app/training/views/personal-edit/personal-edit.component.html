@@ -28,7 +28,7 @@
         />
       </div>
 
-      <div class="p-field">
+      <div class="p-field" [style]="{ width: '400px' }">
         <label for="nombre">Nombre:</label>
         <input
           id="nombre"
@@ -39,7 +39,7 @@
         />
       </div>
 
-      <div class="p-field">
+      <div class="p-field" [style]="{ width: '400px' }">
         <label for="apellidos">Apellidos:</label>
         <input
           id="apellidos"
@@ -130,15 +130,31 @@
         </ng-template>
       </p-table>
     </div>
+  </div>
 
-    <!-- Botones de Cancelar y Guardar -->
-    <div class="buttons flex justify-content-end gap-2">
-      <button class="cancel-btn p-button p-component" (click)="cancel()">
-        Cancelar
-      </button>
-      <button class="save-btn p-button p-component" disabled (click)="save()">
-        Guardar
-      </button>
-    </div>
+  <!-- Botones de Cancelar y Guardar -->
+  <div class="fixed-buttons">
+    <button
+      pButton
+      type="button"
+      (click)="cancel()"
+      pRipple
+      icon="pi pi-times"
+      label="Cancelar"
+      class="p-button p-button-danger p-button-outlined"
+      style="width: 80px"
+      title="Cancelar"
+    ></button>
+    <button
+      pButton
+      type="button"
+      (click)="save()"
+      pRipple
+      icon="pi pi-save"
+      label="Guardar"
+      class="p-button p-button-primary p-button-outlined"
+      style="width: 80px"
+      title="Guardar"
+    ></button>
   </div>
 </div>

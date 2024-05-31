@@ -3,11 +3,10 @@
   padding: 20px;
   border-radius: 8px;
   width: 100%;
-  /* Ajusta el ancho al 100% del contenedor padre */
   box-sizing: border-box;
-  /* Asegura que el padding se incluya en el ancho total */
   margin: 0 auto;
   position: relative;
+  padding-bottom: 80px; /* Espacio para los botones fijos */
 }
 
 .header {
@@ -20,6 +19,14 @@
 h3 {
   color: #272936;
   font-size: 20px;
+}
+
+.alerta-roja {
+  color: red;
+}
+
+.alerta-amarilla {
+  color: yellow;
 }
 
 .title {
@@ -41,7 +48,6 @@ h3 {
 
 .form {
   width: 100%;
-  /* Asegura que el formulario ocupe todo el ancho del contenedor */
 }
 
 .form .p-field {
@@ -62,44 +68,12 @@ h3 {
   border-radius: 4px;
 }
 
-.buttons {
+.fixed-buttons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
   display: flex;
-  justify-content: flex-end;
   gap: 10px;
-}
-
-.cancel-btn,
-.save-btn {
-  padding: 6px 15px;
-  border: 2px solid;
-  background: none;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cancel-btn {
-  border-color: red;
-  color: red;
-
-  &:hover {
-    background-color: red;
-    color: white;
-  }
-}
-
-.save-btn {
-  border-color: blue;
-  color: blue;
-
-  &:hover {
-    background-color: blue;
-    color: white;
-  }
 }
 
 .p-button {
