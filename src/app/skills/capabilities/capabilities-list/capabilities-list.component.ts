@@ -267,4 +267,9 @@ export class CapabilitiesListComponent implements OnInit {
       }
     });
   }
+
+  onPageChange(event) {
+    const currentPage = event.page + 1;
+    console.log('Página actual:', currentPage);
+  }
 }

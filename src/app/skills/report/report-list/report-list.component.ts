@@ -144,7 +144,7 @@ export class ReportListComponent {
       } else {
         console.log('Archivo no subido.');
       }
-    }); 
+    });
   }
 
   generateReport(): void {
@@ -294,5 +294,10 @@ export class ReportListComponent {
       }
     });
     return data;
+  }
+
+  onPageChange(event) {
+    const currentPage = event.page + 1;
+    console.log('Página actual:', currentPage);
   }
 }
