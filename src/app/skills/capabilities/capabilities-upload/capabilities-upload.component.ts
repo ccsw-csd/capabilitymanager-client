@@ -49,15 +49,14 @@ export class CapabilitiesUploadComponent implements OnInit {
 
     this.isLoading = true;
     this.capabilitiesService.uploadCapability(formData).subscribe({
-      next: () => {
-        this.snackbarService.showMessage('Archivo subido correctamente');
+      next: (respuesta) => {
+        const errorMessage = this.getErrorMessage(respuesta);
         this.isLoading = false;
         this.close(true);
         this.fileUploaded.emit();
       },
       error: (error) => {
         const errorMessage = this.getErrorMessage(error);
-        this.snackbarService.error(errorMessage);
         this.isLoading = false;
       },
     });
@@ -71,9 +70,11 @@ export class CapabilitiesUploadComponent implements OnInit {
     this.dialogRef.close(isUpload);
   }
 
-  private getErrorMessage(error: any): string {
-    if (error?.error?.message) {
-      return error.error.message;
+  private getErrorMessage(respuesta: any): string {
+    if (respuesta?.error) {
+      this.snackbarService.error(respuesta.message);
+    } else{
+      this.snackbarService.showMessage(respuesta.message);
     }
     return 'Ocurrió un error al subir el archivo.';
   }
