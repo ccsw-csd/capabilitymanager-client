@@ -1,22 +1,22 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
-import { CertificationsService } from '../certifications.service';
+import { ItineraryService } from '../../services/itinerary.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
-  selector: 'app-certifications-upload',
-  templateUrl: './certifications-upload.component.html',
-  styleUrls: ['./certifications-upload.component.scss'],
+  selector: 'app-itinerary-upload',
+  templateUrl: './itinerary-upload.component.html',
+  styleUrls: ['./itinerary-upload.component.scss'],
 })
-export class CertificationsUploadComponent implements OnInit {
-  certificationsFile: File | null = null;
+export class ItineraryUploadComponent implements OnInit {
+  itineraryFile: File | null = null;
   isLoading = false;
   userName = '';
   @Output() fileUploaded = new EventEmitter<void>();
 
   constructor(
-    private certificationsService: CertificationsService,
+    private itineraryService: ItineraryService,
     public authService: AuthService,
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
@@ -28,27 +28,27 @@ export class CertificationsUploadComponent implements OnInit {
   }
 
   onSelect(event: { currentFiles: File[] }): void {
-    this.certificationsFile = event.currentFiles[0] || null;
+    this.itineraryFile = event.currentFiles[0] || null;
   }
 
   onRemove(): void {
-    this.certificationsFile = null;
+    this.itineraryFile = null;
   }
 
   onImport(): void {
-    if (!this.certificationsFile) {
+    if (!this.itineraryFile) {
       this.snackbarService.error('Por favor seleccione un archivo.');
       return;
     }
 
     const formData = new FormData();
-    formData.append('documentType', '3');
-    formData.append('fileData', this.certificationsFile);
+    formData.append('documentType', '4');
+    formData.append('fileData', this.itineraryFile);
     formData.append('user', this.userName);
-    formData.append('description', this.certificationsFile.name);
+    formData.append('description', this.itineraryFile.name);
 
     this.isLoading = true;
-    this.certificationsService.uploadCertifications(formData).subscribe({
+    this.itineraryService.uploadItinerary(formData).subscribe({
       next: (respuesta) => {
         const errorMessage = this.getErrorMessage(respuesta);
         this.isLoading = false;

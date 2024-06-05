@@ -23,4 +23,12 @@ export class ItineraryService {
       observer.complete();
     });
   }
+
+  uploadItinerary(formData: FormData): Observable<String> {
+    console.log('Archivo itinerario subido');
+    return this.http.post<String>(
+      environment.server + '/import/data',
+      formData
+    );
+  }
 }

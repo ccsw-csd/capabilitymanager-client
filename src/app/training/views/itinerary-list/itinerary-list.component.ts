@@ -14,6 +14,7 @@ import { Itinerary } from '../../models/Itinerary';
 import { ItineraryService } from '../../services/itinerary.service';
 import { ConfirmationService } from 'primeng/api';
 import { ItineraryEditComponent } from '../itinerary-edit/itinerary-edit.component';
+import { ItineraryUploadComponent } from '../itinerary-upload/itinerary-upload.component';
 
 @Component({
   selector: 'app-personal-list',
@@ -270,6 +271,22 @@ export class ItineraryListComponent implements OnInit {
           life: 3000,
         });
       },
+    });
+  }
+
+  importItinerarioFile(): void {
+    console.log('Botón importar itinerario');
+    const dialogRef = this.dialogService.open(ItineraryUploadComponent, {
+      header: 'Importar archivo de Itinerario',
+      width: '50%',
+      closable: false,
+    });
+    dialogRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Archivo subido:', result);
+      } else {
+        console.log('Archivo no subido.');
+      }
     });
   }
 
