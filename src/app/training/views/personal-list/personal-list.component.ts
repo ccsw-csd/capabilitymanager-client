@@ -15,6 +15,7 @@ import { Person } from '../../models/Person';
 import { PersonalEditComponent } from '../personal-edit/personal-edit.component';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ItineraryUploadComponent } from '../itinerary-upload/itinerary-upload.component';
 
 @Component({
   selector: 'app-personal-list',
@@ -236,6 +237,7 @@ export class PersonalListComponent implements OnInit {
   setFilters(): void {
     this.setDefaultFilters();
   }
+  
 
   cleanFilters(): void {
     this.table.clear();
@@ -298,5 +300,21 @@ export class PersonalListComponent implements OnInit {
       }
     });
     return data;
+  }
+
+  importItinerarioFile(): void {
+    console.log('Botón importar itinerario');
+    const dialogRef = this.dialogService.open(ItineraryUploadComponent, {
+      header: 'Importar archivo de Itinerario',
+      width: '50%',
+      closable: false,
+    });
+    dialogRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Archivo subido:', result);
+      } else {
+        console.log('Archivo no subido.');
+      }
+    });
   }
 }

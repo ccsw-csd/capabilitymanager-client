@@ -18,7 +18,17 @@
     </div>
   </div>
   <div>
-    <!-- Botón para limpiar filtros -->
+    <!-- Botón para Importar Itinerarios -->
+    <button
+    #b
+    pButton
+    label="Importar itinerarios"
+    type="button"
+    class="p-button p-button-outlined m-2"
+    (click)="importItinerarioFile()"
+    title="Importar archivo itinerario"
+  ></button>
+      <!-- Botón para limpiar filtros -->
     <button
       tooltipPosition="top"
       pButton
