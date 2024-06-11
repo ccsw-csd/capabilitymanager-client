@@ -140,27 +140,31 @@ export class PersonalEditComponent implements OnInit {
     }
   }
 
-  getEstadoClass(activity: Activity): string {
-    const dias = this.getDaysDifference(
-      activity.fechaUltimaActividad,
-      new Date()
-    );
-    if (
-      (activity.estado === 'No iniciado' ||
-        activity.estado === 'Pausado' ||
-        activity.estado === 'Bloqueado') &&
-      dias > 5
-    ) {
+  getEstadoClass(activity: any): string {
+     let dias = 0;
+     let diasHastaFinalizacion;
+    if(activity.fechaUltimaActividad != null){
+     dias = this.getDaysDifference(activity.fechaInicio,activity.fechaUltimaActividad);
+  }else{
+     dias = this.getDaysDifference(activity.fechaInicio,new Date());
+  }
+    if(activity.fechaFinalizacion != null){
+    diasHastaFinalizacion = this.getDaysDifference(new Date(), activity.fechaFinalizacion);
+    }
+
+    const porcentajeAvance = activity.porcentajeAvance;
+  
+    if ((activity.estado === 'No iniciado' || activity.estado === 'Pausado' || activity.estado === 'Bloqueado') && dias > 5) {
       return 'alerta-roja';
-    } else if (
-      (activity.estado === 'No iniciado' ||
-        activity.estado === 'Pausado' ||
-        activity.estado === 'Bloqueado') &&
-      dias > 3
-    ) {
+    } else if ((activity.estado === 'No iniciado' || activity.estado === 'Pausado' || activity.estado === 'Bloqueado') && dias > 3) {
+      return 'alerta-amarilla';
+    } else if ((diasHastaFinalizacion <= 7 && (activity.estado === 'No iniciado' || activity.estado === 'Pausado')) || porcentajeAvance < 50) {
+      return 'alerta-roja';
+    } else if ((diasHastaFinalizacion <= 7 && activity.estado === 'Iniciado') || (porcentajeAvance >= 50 && porcentajeAvance <= 85)) {
       return 'alerta-amarilla';
     }
-    return '';
+  
+    return 'alerta-normal';
   }
 
   getFechaFinalizacionClass(activity: Activity): string {
@@ -183,8 +187,17 @@ export class PersonalEditComponent implements OnInit {
     return '';
   }
 
-  getDaysDifference(date1: Date, date2: Date): number {
+  getDaysDifference(date1Str, date2Str) {
+    // Convertir las fechas de cadena a objetos Date
+    const date1 = new Date(date1Str);
+    const date2 = new Date(date2Str);
+    
+    // Obtener la diferencia en milisegundos entre las dos fechas
     const diffTime = Math.abs(date2.getTime() - date1.getTime());
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    // Convertir la diferencia de milisegundos a días y redondear hacia abajo
+    return Math.floor(diffTime / (1000 * 60 * 60 * 24));
   }
+
+  
 }

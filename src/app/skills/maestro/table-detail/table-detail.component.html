@@ -36,7 +36,7 @@
             *ngFor="let col of columnas; index as index"
             id="index"
             class="flex-none"
-            [ngStyle]="{ width: index == 0 ? '160px' : '80px' }"
+            [ngStyle]="{ width: index == 0 ? '160px' : '100px' }"
             style="height: 47px; justify-content: center; text-align: center"
           >
             {{ col }}
@@ -86,7 +86,7 @@
                 (fila.profile == 'Sum' && isSEDataTotalOK == false && i == 3)
             }"
             style="
-              width: 80px;
+              width: 100px;
               height: 47px;
               justify-content: center;
               text-align: center;
