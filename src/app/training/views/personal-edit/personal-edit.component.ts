@@ -162,6 +162,8 @@ export class PersonalEditComponent implements OnInit {
       return 'alerta-roja';
     } else if ((diasHastaFinalizacion <= 7 && activity.estado === 'Iniciado') || (porcentajeAvance >= 50 && porcentajeAvance <= 85)) {
       return 'alerta-amarilla';
+    }else if (( activity.estado === 'Completado')) {
+      return 'alerta-verde';
     }
   
     return 'alerta-normal';
