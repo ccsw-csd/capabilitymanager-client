@@ -19,7 +19,7 @@
   </div>
   <div>
     <!-- Botón para Importar Itinerarios -->
-    <button
+    <button *ngIf="this.roleAdmin"
     #b
     pButton
     label="Importar itinerarios"

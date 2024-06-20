@@ -16,6 +16,7 @@ import { PersonalEditComponent } from '../personal-edit/personal-edit.component'
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ItineraryUploadComponent } from '../itinerary-upload/itinerary-upload.component';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-personal-list',
@@ -35,10 +36,12 @@ export class PersonalListComponent implements OnInit {
   totalPersons$: Observable<number>;
   persons$: Observable<Person[]>;
   personsToExport: Person[] = [];
+  roleAdmin: boolean;
 
   constructor(
     private personService: PersonService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -150,6 +153,8 @@ export class PersonalListComponent implements OnInit {
       ].includes(column.field)
     );
     this.loadData();
+
+    this.roleAdmin = this.authService.hasRole('ADMIN');
   }
 
   loadData() {
