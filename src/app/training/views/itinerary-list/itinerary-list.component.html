@@ -85,7 +85,7 @@
         <div class="w-full foot-header">
           <!-- Filtros para las columnas -->
           <p-columnFilter
-            *ngIf="col.filterType == 'input'"
+            *ngIf="col.filterType === 'input'"
             class="w-full"
             type="text"
             field="{{ col.composeField }}"
