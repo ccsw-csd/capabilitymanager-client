@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ItineraryListComponent } from './views/itinerary-list/itinerary-list.component';
 import { ItineraryEditComponent } from './views/itinerary-edit/itinerary-edit.component';
+import { ItineraryInsertComponent } from './views/itinerary-insert/itinerary-insert.component';
 import { ItineraryUploadComponent } from './views/itinerary-upload/itinerary-upload.component';
 import { PersonalEditComponent } from './views/personal-edit/personal-edit.component';
 import { DialogModule } from 'primeng/dialog';
@@ -21,6 +22,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     PersonalListComponent,
     ItineraryListComponent,
     ItineraryEditComponent,
+    ItineraryInsertComponent,
     ItineraryUploadComponent,
     PersonalEditComponent,
   ],

@@ -4,6 +4,7 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
+  Injectable ,
 } from '@angular/core';
 import { MessageService, SortEvent } from 'primeng/api';
 import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-config.component';
@@ -15,6 +16,8 @@ import { ItineraryService } from '../../services/itinerary.service';
 import { ConfirmationService } from 'primeng/api';
 import { ItineraryEditComponent } from '../itinerary-edit/itinerary-edit.component';
 import { ItineraryUploadComponent } from '../itinerary-upload/itinerary-upload.component';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { ItineraryInsertComponent } from '../itinerary-insert/itinerary-insert.component';
 
 @Component({
   selector: 'app-personal-list',
@@ -22,10 +25,11 @@ import { ItineraryUploadComponent } from '../itinerary-upload/itinerary-upload.c
   styleUrls: ['./itinerary-list.component.scss'],
   providers: [DialogService],
 })
+
 export class ItineraryListComponent implements OnInit {
   @ViewChild(Table) table: Table;
   @ViewChildren('filterDropdown') filterDropdowns!: QueryList<Dropdown>;
-
+  userName = '';
   columnNames: any[];
   selectedColumnNames: any[];
   tableWidth: string;
@@ -39,15 +43,17 @@ export class ItineraryListComponent implements OnInit {
     private itineraryService: ItineraryService,
     private dialogService: DialogService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public authService: AuthService,
   ) {}
 
   ngOnInit() {
+    this.userName = this.authService.userInfoSSO.displayName;
     this.columnNames = [
       {
         header: 'Código',
-        composeField: 'id',
-        field: 'id',
+        composeField: 'codigo',
+        field: 'codigo',
         filterType: 'input',
       },
       {
@@ -59,7 +65,7 @@ export class ItineraryListComponent implements OnInit {
     ];
 
     this.selectedColumnNames = this.columnNames.filter((column) =>
-      ['id', 'name'].includes(column.field)
+      ['codigo', 'name'].includes(column.field)
     );
     this.loadData();
   }
@@ -71,6 +77,8 @@ export class ItineraryListComponent implements OnInit {
       this.setDefaultFilters();
     });
   }
+
+  
 
   loadSelected(): any[] {
     let selectedColumnNames: any = localStorage.getItem('itineraryListColumns');
@@ -196,12 +204,12 @@ export class ItineraryListComponent implements OnInit {
     return data;
   }
 
-  editItinerary(id: string) {
+  editItinerary(codigo: string) {
     const itineraryToEdit = this.itineraries.find(
-      (itinerary) => itinerary.id === id
+      (itinerary) => itinerary.codigo === codigo
     );
     if (itineraryToEdit) {
-      console.log('Editar itinerario con ID:', id);
+      console.log('Editar itinerario con codigo:', codigo);
       console.log('Datos del itinerario:', itineraryToEdit);
       // Abrir el diálogo de edición del itinerario
       const ref = this.dialogService.open(ItineraryEditComponent, {
@@ -220,17 +228,17 @@ export class ItineraryListComponent implements OnInit {
         }
       });
     } else {
-      console.error('No se encontró ningún itinerario con el ID:', id);
+      console.error('No se encontró ningún itinerario con el codigo:', codigo);
     }
   }
 
   createItinerary() {
     console.log('Crear nuevo itinerario');
-    const ref = this.dialogService.open(ItineraryEditComponent, {
+    const ref = this.dialogService.open(ItineraryInsertComponent, {
       header: 'Crear Itinerario',
       width: '50%',
       data: {
-        itinerary: { id: '', name: '' },
+        itinerary: { codigo: '', name: '' , usuario: this.userName},
       },
     });
 
@@ -291,9 +299,18 @@ export class ItineraryListComponent implements OnInit {
   }
 
   deleteItinerary(id: string) {
-    console.log('Eliminar itinerario con ID:', id);
+    this.itineraryService.deleteItinerary(id).subscribe(
+      () => {
+        // Actualizar la lista de itinerarios
+        this.itineraries = this.itineraries.filter(itinerary => itinerary.codigo !== id);
+        this.loadData();
+      },
+      (error) => {
+        // Manejar el error si ocurre
+        console.error(`Error al eliminar el itinerario con id ${id}:`, error);
+      }
+    );
   }
-
   onPageChange(event) {
     const currentPage = event.page + 1;
     console.log('Página actual:', currentPage);

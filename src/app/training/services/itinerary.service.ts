@@ -9,19 +9,32 @@ import { Itinerary } from '../models/Itinerary';
 })
 export class ItineraryService {
   private baseUrl: string = environment.server;
-  private itinerariesUrl: string = 'assets/itineraries.json';
 
   constructor(private http: HttpClient) {}
 
   getAllItineraries(): Observable<Itinerary[]> {
-    return this.http.get<Itinerary[]>(this.itinerariesUrl);
+    return this.http.get<Itinerary[]>(`${this.baseUrl}/mantenimiento/itinerariosFormativos/showAll`);
   }
 
-  saveItinerary(itinerary: Itinerary): Observable<Itinerary> {
-    return new Observable<Itinerary>((observer) => {
-      observer.next(itinerary);
-      observer.complete();
-    });
+  saveItinerary(itinerary: Itinerary): Observable<String> {
+    console.log('Itinerario Formativo subido');
+    return this.http.post<String>(
+      environment.server + '/mantenimiento/itinerariosFormativos/insert',
+      itinerary
+    );
+  }
+
+  updateItinerary(itinerary: Itinerary): Observable<String> {
+    console.log('Itinerario Formativo actulizado');
+    return this.http.put<String>(
+      environment.server + '/mantenimiento/itinerariosFormativos/update',
+      itinerary
+    );
+  }
+
+  deleteItinerary(id: String): Observable<String> {
+    console.log('Itinerario Formativo borrado');
+    return this.http.delete<String>(`${this.baseUrl}/mantenimiento/itinerariosFormativos/delete/${id}`);
   }
 
   uploadItinerary(formData: FormData): Observable<String> {
