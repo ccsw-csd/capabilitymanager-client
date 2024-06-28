@@ -45,6 +45,7 @@ export class ItineraryEditComponent implements OnInit {
           (result) => {
             this.dialogRef.close(this.updatedItinerary);
             this.itineraryListComponent.loadData();
+            this.snackbarService.showMessage('Se ha actualizado el itinerario formativo correctamente');
           },
           (error) => {
             console.error('Error al guardar el itinerario:', error);

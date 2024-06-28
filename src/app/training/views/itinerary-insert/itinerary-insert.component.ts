@@ -41,6 +41,7 @@ export class ItineraryInsertComponent implements OnInit {
         .saveItinerary(this.updatedItinerary)
         .subscribe((result) => {
           this.dialogRef.close(this.updatedItinerary);
+          this.snackbarService.showMessage('Se ha insertado el itinerario formativo correctamente');
           this.itineraryListComponent.loadData();
         },
         (error) => {
