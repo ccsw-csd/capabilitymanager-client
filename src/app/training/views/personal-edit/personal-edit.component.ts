@@ -6,6 +6,8 @@ import { Activity } from '../../models/Activity';
 import { SortEvent } from 'primeng/api';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { forkJoin } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth.service';
+
 
 @Component({
   selector: 'app-personal-edit',
@@ -16,18 +18,21 @@ export class PersonalEditComponent implements OnInit {
   person: Person;
   activities: Activity[] = [];
   columnNames: any[] = [];
+  roleAdmin: boolean;
 
   constructor(
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
     private activityService: ActivityService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.person = this.config.data.person;
     this.initializeColumns();
     this.loadActivities();
+    this.roleAdmin = this.authService.hasRole('ADMIN');
   }
 
   initializeColumns() {

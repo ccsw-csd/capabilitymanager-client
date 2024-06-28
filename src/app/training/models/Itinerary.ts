@@ -1,4 +1,4 @@
 export interface Itinerary {
-    id: string;
+    codigo: string;
     name: string;
   }
