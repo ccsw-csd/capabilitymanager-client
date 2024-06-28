@@ -86,11 +86,16 @@ export class PersonalEditComponent implements OnInit {
   }
 
   formatDate(dateString: string): string {
+    if (dateString != null) {
     const date = new Date(dateString);
     const day = ('0' + date.getDate()).slice(-2);
     const month = ('0' + (date.getMonth() + 1)).slice(-2);
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
+    }
+    else {
+      return "";
+    }
   }
 
   closeWindow(): void {
