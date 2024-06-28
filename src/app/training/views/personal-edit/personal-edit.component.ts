@@ -5,6 +5,7 @@ import { ActivityService } from '../../services/activity.service';
 import { Activity } from '../../models/Activity';
 import { SortEvent } from 'primeng/api';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-personal-edit',
@@ -48,19 +49,27 @@ export class PersonalEditComponent implements OnInit {
   }
 
   loadActivities(): void {
-    this.activityService.findByGgid(this.person.ggid).subscribe(
-      (activities: Activity[]) => {
-        this.activities = activities.map((activity) => {
-          if (
-            activity.porcentajeAvance > 0 &&
-            activity.porcentajeAvance < 100
-          ) {
-            activity.estado = 'Iniciado';
-          } else if (activity.porcentajeAvance === 100) {
-            activity.estado = 'Completado';
+    forkJoin([
+      this.activityService.findByGgid(this.person.ggid),
+      this.activityService.findBySaga(this.person.saga)
+    ]).subscribe(
+      ([ggidActivities, sagaActivities]) => {
+        const allActivities = [...ggidActivities, ...sagaActivities];
+        const activitiesMap = new Map<string, any>();
+  
+        allActivities.forEach(activity => {
+          if (!activitiesMap.has(activity.codigoActividad)) {
+            activitiesMap.set(activity.codigoActividad, activity);
+  
+            if (activity.porcentajeAvance > 0 && activity.porcentajeAvance < 100) {
+              activity.estado = 'Iniciado';
+            } else if (activity.porcentajeAvance === 100) {
+              activity.estado = 'Completado';
+            }
           }
-          return activity;
         });
+  
+        this.activities = Array.from(activitiesMap.values());
       },
       (error) => {
         console.error('Error loading activities:', error);
