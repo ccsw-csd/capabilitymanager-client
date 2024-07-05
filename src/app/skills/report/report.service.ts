@@ -5,6 +5,7 @@ import { Report } from './model/Report';
 import { environment } from 'src/environments/environment';
 import { Capability } from '../capabilities/model/Capability';
 import { Staffing } from '../staffing/model/staffing.model';
+import { Certifications } from '../certifications/Model/certifications.model';
 import { ReportVersion } from './model/ReportVersion';
 
 @Injectable({
@@ -25,6 +26,10 @@ export class ReportService {
 
   getAllStaffingImportsVersions(): Observable<Staffing[]> {
     return this.http.get<Staffing[]>(`${this.baseUrl}/staffingimports/all`);
+  }
+
+  getAllCertificatesImportsVersions(): Observable<Certifications[]> {
+    return this.http.get<Certifications[]>(`${this.baseUrl}/certificates/all`);
   }
 
   generateReport(reportVersion: any): Observable<ReportVersion> {
