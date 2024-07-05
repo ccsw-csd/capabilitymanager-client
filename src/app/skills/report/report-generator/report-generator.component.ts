@@ -77,7 +77,7 @@ export class ReportGeneratorComponent implements OnInit {
     const reportVersion = {
       idRoleVersion: this.selectedCapability.id,
       idStaffingVersion: this.selectedStaffing.id,
-      idCertificatesVersion: this.selectedCertificate.id,
+      idVersionCertificaciones: this.selectedCertificate.id,
       description: reportDescription,
       user: this.userName,
       comments: this.reportComment,

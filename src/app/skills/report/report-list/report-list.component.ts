@@ -59,8 +59,8 @@ export class ReportListComponent {
       },
       {
         header: 'Archivo Certificaciones',
-        composeField: 'certificacionesVersion',
-        field: 'certificacionesVersion',
+        composeField: 'certificatesVersion',
+        field: 'certificatesVersion',
         filterType: 'input',
       },
       {
