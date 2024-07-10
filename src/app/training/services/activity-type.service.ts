@@ -12,7 +12,7 @@ export class ActivityTypeService {
 
   constructor(private http: HttpClient) {}
 
-  getAllPersons(): Observable<ActivityType[]> {
+  getAllActivityTypes(): Observable<ActivityType[]> {
     return this.http.get<ActivityType[]>(`${this.baseUrl}/activity-types`);
   }
 

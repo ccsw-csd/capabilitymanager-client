@@ -1,6 +1,6 @@
 .container {
   background-color: #fff;
-  padding: 20px;
+  padding: 5px;
   border-radius: 8px;
   width: 100%;
     box-sizing: border-box;
@@ -15,7 +15,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 h3 {
@@ -64,9 +64,6 @@ h3 {
   width: 100%;
 }
 
-.form .p-field {
-  margin-bottom: 15px;
-}
 
 .form label {
   display: block;
@@ -91,10 +88,6 @@ h3 {
 .p-button {
   height: 45px;
   min-width: 100px;
-}
-
-.p-field {
-  margin-bottom: 15px;
 }
 
 .p-field label {
