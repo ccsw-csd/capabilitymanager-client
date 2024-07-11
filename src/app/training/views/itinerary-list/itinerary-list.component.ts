@@ -97,7 +97,7 @@ export class ItineraryListComponent implements OnInit {
     return columns;
   }
 
-  onFilter(event) {
+  onFilter(event: any) {
     this.personsToExport = event.filteredValue;
   }
 
@@ -150,7 +150,7 @@ export class ItineraryListComponent implements OnInit {
 
     this.columnNames.forEach((column) => {
       if (column.filterType === 'input') {
-        this.defaultFilters[column.composeField] = { value: '' };
+        this.defaultFilters[column.composeField] = { value: '', matchMode: 'contains' };
       }
     });
   }
