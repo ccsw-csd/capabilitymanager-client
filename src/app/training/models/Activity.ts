@@ -2,16 +2,16 @@ import { ActivityType } from './ActivityType';
 
 export interface Activity {
   id: number;
-  tipoActividad: ActivityType;
-  codigoActividad: string;
-  nombreActividad: string;
+  typeActivity: ActivityType;
+  pathwayId: string;
+  pathwayTitle: string;
   estado: string;
-  fechaUltimaActividad: Date;
-  fechaInicio: Date;
-  fechaFinalizacion: Date;
-  porcentajeAvance: number;
+  completedDate: Date;
+  enrollmentDate: Date;
+  recentActivityDate: Date;
+  completionPercent: number;
   observaciones: string;
-  saga: string;
-  ggid: string;
-  tipoActividadId: number;
+  sAGA: string;
+  gGID: string;
+  typeActivityId: number;
 }

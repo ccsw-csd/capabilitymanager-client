@@ -21,22 +21,22 @@ export class PersonalEditComponent implements OnInit {
   columnNames: any[] = [];
   roleAdmin: boolean;
   showCreate = false;
-  activityTypes:ActivityType[] = [];
+  activityTypes: ActivityType[] = [];
   activityTypesOptions: any[] = [];
   newActivity: Activity = {
-    nombreActividad: '',
-    codigoActividad: '',
-    fechaInicio: new Date(),
-    fechaFinalizacion: new Date(),
-    porcentajeAvance: 0,
+    id: null,
+    pathwayTitle: '',
+    pathwayId: 'testCode',
+    enrollmentDate: new Date(),
+    recentActivityDate: new Date(),
+    completionPercent: null,
     estado: 'No iniciado',
     observaciones: '',
-    saga: '',
-    ggid: '',
-    tipoActividadId: 1,
-    id: 0,
-    fechaUltimaActividad: new Date(),
-    tipoActividad: {
+    sAGA: '',
+    gGID: '',
+    typeActivityId: null,
+    completedDate: new Date(),
+    typeActivity: {
       id: 0,
       nombre: '',
     },
@@ -61,6 +61,10 @@ export class PersonalEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.person = this.config.data.person;
+
+    this.newActivity.gGID = this.person.ggid;
+    this.newActivity.sAGA = this.person.saga;
+
     this.initializeColumns();
     this.loadActivities();
     this.loadActivityTypes();
@@ -86,7 +90,8 @@ export class PersonalEditComponent implements OnInit {
   }
 
   onChangeActivityType(event) {
-    this.newActivity.tipoActividad  = event.value.id
+    this.newActivity.typeActivity  = event.value.id
+    this.newActivity.typeActivityId  = event.value.id
   }
 
   loadActivityTypes(): void {
@@ -121,15 +126,15 @@ export class PersonalEditComponent implements OnInit {
         const activitiesMap = new Map<string, any>();
 
         allActivities.forEach((activity) => {
-          if (!activitiesMap.has(activity.codigoActividad)) {
-            activitiesMap.set(activity.codigoActividad, activity);
+          if (!activitiesMap.has(activity.pathwayId)) {
+            activitiesMap.set(activity.pathwayId, activity);
 
             if (
-              activity.porcentajeAvance > 0 &&
-              activity.porcentajeAvance < 100
+              activity.completionPercent > 0 &&
+              activity.completionPercent < 100
             ) {
               activity.estado = 'Iniciado';
-            } else if (activity.porcentajeAvance === 100) {
+            } else if (activity.completionPercent === 100) {
               activity.estado = 'Completado';
             }
           }
@@ -166,7 +171,26 @@ export class PersonalEditComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  save(): void {}
+  save(): void {
+
+    this.newActivity.estado = (this.newActivity.estado as any).name;
+
+    console.log(this.newActivity);
+
+    this.activityService.create(this.newActivity).subscribe(
+      {
+        next: () => {
+          this.snackbarService.showMessage('Actividad creada correctamente');
+          this.loadActivities();
+        },
+        error: (error) => {
+          this.snackbarService.error(
+            'Error al crear la actividad. Inténtelo de nuevo más tarde.'
+          );
+        }
+      })
+
+  }
 
   customSort(event: SortEvent): void {
     event.data.sort((data1, data2) => {
@@ -274,17 +298,17 @@ export class PersonalEditComponent implements OnInit {
   getFechaFinalizacionClass(activity: Activity): string {
     const diasParaFinalizacion = this.getDaysDifference(
       new Date(),
-      new Date(activity.fechaFinalizacion)
+      new Date(activity.recentActivityDate)
     );
     if (
       ((activity.estado === 'No iniciado' || activity.estado === 'Pausado') &&
         diasParaFinalizacion <= 7) ||
-      activity.porcentajeAvance < 50
+      activity.completionPercent < 50
     ) {
       return 'alerta-roja';
     } else if (
       (activity.estado === 'En curso' && diasParaFinalizacion <= 7) ||
-      (activity.porcentajeAvance >= 50 && activity.porcentajeAvance < 85)
+      (activity.completionPercent >= 50 && activity.completionPercent < 85)
     ) {
       return 'alerta-amarilla';
     }

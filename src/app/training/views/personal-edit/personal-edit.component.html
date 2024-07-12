@@ -69,13 +69,16 @@
       <h3>No hay actividades disponibles</h3>
     </div>
 
-    <div *ngIf="showCreate" class="flex flex-col gap-1 bg-green-200 rounded-md p-1">
+    <div
+      *ngIf="showCreate"
+      class="flex flex-col gap-1 border-2 border-green-300 rounded-md p-1"
+    >
       <h4 class="my-0 p-0 pb-1">Crear Actividad</h4>
       <div class="flex gap-2">
         <input
           type="text"
           pInputText
-          [(ngModel)]="newActivity.nombreActividad"
+          [(ngModel)]="newActivity.pathwayTitle"
           [placeholder]="'Nombre de la actividad'"
         />
         <input
@@ -86,7 +89,7 @@
         />
       </div>
 
-      <div class="flex gap-2">
+      <div class="flex gap-2 items-center">
         <p-dropdown
           [options]="stateOptions"
           [style]="{ width: '140px' }"
@@ -98,9 +101,23 @@
         >
         </p-dropdown>
 
+        <p-calendar
+          [(ngModel)]="newActivity.enrollmentDate"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          class="w-[150px]"
+        />
+
+        <p-calendar
+          [(ngModel)]="newActivity.completedDate"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          class="w-[150px]"
+        />
+
         <p-dropdown
           [options]="activityTypesOptions"
-          [style]="{ width: '140px' }"
+          [style]="{ width: '200px' }"
           optionLabel="name"
           [showClear]="false"
           [loading]="activityTypes.length === 0"
@@ -110,21 +127,14 @@
         >
         </p-dropdown>
 
-        <p-calendar
-          [(ngModel)]="newActivity.fechaInicio"
-          [iconDisplay]="'input'"
-          [showIcon]="true"
-        />
-        <p-calendar
-          [(ngModel)]="newActivity.fechaFinalizacion"
-          [iconDisplay]="'input'"
-          [showIcon]="true"
-        />
         <input
           type="number"
           [placeholder]="'Porcentaje Avance'"
           pInputNumber
-          [(ngModel)]="newActivity.porcentajeAvance"
+          [(ngModel)]="newActivity.completionPercent"
+          max="100"
+          min="0"
+          class="max-w-[100px]"
         />
       </div>
     </div>
@@ -133,8 +143,8 @@
     <div
       *ngIf="activities.length > 0"
       class="card"
-      style="overflow: auto;"
-      [style.height]="(showCreate) ? '210px' : '250px'"
+      style="overflow: auto"
+      [style.height]="showCreate ? '210px' : '250px'"
     >
       <p-table
         [scrollable]="true"

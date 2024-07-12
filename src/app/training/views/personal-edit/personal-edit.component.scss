@@ -160,3 +160,20 @@ h3 {
 .p-table thead th {
   text-align: center;
 }
+
+
+::ng-deep .p-calendar .p-datepicker{
+    height: 250px;
+    overflow: hidden;
+}
+ 
+::ng-deep .p-calendar .p-datepicker-calendar-container{
+  height: 240px;
+  overflow: auto;
+}
+
+::ng-deep .p-dialog .p-dialog-content {
+  padding-inline: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
