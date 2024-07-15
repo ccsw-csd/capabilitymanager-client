@@ -125,7 +125,6 @@ export class PersonalEditComponent implements OnInit {
         const allActivities = [...ggidActivities, ...sagaActivities];
         const activitiesMap = new Map<string, any>();
 
-        console.log(allActivities,ggidActivities)
 
         allActivities.forEach((activity) => {
           if (!activitiesMap.has(activity.codigoActividad)) {
@@ -178,7 +177,6 @@ export class PersonalEditComponent implements OnInit {
     this.newActivity.estado = (this.newActivity.estado as any).name;
 
     //Check new activity is valid
-    console.log(this.newActivity);
     if (this.newActivity.nombreActividad === '' || this.newActivity.estado === '' || this.newActivity.tipoActividadId === null || this.newActivity.fechaInicio === null || this.newActivity.fechaFinalizacion === null || this.newActivity.porcentajeAvance === null) {
       this.snackbarService.error('Debe rellenar todos los campos obligatorios');
       return;
