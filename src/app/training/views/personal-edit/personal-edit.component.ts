@@ -26,11 +26,11 @@ export class PersonalEditComponent implements OnInit {
   newActivity: Activity = {
     id: null,
     pathwayTitle: '',
-    pathwayId: 'testCode',
+    pathwayId: '',
     enrollmentDate: new Date(),
     recentActivityDate: new Date(),
     completionPercent: null,
-    estado: 'No iniciado',
+    estado: { name: 'No iniciado' } as any,
     observaciones: '',
     sAGA: '',
     gGID: '',
@@ -176,6 +176,12 @@ export class PersonalEditComponent implements OnInit {
     this.newActivity.estado = (this.newActivity.estado as any).name;
 
     console.log(this.newActivity);
+
+    //Check new activity is valid
+    if (this.newActivity.pathwayTitle === '' || this.newActivity.estado === '' || this.newActivity.typeActivityId === null || this.newActivity.enrollmentDate === null || this.newActivity.completedDate === null || this.newActivity.completionPercent === null) {
+      this.snackbarService.error('Debe rellenar todos los campos obligatorios');
+      return;
+    }
 
     this.activityService.create(this.newActivity).subscribe(
       {
