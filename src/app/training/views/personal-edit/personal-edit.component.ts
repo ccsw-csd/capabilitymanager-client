@@ -25,18 +25,18 @@ export class PersonalEditComponent implements OnInit {
   activityTypesOptions: any[] = [];
   newActivity: Activity = {
     id: null,
-    pathwayTitle: '',
-    pathwayId: '',
-    enrollmentDate: new Date(),
-    recentActivityDate: new Date(),
-    completionPercent: null,
+    nombreActividad: '',
+    codigoActividad: '',
+    fechaInicio: new Date(),
+    fechaUltimaActividad: new Date(),
+    porcentajeAvance: null,
     estado: { name: 'No iniciado' } as any,
     observaciones: '',
-    sAGA: '',
-    gGID: '',
-    typeActivityId: null,
-    completedDate: new Date(),
-    typeActivity: {
+    saga: '',
+    ggid: '',
+    tipoActividadId: null,
+    fechaFinalizacion: new Date(),
+    tipoActividad: {
       id: 0,
       nombre: '',
     },
@@ -62,8 +62,8 @@ export class PersonalEditComponent implements OnInit {
   ngOnInit(): void {
     this.person = this.config.data.person;
 
-    this.newActivity.gGID = this.person.ggid;
-    this.newActivity.sAGA = this.person.saga;
+    this.newActivity.ggid = this.person.ggid;
+    this.newActivity.saga = this.person.saga;
 
     this.initializeColumns();
     this.loadActivities();
@@ -90,8 +90,8 @@ export class PersonalEditComponent implements OnInit {
   }
 
   onChangeActivityType(event) {
-    this.newActivity.typeActivity  = event.value.id
-    this.newActivity.typeActivityId  = event.value.id
+    this.newActivity.tipoActividad  = event.value.id;
+    this.newActivity.tipoActividadId  = event.value.id;
   }
 
   loadActivityTypes(): void {
@@ -125,16 +125,18 @@ export class PersonalEditComponent implements OnInit {
         const allActivities = [...ggidActivities, ...sagaActivities];
         const activitiesMap = new Map<string, any>();
 
+        console.log(allActivities,ggidActivities)
+
         allActivities.forEach((activity) => {
-          if (!activitiesMap.has(activity.pathwayId)) {
-            activitiesMap.set(activity.pathwayId, activity);
+          if (!activitiesMap.has(activity.codigoActividad)) {
+            activitiesMap.set(activity.codigoActividad, activity);
 
             if (
-              activity.completionPercent > 0 &&
-              activity.completionPercent < 100
+              activity.porcentajeAvance > 0 &&
+              activity.porcentajeAvance < 100
             ) {
               activity.estado = 'Iniciado';
-            } else if (activity.completionPercent === 100) {
+            } else if (activity.porcentajeAvance === 100) {
               activity.estado = 'Completado';
             }
           }
@@ -175,10 +177,9 @@ export class PersonalEditComponent implements OnInit {
 
     this.newActivity.estado = (this.newActivity.estado as any).name;
 
-    console.log(this.newActivity);
-
     //Check new activity is valid
-    if (this.newActivity.pathwayTitle === '' || this.newActivity.estado === '' || this.newActivity.typeActivityId === null || this.newActivity.enrollmentDate === null || this.newActivity.completedDate === null || this.newActivity.completionPercent === null) {
+    console.log(this.newActivity);
+    if (this.newActivity.nombreActividad === '' || this.newActivity.estado === '' || this.newActivity.tipoActividadId === null || this.newActivity.fechaInicio === null || this.newActivity.fechaFinalizacion === null || this.newActivity.porcentajeAvance === null) {
       this.snackbarService.error('Debe rellenar todos los campos obligatorios');
       return;
     }
@@ -304,17 +305,17 @@ export class PersonalEditComponent implements OnInit {
   getFechaFinalizacionClass(activity: Activity): string {
     const diasParaFinalizacion = this.getDaysDifference(
       new Date(),
-      new Date(activity.recentActivityDate)
+      new Date(activity.fechaUltimaActividad)
     );
     if (
       ((activity.estado === 'No iniciado' || activity.estado === 'Pausado') &&
         diasParaFinalizacion <= 7) ||
-      activity.completionPercent < 50
+      activity.porcentajeAvance < 50
     ) {
       return 'alerta-roja';
     } else if (
       (activity.estado === 'En curso' && diasParaFinalizacion <= 7) ||
-      (activity.completionPercent >= 50 && activity.completionPercent < 85)
+      (activity.porcentajeAvance >= 50 && activity.porcentajeAvance < 85)
     ) {
       return 'alerta-amarilla';
     }
