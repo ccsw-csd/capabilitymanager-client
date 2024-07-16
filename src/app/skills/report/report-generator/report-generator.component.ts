@@ -3,6 +3,7 @@ import { ReportService } from '../report.service';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Capability } from '../../capabilities/model/Capability';
 import { Staffing } from '../../staffing/model/staffing.model';
+import { Certifications } from '../../certifications/Model/certifications.model';
 import { DropdownModule } from 'primeng/dropdown';
 
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -18,10 +19,10 @@ export class ReportGeneratorComponent implements OnInit {
   isLoading: boolean;
   capabilities: Capability[] = [];
   staffing: Staffing[] = [];
-  certificates: string[];
+  certificates: Certifications[] = [];
   selectedCapability: Capability;
   selectedStaffing: Staffing;
-  selectedCertificate: string;
+  selectedCertificate: Certifications;
   reportComment: string = '';
   userName: string;
 
@@ -51,6 +52,13 @@ export class ReportGeneratorComponent implements OnInit {
         this.staffing = staffing.sort((a, b) => b.id - a.id);
         this.selectedStaffing = this.staffing[0];
       });
+
+      this.reportService
+      .getAllCertificatesImportsVersions()
+      .subscribe((certificates: Certifications[]) => {
+        this.certificates = certificates.sort((a, b) => b.id - a.id);
+        this.selectedCertificate = this.certificates[0];
+      });
   }
 
   onGenerate() {
@@ -69,6 +77,7 @@ export class ReportGeneratorComponent implements OnInit {
     const reportVersion = {
       idRoleVersion: this.selectedCapability.id,
       idStaffingVersion: this.selectedStaffing.id,
+      idVersionCertificaciones: this.selectedCertificate.id,
       description: reportDescription,
       user: this.userName,
       comments: this.reportComment,

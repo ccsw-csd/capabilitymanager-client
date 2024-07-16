@@ -58,6 +58,12 @@ export class ReportListComponent {
         filterType: 'input',
       },
       {
+        header: 'Archivo Certificaciones',
+        composeField: 'certificatesVersion',
+        field: 'certificatesVersion',
+        filterType: 'input',
+      },
+      {
         header: 'Screenshot',
         composeField: 'screenshot',
         field: 'screenshot',
