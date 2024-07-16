@@ -386,7 +386,7 @@ export class MaestroComponent implements OnInit {
         this.BAData = this.allProfilesAndGrades['businessAnalyst'];
         this.BADataTotal = this.BAData[0]['totals'][0];
         this.ARData = this.allProfilesAndGrades['architects'];
-        let sum = [0, 0, 0];
+        let sum = [0, 0, 0, 0, 0, 0, 0, 0, 0];
         this.ARData.forEach((el) => {
           el.totals.forEach((t, i) => {
             sum[i] += t;
