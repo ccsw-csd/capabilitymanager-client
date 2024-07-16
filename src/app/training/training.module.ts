@@ -16,6 +16,8 @@ import { ItineraryUploadComponent } from './views/itinerary-upload/itinerary-upl
 import { PersonalEditComponent } from './views/personal-edit/personal-edit.component';
 import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
+import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     TableModule,
     ButtonModule,
     TooltipModule,
+    DropdownModule,
+    CalendarModule,
     ConfirmDialogModule,
     ToastModule,
     DynamicDialogModule,

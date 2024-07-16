@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container overflow-hidden h-full">
   <div class="header">
     <h2 class="title">Lista de Actividades</h2>
     <button class="close-btn" (click)="closeWindow()">&times;</button>
   </div>
 
-  <div class="form flex flex-column gap-3">
+  <div class="form flex flex-column gap-2 h-full">
     <div class="flex justify-center gap-2">
       <div class="p-field">
         <label for="ggid">GGID:</label>
@@ -49,86 +49,210 @@
           readonly
         />
       </div>
+      <div class="flex-1"></div>
+      <button
+        #b
+        pButton
+        label="Crear Actividad"
+        type="button"
+        class="p-button p-button-outlined m-2"
+        title="Crear Actividad"
+        (click)="showCreate = !showCreate"
+      ></button>
     </div>
 
     <!-- Verificador de actividades -->
-    <div *ngIf="activities.length === 0" class="no-activities-message">
+    <div
+      *ngIf="activities.length === 0"
+      class="no-activities-message h-[250px]"
+    >
       <h3>No hay actividades disponibles</h3>
     </div>
 
-<!-- Listado de actividades -->
-<div *ngIf="activities.length > 0" class="card" style="overflow-x: auto; max-height: 500px">
-  <p-table
-    [scrollable]="true"
-    scrollHeight="flex"
-    selectionMode="single"
-    [value]="activities"
-    styleClass="p-datatable-striped"
-    [paginator]="false"
-    [customSort]="true"
-    (sortFunction)="customSort($event)"
-    [columns]="columnNames"
-    [reorderableColumns]="true"
-  >
-    <ng-template pTemplate="header" let-columns>
-      <tr class="table-header">
-        <!-- Encabezados de las columnas -->
-        <th *ngFor="let col of columnNames" class="{{ col.field }} flex flex-column" pReorderableColumn>
-          <div class="flex flex-row w-full top-header" pSortableColumn="{{ col.field }}">
-            <span class="flex flex-1 justify-content-center">{{ col.header }}</span>
-            <p-sortIcon field="{{ col.field }}"></p-sortIcon>
-          </div>
-        </th>
-      </tr>
-    </ng-template>
+    <div
+      *ngIf="showCreate"
+      class="flex flex-col gap-1 border-2 border-green-300 rounded-md p-1"
+    >
+      <h4 class="my-0 p-0 pb-1">Crear Actividad</h4>
+      <div class="flex gap-2">
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="newActivity.nombreActividad"
+          [placeholder]="'Nombre de la actividad'"
+        />
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="newActivity.observaciones"
+          [placeholder]="'Observaciones'"
+        />
+      </div>
 
-    <ng-template pTemplate="body" let-activity let-columns="columns">
-      <!-- Cuerpo de la tabla -->
-      <tr [pSelectableRow]="activity">
-        <td
-          *ngFor="let col of columnNames"
-          class="{{ col.field }}"
-          [ngClass]="col.field === 'estado' ? getEstadoClass(activity) : ''"
+      <div class="flex gap-2 items-center">
+        <p-dropdown
+          [options]="stateOptions"
+          [style]="{ width: '140px' }"
+          [(ngModel)]="newActivity.estado"
+          optionLabel="name"
+          [showClear]="false"
+          placeholder="Estado"
+          title="Estado"
         >
-          <ng-container *ngIf="col.field !== 'fechaUltimaActividad' && col.field !== 'fechaInicio' && col.field !== 'fechaFinalizacion'; else dateTemplate">
-            <div class="white-space-nowrap overflow-hidden text-overflow-ellipsis" [pTooltip]="activity[col.field]">
-              {{ col.field === 'tipoActividadId' ? getTipoActividadName(activity[col.field]) : activity[col.field] }}
-            </div>
-          </ng-container>
-          <ng-template #dateTemplate>
-            <div class="white-space-nowrap overflow-hidden text-overflow-ellipsis" [pTooltip]="formatDate(activity[col.field])">
-              {{ formatDate(activity[col.field]) }}
-            </div>
-          </ng-template>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
+        </p-dropdown>
 
-  <!-- Botones de Cancelar y Guardar -->
-  <div class="fixed-buttons" *ngIf="roleAdmin">
-    <button
-      pButton
-      type="button"
-      (click)="cancel()"
-      pRipple
-      icon="pi pi-times"
-      label="Cancelar"
-      class="p-button p-button-danger p-button-outlined"
-      style="width: 80px"
-      title="Cancelar"
-    ></button>
-    <button
-      pButton
-      type="button"
-      (click)="save()"
-      pRipple
-      icon="pi pi-save"
-      label="Guardar"
-      class="p-button p-button-primary p-button-outlined"
-      style="width: 80px"
-      title="Guardar"
-    ></button>
+        <p-calendar
+          [(ngModel)]="newActivity.fechaInicio"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          class="w-[150px]"
+        />
+
+        <p-calendar
+          [(ngModel)]="newActivity.fechaFinalizacion"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          class="w-[150px]"
+        />
+
+        <p-dropdown
+          [options]="activityTypesOptions"
+          [style]="{ width: '200px' }"
+          optionLabel="name"
+          [showClear]="false"
+          [loading]="activityTypes.length === 0"
+          (onChange)="onChangeActivityType($event)"
+          placeholder="Tipo de Actividad"
+          title="Tipo de Actividad"
+        >
+        </p-dropdown>
+
+        <input
+          type="number"
+          [placeholder]="'Porcentaje Avance'"
+          pInputNumber
+          [(ngModel)]="newActivity.porcentajeAvance"
+          max="100"
+          min="0"
+          class="max-w-[100px]"
+        />
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="newActivity.codigoActividad"
+          [placeholder]="'Código Actividad'"
+          class="max-w-[100px]"
+        />
+      </div>
+    </div>
+
+    <!-- Listado de actividades -->
+    <div
+      *ngIf="activities.length > 0"
+      class="card"
+      style="overflow: auto"
+      [style.height]="showCreate ? '210px' : '250px'"
+    >
+      <p-table
+        [scrollable]="true"
+        scrollHeight="flex"
+        selectionMode="single"
+        [value]="activities"
+        styleClass="p-datatable-striped"
+        [paginator]="false"
+        [customSort]="true"
+        (sortFunction)="customSort($event)"
+        [columns]="columnNames"
+        [reorderableColumns]="true"
+      >
+        <ng-template pTemplate="header" let-columns>
+          <tr class="table-header">
+            <!-- Encabezados de las columnas -->
+            <th
+              *ngFor="let col of columnNames"
+              class="{{ col.field }} flex flex-column"
+              pReorderableColumn
+            >
+              <div
+                class="flex flex-row w-full top-header"
+                pSortableColumn="{{ col.field }}"
+              >
+                <span class="flex flex-1 justify-content-center">{{
+                  col.header
+                }}</span>
+                <p-sortIcon field="{{ col.field }}"></p-sortIcon>
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-activity let-columns="columns">
+          <!-- Cuerpo de la tabla -->
+          <tr [pSelectableRow]="activity">
+            <td
+              *ngFor="let col of columnNames"
+              class="{{ col.field }}"
+              [ngClass]="col.field === 'estado' ? getEstadoClass(activity) : ''"
+            >
+              <ng-container
+                *ngIf="
+                  col.field !== 'fechaUltimaActividad' &&
+                    col.field !== 'fechaInicio' &&
+                    col.field !== 'fechaFinalizacion';
+                  else dateTemplate
+                "
+              >
+                <div
+                  class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+                  [pTooltip]="activity[col.field]"
+                >
+                  {{
+                    col.field === "tipoActividadId"
+                      ? getTipoActividadName(activity[col.field])
+                      : activity[col.field]
+                  }}
+                </div>
+              </ng-container>
+              <ng-template #dateTemplate>
+                <div
+                  class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+                  [pTooltip]="formatDate(activity[col.field])"
+                >
+                  {{ formatDate(activity[col.field]) }}
+                </div>
+              </ng-template>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div class="flex-1"></div>
+
+    <!-- Botones de Cancelar y Guardar -->
+    <div class="fixed-buttons" *ngIf="roleAdmin">
+      <button
+        pButton
+        type="button"
+        (click)="cancel()"
+        pRipple
+        icon="pi pi-times"
+        label="Cancelar"
+        class="p-button p-button-danger p-button-outlined"
+        style="width: 80px"
+        title="Cancelar"
+      ></button>
+      <button
+        pButton
+        type="button"
+        (click)="save()"
+        pRipple
+        icon="pi pi-save"
+        label="Guardar"
+        class="p-button p-button-primary p-button-outlined"
+        style="width: 80px"
+        title="Guardar"
+      ></button>
+    </div>
   </div>
 </div>

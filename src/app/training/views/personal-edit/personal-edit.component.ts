@@ -7,7 +7,8 @@ import { SortEvent } from 'primeng/api';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { forkJoin } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
-
+import { ActivityType } from 'src/app/training/models/ActivityType';
+import { ActivityTypeService } from 'src/app/training/services/activity-type.service';
 
 @Component({
   selector: 'app-personal-edit',
@@ -19,19 +20,55 @@ export class PersonalEditComponent implements OnInit {
   activities: Activity[] = [];
   columnNames: any[] = [];
   roleAdmin: boolean;
+  showCreate = false;
+  activityTypes: ActivityType[] = [];
+  activityTypesOptions: any[] = [];
+  newActivity: Activity = {
+    id: null,
+    nombreActividad: '',
+    codigoActividad: '',
+    fechaInicio: new Date(),
+    fechaUltimaActividad: new Date(),
+    porcentajeAvance: null,
+    estado: { name: 'No iniciado' } as any,
+    observaciones: '',
+    saga: '',
+    ggid: '',
+    tipoActividadId: null,
+    fechaFinalizacion: new Date(),
+    tipoActividad: {
+      id: 0,
+      nombre: '',
+    },
+  };
+
+  stateOptions: any[] = [
+    { name: 'Iniciado' },
+    { name: 'No iniciado' },
+    { name: 'En curso' },
+    { name: 'Pausado' },
+    { name: 'Finalizado' },
+    { name: 'Bloqueado' },
+  ];
 
   constructor(
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
     private activityService: ActivityService,
+    private activityTypeService: ActivityTypeService,
     private snackbarService: SnackbarService,
     private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.person = this.config.data.person;
+
+    this.newActivity.ggid = this.person.ggid;
+    this.newActivity.saga = this.person.saga;
+
     this.initializeColumns();
     this.loadActivities();
+    this.loadActivityTypes();
     this.roleAdmin = this.authService.hasRole('ADMIN');
   }
 
@@ -53,27 +90,58 @@ export class PersonalEditComponent implements OnInit {
     ];
   }
 
+  onChangeActivityType(event) {
+    this.newActivity.tipoActividad  = event.value.id;
+    this.newActivity.tipoActividadId  = event.value.id;
+  }
+
+  loadActivityTypes(): void {
+    this.activityTypeService.getAllActivityTypes().subscribe(
+      {
+        next: (activityTypes) => {
+          this.activityTypes = activityTypes;
+          this.activityTypesOptions = activityTypes.map((activityType) => {
+            return {
+              id: activityType.id,
+              name: activityType.nombre,
+            };
+          })
+        },
+        error: (error) => {
+          console.error('Error loading activity types:', error);
+          this.snackbarService.error(
+            'Error al cargar los tipos de actividad. Inténtelo de nuevo más tarde.'
+          );
+        },
+      }
+    );
+  }
+
   loadActivities(): void {
     forkJoin([
       this.activityService.findByGgid(this.person.ggid),
-      this.activityService.findBySaga(this.person.saga)
+      this.activityService.findBySaga(this.person.saga),
     ]).subscribe(
       ([ggidActivities, sagaActivities]) => {
         const allActivities = [...ggidActivities, ...sagaActivities];
         const activitiesMap = new Map<string, any>();
-  
-        allActivities.forEach(activity => {
+
+
+        allActivities.forEach((activity) => {
           if (!activitiesMap.has(activity.codigoActividad)) {
             activitiesMap.set(activity.codigoActividad, activity);
-  
-            if (activity.porcentajeAvance > 0 && activity.porcentajeAvance < 100) {
+
+            if (
+              activity.porcentajeAvance > 0 &&
+              activity.porcentajeAvance < 100
+            ) {
               activity.estado = 'Iniciado';
             } else if (activity.porcentajeAvance === 100) {
               activity.estado = 'Completado';
             }
           }
         });
-  
+
         this.activities = Array.from(activitiesMap.values());
       },
       (error) => {
@@ -87,14 +155,13 @@ export class PersonalEditComponent implements OnInit {
 
   formatDate(dateString: string): string {
     if (dateString != null) {
-    const date = new Date(dateString);
-    const day = ('0' + date.getDate()).slice(-2);
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-    }
-    else {
-      return "";
+      const date = new Date(dateString);
+      const day = ('0' + date.getDate()).slice(-2);
+      const month = ('0' + (date.getMonth() + 1)).slice(-2);
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    } else {
+      return '';
     }
   }
 
@@ -106,7 +173,30 @@ export class PersonalEditComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  save(): void {}
+  save(): void {
+
+    this.newActivity.estado = (this.newActivity.estado as any).name;
+
+    //Check new activity is valid
+    if (this.newActivity.nombreActividad === '' || this.newActivity.estado === '' || this.newActivity.tipoActividadId === null || this.newActivity.fechaInicio === null || this.newActivity.fechaFinalizacion === null || this.newActivity.porcentajeAvance === null || this.newActivity.codigoActividad === '') {
+      this.snackbarService.error('Debe rellenar todos los campos obligatorios');
+      return;
+    }
+
+    this.activityService.create(this.newActivity).subscribe(
+      {
+        next: () => {
+          this.snackbarService.showMessage('Actividad creada correctamente');
+          this.loadActivities();
+        },
+        error: (error) => {
+          this.snackbarService.error(
+            'Error al crear la actividad. Inténtelo de nuevo más tarde.'
+          );
+        }
+      })
+
+  }
 
   customSort(event: SortEvent): void {
     event.data.sort((data1, data2) => {
@@ -160,38 +250,61 @@ export class PersonalEditComponent implements OnInit {
   }
 
   getEstadoClass(activity: any): string {
-     let dias = 0;
-     let diasHastaFinalizacion;
-    if(activity.fechaUltimaActividad != null){
-     dias = this.getDaysDifference(activity.fechaInicio,activity.fechaUltimaActividad);
-  }else{
-     dias = this.getDaysDifference(activity.fechaInicio,new Date());
-  }
-    if(activity.fechaFinalizacion != null){
-    diasHastaFinalizacion = this.getDaysDifference(new Date(), activity.fechaFinalizacion);
+    let dias = 0;
+    let diasHastaFinalizacion;
+    if (activity.fechaUltimaActividad != null) {
+      dias = this.getDaysDifference(
+        activity.fechaInicio,
+        activity.fechaUltimaActividad
+      );
+    } else {
+      dias = this.getDaysDifference(activity.fechaInicio, new Date());
+    }
+    if (activity.fechaFinalizacion != null) {
+      diasHastaFinalizacion = this.getDaysDifference(
+        new Date(),
+        activity.fechaFinalizacion
+      );
     }
 
     const porcentajeAvance = activity.porcentajeAvance;
-  
-    if ((activity.estado === 'No iniciado' || activity.estado === 'Pausado' || activity.estado === 'Bloqueado') && dias > 5) {
+
+    if (
+      (activity.estado === 'No iniciado' ||
+        activity.estado === 'Pausado' ||
+        activity.estado === 'Bloqueado') &&
+      dias > 5
+    ) {
       return 'alerta-roja';
-    } else if ((activity.estado === 'No iniciado' || activity.estado === 'Pausado' || activity.estado === 'Bloqueado') && dias > 3) {
+    } else if (
+      (activity.estado === 'No iniciado' ||
+        activity.estado === 'Pausado' ||
+        activity.estado === 'Bloqueado') &&
+      dias > 3
+    ) {
       return 'alerta-amarilla';
-    } else if ((diasHastaFinalizacion <= 7 && (activity.estado === 'No iniciado' || activity.estado === 'Pausado')) || porcentajeAvance < 50) {
+    } else if (
+      (diasHastaFinalizacion <= 7 &&
+        (activity.estado === 'No iniciado' || activity.estado === 'Pausado')) ||
+      porcentajeAvance < 50
+    ) {
       return 'alerta-roja';
-    } else if ((diasHastaFinalizacion <= 7 && activity.estado === 'Iniciado') || (porcentajeAvance >= 50 && porcentajeAvance <= 85)) {
+    } else if (
+      (diasHastaFinalizacion <= 7 && activity.estado === 'Iniciado') ||
+      (porcentajeAvance >= 50 && porcentajeAvance <= 85)
+    ) {
       return 'alerta-amarilla';
-    }else if (( activity.estado === 'Completado')) {
+    } else if (activity.estado === 'Completado') {
       return 'alerta-verde';
     }
-  
+
     return 'alerta-normal';
   }
 
   getFechaFinalizacionClass(activity: Activity): string {
     const diasParaFinalizacion = this.getDaysDifference(
       new Date(),
-      new Date(activity.fechaFinalizacion)
+      new Date(activity.fechaUltimaActividad)
     );
     if (
       ((activity.estado === 'No iniciado' || activity.estado === 'Pausado') &&
@@ -212,13 +325,11 @@ export class PersonalEditComponent implements OnInit {
     // Convertir las fechas de cadena a objetos Date
     const date1 = new Date(date1Str);
     const date2 = new Date(date2Str);
-    
+
     // Obtener la diferencia en milisegundos entre las dos fechas
     const diffTime = Math.abs(date2.getTime() - date1.getTime());
-    
+
     // Convertir la diferencia de milisegundos a días y redondear hacia abajo
     return Math.floor(diffTime / (1000 * 60 * 60 * 24));
   }
-
-  
 }

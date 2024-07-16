@@ -12,6 +12,10 @@ export class ActivityService {
 
   constructor(private http: HttpClient) {}
 
+  create(activity: Activity): Observable<Activity> {
+    return this.http.post<Activity>(`${this.baseUrl}/activity/guardar`, activity);
+  }
+
   findAll(): Observable<Activity[]> {
     return this.http.get<Activity[]>(`${this.baseUrl}/activity`);
   }

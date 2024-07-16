@@ -1,19 +1,21 @@
 .container {
   background-color: #fff;
-  padding: 20px;
+  padding: 5px;
   border-radius: 8px;
   width: 100%;
-  box-sizing: border-box;
+    box-sizing: border-box;
   margin: 0 auto;
   position: relative;
-  padding-bottom: 80px; /* Espacio para los botones fijos */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 h3 {
@@ -62,9 +64,6 @@ h3 {
   width: 100%;
 }
 
-.form .p-field {
-  margin-bottom: 15px;
-}
 
 .form label {
   display: block;
@@ -81,20 +80,14 @@ h3 {
 }
 
 .fixed-buttons {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
   display: flex;
+  justify-content: flex-end;
   gap: 10px;
 }
 
 .p-button {
   height: 45px;
   min-width: 100px;
-}
-
-.p-field {
-  margin-bottom: 15px;
 }
 
 .p-field label {
@@ -166,4 +159,21 @@ h3 {
 
 .p-table thead th {
   text-align: center;
+}
+
+
+::ng-deep .p-calendar .p-datepicker{
+    height: 250px;
+    overflow: hidden;
+}
+ 
+::ng-deep .p-calendar .p-datepicker-calendar-container{
+  height: 240px;
+  overflow: auto;
+}
+
+::ng-deep .p-dialog .p-dialog-content {
+  padding-inline: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
