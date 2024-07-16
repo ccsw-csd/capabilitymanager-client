@@ -43,6 +43,7 @@ export class PersonalEditComponent implements OnInit {
   };
 
   stateOptions: any[] = [
+    { name: 'Iniciado' },
     { name: 'No iniciado' },
     { name: 'En curso' },
     { name: 'Pausado' },
@@ -177,7 +178,7 @@ export class PersonalEditComponent implements OnInit {
     this.newActivity.estado = (this.newActivity.estado as any).name;
 
     //Check new activity is valid
-    if (this.newActivity.nombreActividad === '' || this.newActivity.estado === '' || this.newActivity.tipoActividadId === null || this.newActivity.fechaInicio === null || this.newActivity.fechaFinalizacion === null || this.newActivity.porcentajeAvance === null) {
+    if (this.newActivity.nombreActividad === '' || this.newActivity.estado === '' || this.newActivity.tipoActividadId === null || this.newActivity.fechaInicio === null || this.newActivity.fechaFinalizacion === null || this.newActivity.porcentajeAvance === null || this.newActivity.codigoActividad === '') {
       this.snackbarService.error('Debe rellenar todos los campos obligatorios');
       return;
     }
