@@ -183,6 +183,12 @@ export class PersonalEditComponent implements OnInit {
       return;
     }
 
+    //Check dates
+    if (this.newActivity.fechaInicio > this.newActivity.fechaFinalizacion) {
+      this.snackbarService.error('La fecha de inicio no puede ser posterior a la fecha de finalización');
+      return;
+    }
+
     this.activityService.create(this.newActivity).subscribe(
       {
         next: () => {
