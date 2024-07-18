@@ -91,30 +91,28 @@ export class PersonalEditComponent implements OnInit {
   }
 
   onChangeActivityType(event) {
-    this.newActivity.tipoActividad  = event.value.id;
-    this.newActivity.tipoActividadId  = event.value.id;
+    this.newActivity.tipoActividad = event.value.id;
+    this.newActivity.tipoActividadId = event.value.id;
   }
 
   loadActivityTypes(): void {
-    this.activityTypeService.getAllActivityTypes().subscribe(
-      {
-        next: (activityTypes) => {
-          this.activityTypes = activityTypes;
-          this.activityTypesOptions = activityTypes.map((activityType) => {
-            return {
-              id: activityType.id,
-              name: activityType.nombre,
-            };
-          })
-        },
-        error: (error) => {
-          console.error('Error loading activity types:', error);
-          this.snackbarService.error(
-            'Error al cargar los tipos de actividad. Inténtelo de nuevo más tarde.'
-          );
-        },
-      }
-    );
+    this.activityTypeService.getAllActivityTypes().subscribe({
+      next: (activityTypes) => {
+        this.activityTypes = activityTypes;
+        this.activityTypesOptions = activityTypes.map((activityType) => {
+          return {
+            id: activityType.id,
+            name: activityType.nombre,
+          };
+        });
+      },
+      error: (error) => {
+        console.error('Error loading activity types:', error);
+        this.snackbarService.error(
+          'Error al cargar los tipos de actividad. Inténtelo de nuevo más tarde.'
+        );
+      },
+    });
   }
 
   loadActivities(): void {
@@ -125,7 +123,6 @@ export class PersonalEditComponent implements OnInit {
       ([ggidActivities, sagaActivities]) => {
         const allActivities = [...ggidActivities, ...sagaActivities];
         const activitiesMap = new Map<string, any>();
-
 
         allActivities.forEach((activity) => {
           if (!activitiesMap.has(activity.codigoActividad)) {
@@ -174,11 +171,18 @@ export class PersonalEditComponent implements OnInit {
   }
 
   save(): void {
-
-    this.newActivity.estado = (this.newActivity.estado as any).name;
+    this.newActivity.estado = (this.newActivity.estado as any)?.name || 'No iniciado';
 
     //Check new activity is valid
-    if (this.newActivity.nombreActividad === '' || this.newActivity.estado === '' || this.newActivity.tipoActividadId === null || this.newActivity.fechaInicio === null || this.newActivity.fechaFinalizacion === null || this.newActivity.porcentajeAvance === null || this.newActivity.codigoActividad === '') {
+    if (
+      this.newActivity.nombreActividad === '' ||
+      this.newActivity.estado === '' ||
+      this.newActivity.tipoActividadId === null ||
+      this.newActivity.fechaInicio === null ||
+      this.newActivity.fechaFinalizacion === null ||
+      this.newActivity.porcentajeAvance === null ||
+      this.newActivity.codigoActividad === ''
+    ) {
       this.snackbarService.error('Debe rellenar todos los campos obligatorios');
       return;
     }
@@ -187,21 +191,25 @@ export class PersonalEditComponent implements OnInit {
     if (this.newActivity.fechaInicio > this.newActivity.fechaFinalizacion) {
       this.snackbarService.error('La fecha de inicio no puede ser posterior a la fecha de finalización');
       return;
-    }
+    } 
 
-    this.activityService.create(this.newActivity).subscribe(
-      {
-        next: () => {
-          this.snackbarService.showMessage('Actividad creada correctamente');
-          this.loadActivities();
-        },
-        error: (error) => {
-          this.snackbarService.error(
-            'Error al crear la actividad. Inténtelo de nuevo más tarde.'
-          );
+    this.activityService.create(this.newActivity).subscribe({
+      next: () => {
+        this.snackbarService.showMessage('Actividad creada correctamente');
+        this.loadActivities();
+      },
+      error: (error) => {
+
+        if (error.message) {
+          this.snackbarService.error(error.message);
+          return;
+
         }
-      })
-
+        this.snackbarService.error(
+          'Error al crear la actividad. Inténtelo de nuevo más tarde.'
+        );
+      },
+    });
   }
 
   customSort(event: SortEvent): void {
