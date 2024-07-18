@@ -24,7 +24,6 @@ export class HttpInterceptorService implements HttpInterceptor {
         catchError((error: HttpErrorResponse) => {
           let errorMessage;
           switch (error.status) {
-            
             case 400:
               errorMessage = 'Error de usuario: ' + error.error;
               break;
@@ -40,7 +39,11 @@ export class HttpInterceptorService implements HttpInterceptor {
               errorMessage = 'No se ha enviado un elemento válido.';
               break;
             case 422:
-              errorMessage = 'No se puede procesar el elemento enviado.';
+              if(error.error.message == null){
+                errorMessage = 'No se puede procesar el elemento enviado.';
+              }else{
+                errorMessage = error.error.message;
+              }
               break;
             case 500:
               errorMessage = 'Se ha producido un error del servidor. Por favor, póngase en contacto con un administrador. Disculpe las molestias.';
