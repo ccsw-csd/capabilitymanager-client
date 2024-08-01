@@ -1,4 +1,4 @@
-<div class="container overflow-hidden h-full">
+<div class="container overflow-auto h-full">
   <div class="header">
     <h2 class="title">Lista de Actividades</h2>
     <button class="close-btn" (click)="closeWindow()">&times;</button>
@@ -62,12 +62,7 @@
     </div>
 
     <!-- Verificador de actividades -->
-    <div
-      *ngIf="activities.length === 0"
-      class="no-activities-message h-[250px]"
-    >
-      <h3>No hay actividades disponibles</h3>
-    </div>
+
 
     <div
       *ngIf="showCreate"
@@ -149,6 +144,13 @@
           class="max-w-[140px]"
         />
       </div>
+    </div>
+
+        <div
+      *ngIf="activities.length === 0"
+      class="no-activities-message h-[250px]"
+    >
+      <h3>No hay actividades disponibles</h3>
     </div>
 
     <!-- Listado de actividades -->
