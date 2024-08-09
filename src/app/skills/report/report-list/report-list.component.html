@@ -45,6 +45,8 @@
       (click)="importCertificatesFile()"
       title="Importar archivo certificaciones"
     ></button>
+    <!-- Antiguo botón con el icono "+" -->
+     <!--
     <button
       #b
       pButton
@@ -54,6 +56,16 @@
       (click)="generateReport()"
       title="Procesar generación informe"
     ></button>
+    -->
+    <!-- Nuevo botón -->
+    <button
+    pButton
+    label="Generar informe"
+    type="button"
+    class="p-button p-button-outlined m-2"
+    (click)="generateReport()"
+    title="Generar informe"
+  ></button>
     <button
       tooltipPosition="top"
       pButton
