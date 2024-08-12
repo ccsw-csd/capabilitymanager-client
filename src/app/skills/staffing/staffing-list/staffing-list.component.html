@@ -79,7 +79,31 @@
         </div>
 
         <div class="w-full foot-header">
-          <!-- Aquí van los filtros si los necesitas -->
+              <!-- Filtros para las columnas -->
+              <p-columnFilter
+              *ngIf="col.filterType === 'input'"
+              class="w-full"
+              type="text"
+              field="{{ col.composeField }}"
+              [showMenu]="false"
+              [showClearButton]="false"
+              matchMode="contains"
+            >
+              <ng-template
+                pTemplate="filter"
+                let-value
+                let-filter="filterCallback"
+              >
+                <input
+                  tabindex="1"
+                  type="text"
+                  pInputText
+                  [ngModel]="value"
+                  (ngModelChange)="filter($event)"
+                  class="p-inputtext"
+                />
+              </ng-template>
+            </p-columnFilter>
         </div>
       </th>
       <th class="buttons flex flex-column">

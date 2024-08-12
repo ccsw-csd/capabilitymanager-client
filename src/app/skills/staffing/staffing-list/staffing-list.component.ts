@@ -118,7 +118,7 @@ export class StaffingListComponent {
 
     this.columnNames.forEach((column) => {
       if (column.filterType === 'input') {
-        this.defaultFilters[column.composeField] = { value: '' };
+        this.defaultFilters[column.composeField] = { value: '', matchMode: 'contains'  };
       }
     });
   }
