@@ -30,7 +30,7 @@ export class PersonalEditComponent implements OnInit {
     fechaInicio: new Date(),
     fechaUltimaActividad: new Date(),
     porcentajeAvance: null,
-    estado: { name: 'No iniciado' } as any,
+    estado: '',
     observaciones: '',
     saga: '',
     ggid: '',
@@ -93,6 +93,10 @@ export class PersonalEditComponent implements OnInit {
   onChangeActivityType(event) {
     this.newActivity.tipoActividad = event.value.id;
     this.newActivity.tipoActividadId = event.value.id;
+  }
+
+  onChangeActivityState(event){
+    this.newActivity.estado = event.value;
   }
 
   loadActivityTypes(): void {
