@@ -248,7 +248,7 @@ export class ReportListComponent {
 
     this.columnNames.forEach((column) => {
       if (column.filterType === 'input') {
-        this.defaultFilters[column.composeField] = { value: '' };
+        this.defaultFilters[column.composeField] = { value: '' , matchMode: 'contains'};
       }
     });
   }
