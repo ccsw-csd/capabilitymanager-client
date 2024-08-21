@@ -118,10 +118,6 @@
           [pTooltip]="
             col.field === 'fechaImportacion'
               ? (certifications[col.field] | date : 'dd/MM/yyyy')
-              : col.field === 'idTipoInterfaz'
-              ? certifications[col.field] === 2
-                ? 'Certifications'
-                : certifications[col.field]
               : certifications[col.field]
           "
           tooltipPosition="top"
@@ -129,16 +125,10 @@
           <ng-container *ngIf="col.field === 'fechaImportacion'">
             {{ certifications[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
-          <ng-container *ngIf="col.field === 'idTipoInterfaz'">
-            {{
-              certifications[col.field] === 1
-                ? "Certifications"
-                : certifications[col.field]
-            }}
-          </ng-container>
+          
           <ng-container
             *ngIf="
-              col.field !== 'fechaImportacion' && col.field !== 'idTipoInterfaz'
+              col.field !== 'fechaImportacion'
             "
           >
             {{ certifications[col.field] }}

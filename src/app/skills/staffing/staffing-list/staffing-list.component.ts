@@ -80,6 +80,7 @@ export class StaffingListComponent {
 
     this.selectedColumnNames = this.loadSelected();
     this.loadData();
+    
   }
 
   isColumnVisible(field: string): boolean {

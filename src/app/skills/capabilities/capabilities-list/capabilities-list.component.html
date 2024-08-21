@@ -125,22 +125,16 @@
           pTooltip="{{
             col.field === 'fechaImportacion'
               ? (capability[col.field] | date : 'dd/MM/yyyy')
-              : col.field === 'idTipoInterfaz'
-              ? capability[col.field] === 2
-                ? 'Roles'
-                : capability[col.field]
               : capability[col.field]
           }}"
         >
           <ng-container *ngIf="col.field === 'fechaImportacion'">
             {{ capability[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
-          <ng-container *ngIf="col.field === 'idTipoInterfaz'">
-            {{ capability[col.field] === 2 ? "Roles" : capability[col.field] }}
-          </ng-container>
+          
           <ng-container
             *ngIf="
-              col.field !== 'fechaImportacion' && col.field !== 'idTipoInterfaz'
+              col.field !== 'fechaImportacion'
             "
           >
             {{ capability[col.field] }}
