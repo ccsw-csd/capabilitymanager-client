@@ -1,6 +1,6 @@
 export interface Capability {
     id: number
-    idTipoInterfaz: number
+    idTipoInterfaz: string
     fechaImportacion: string
     numRegistros: number
     nombreFichero: string
