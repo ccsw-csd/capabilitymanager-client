@@ -41,17 +41,16 @@ export class ItineraryEditComponent implements OnInit {
     if (this.updatedItinerary) {
       this.itineraryService
         .updateItinerary(this.updatedItinerary)
-        .subscribe(
-          (result) => {
+        .subscribe({
+          next: () => {
             this.dialogRef.close(this.updatedItinerary);
             this.itineraryListComponent.loadData();
             this.snackbarService.showMessage('Se ha actualizado el itinerario formativo correctamente');
           },
-          (error) => {
-            console.error('Error al guardar el itinerario:', error);
-            this.snackbarService.error('Ya existe un itinerario con ese codigo');
+          error: (error) => {
+            this.snackbarService.error(error.message);
           }
-        );
+        });
     } else {
       this.dialogRef.close(this.updatedItinerary);
       console.error(
