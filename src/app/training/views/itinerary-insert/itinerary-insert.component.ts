@@ -39,16 +39,16 @@ export class ItineraryInsertComponent implements OnInit {
     if (this.updatedItinerary) {
       this.itineraryService
         .saveItinerary(this.updatedItinerary)
-        .subscribe((result) => {
-          this.dialogRef.close(this.updatedItinerary);
-          this.snackbarService.showMessage('Se ha insertado el itinerario formativo correctamente');
-          this.itineraryListComponent.loadData();
-        },
-        (error) => {
-          console.error('Error al guardar el itinerario:', error);
-          this.snackbarService.error('Ya existe un itinerario con ese codigo');
-        }
-      );
+        .subscribe({
+          next: () => {
+            this.dialogRef.close(this.updatedItinerary);
+            this.snackbarService.showMessage('Se ha insertado el itinerario formativo correctamente');
+            this.itineraryListComponent.loadData();
+          },
+          error: (error) => {
+            this.snackbarService.error(error.message);
+          }
+        });
     } else {
       console.error(
         'No se puede guardar el itinerario porque no está definido.'
