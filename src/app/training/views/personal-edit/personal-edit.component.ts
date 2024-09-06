@@ -27,7 +27,7 @@ export class PersonalEditComponent implements OnInit {
     id: null,
     nombreActividad: '',
     codigoActividad: '',
-    fechaInicio: new Date(),
+    fechaInicio: null,
     fechaUltimaActividad: new Date(),
     porcentajeAvance: null,
     estado: '',
@@ -35,7 +35,7 @@ export class PersonalEditComponent implements OnInit {
     saga: '',
     ggid: '',
     tipoActividadId: null,
-    fechaFinalizacion: new Date(),
+    fechaFinalizacion: null,
     tipoActividad: {
       id: 0,
       nombre: '',
