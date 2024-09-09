@@ -3,7 +3,7 @@
   padding: 5px;
   border-radius: 8px;
   width: 100%;
-    box-sizing: border-box;
+  box-sizing: border-box;
   margin: 0 auto;
   position: relative;
   display: flex;
@@ -186,4 +186,38 @@ h3 {
   padding-left: 0;
   padding-right: 0;
   text-align: center;
+}
+
+.info-fieldset {
+  border: 1px solid #dddddd; /* Borde ligero */
+  border-radius: 4px; /* Esquinas menos redondeadas */
+  padding: 3px 8px; /* Reducir el espaciado interno */
+  margin-top: 15px; 
+  height: 38px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.info-legend {
+  font-size: 10px; /* Tamaño de fuente más pequeño para el label */
+  color: #000000; 
+  padding: 0 6px; /* Espaciado alrededor del label */
+  position: absolute;
+  top: -7px; /* Elevar el label */
+  left: 5px;
+  background-color: #ffffff; /* Fondo blanco para superponer al borde */
+}
+
+.info-value {
+  font-size: 14px; /* Tamaño del texto principal */
+  color: #bbbbbb; /* Color del texto principal en gris claro */
+  display: flex; /* Usar flex para centrar verticalmente */
+  align-items: center; /* Centrar verticalmente */
+  justify-content: flex-start; /* Alinear el texto a la izquierda */
+  height: 100%; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Recortar texto largo */
+  pointer-events: none; /* Deshabilitar interacción */
 }
