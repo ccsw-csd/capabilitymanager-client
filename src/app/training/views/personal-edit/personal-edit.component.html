@@ -6,49 +6,25 @@
 
   <div class="form flex flex-column gap-2 h-full">
     <div class="flex justify-center gap-2">
-      <div class="p-field">
-        <label for="ggid">GGID:</label>
-        <input
-          id="ggid"
-          type="text"
-          pInputText
-          [value]="person.ggid"
-          readonly
-        />
-      </div>
+      <fieldset class="info-fieldset">
+        <legend class="info-legend">GGID</legend>
+        <div class="info-value">{{ person.ggid }}</div>
+      </fieldset>
 
-      <div class="p-field">
-        <label for="saga">Saga:</label>
-        <input
-          id="saga"
-          type="text"
-          pInputText
-          [value]="person.saga"
-          readonly
-        />
-      </div>
+      <fieldset class="info-fieldset">
+        <legend class="info-legend">SAGA</legend>
+        <div class="info-value">{{ person.saga }}</div>
+      </fieldset>
 
-      <div class="p-field" [style]="{ width: '400px' }">
-        <label for="nombre">Nombre:</label>
-        <input
-          id="nombre"
-          type="text"
-          pInputText
-          [value]="person.nombre"
-          readonly
-        />
-      </div>
+      <fieldset class="info-fieldset" [style]="{ width: '400px' }">
+        <legend class="info-legend">Nombre</legend>
+        <div class="info-value">{{ person.nombre }}</div>
+      </fieldset>
 
-      <div class="p-field" [style]="{ width: '400px' }">
-        <label for="apellidos">Apellidos:</label>
-        <input
-          id="apellidos"
-          type="text"
-          pInputText
-          [value]="person.apellidos"
-          readonly
-        />
-      </div>
+      <fieldset class="info-fieldset" [style]="{ width: '400px' }">
+        <legend class="info-legend">Apellidos</legend>
+        <div class="info-value">{{ person.apellidos }}</div>
+      </fieldset>
       <div class="flex-1"></div>
       <button
         #b
@@ -162,7 +138,7 @@
       *ngIf="activities.length > 0"
       class="card"
       style="overflow: auto"
-      [style.height]="showCreate ? '210px' : '250px'"
+      [style.height]="showCreate ? '210px' : '300px'"
     >
       <p-table
         [scrollable]="true"
