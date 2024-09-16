@@ -215,6 +215,7 @@ export class ItineraryListComponent implements OnInit {
       const ref = this.dialogService.open(ItineraryEditComponent, {
         header: 'Editar Itinerario',
         width: '50%',
+        closable: false,
         data: {
           itinerary: itineraryToEdit,
         },
@@ -237,6 +238,7 @@ export class ItineraryListComponent implements OnInit {
     const ref = this.dialogService.open(ItineraryInsertComponent, {
       header: 'Crear Itinerario',
       width: '50%',
+      closable: false,
       data: {
         itinerary: { codigo: '', name: '' , usuario: this.userName},
       },
