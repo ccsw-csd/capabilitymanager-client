@@ -190,27 +190,27 @@ h3 {
 
 .info-fieldset {
   border: 1px solid #dddddd; /* Borde ligero */
-  border-radius: 0.25rem; /* Esquinas menos redondeadas */
-  padding: 0.1875rem 0.5rem; /* Reducir el espaciado interno */
-  margin-top: 0.9375rem;
-  height: 2.375rem;
+  border-radius: 0.25em; /* Esquinas menos redondeadas */
+  padding: 0.1875em 0.5em; /* Reducir el espaciado interno */
+  margin-top: 0.9375em;
+  height: 2.375em;
   display: flex;
   align-items: center;
   position: relative;
 }
 
 .info-legend {
-  font-size: 0.625rem; /* Tamaño de fuente más pequeño para el label */
+  font-size: 0.625em; /* Tamaño de fuente más pequeño para el label */
   color: #000000; 
-  padding: 0 0.375rem; /* Espaciado alrededor del label */
+  padding: 0 0.375em; /* Espaciado alrededor del label */
   position: absolute;
-  top: -0.4375rem; /* Elevar el label */
-  left: 0.3125rem;
+  top: -0.4375em; /* Elevar el label */
+  left: 0.3125em;
   background-color: #ffffff; /* Fondo blanco para superponer al borde */
 }
 
 .info-value {
-  font-size: 0.875rem; /* Tamaño del texto principal */
+  font-size: 0.875em; /* Tamaño del texto principal */
   color: #bbbbbb; /* Color del texto principal en gris claro */
   display: flex; /* Usar flex para centrar verticalmente */
   align-items: center; /* Centrar verticalmente */
