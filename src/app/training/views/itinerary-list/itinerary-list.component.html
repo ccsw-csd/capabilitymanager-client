@@ -71,6 +71,10 @@
         *ngFor="let col of selectedColumnNames"
         class="{{ col.field }} flex flex-column"
         pReorderableColumn
+        [ngStyle]="{
+          width: col.field === 'codigo' ? '15rem' : 'auto',
+          flex: col.field === 'codigo' ? '0 0 auto' : '1 1 auto'
+        }"
       >
         <div
           class="flex flex-row w-full top-header"
@@ -111,7 +115,11 @@
           <!-- Agrega aquí más filtros si es necesario -->
         </div>
       </th>
-      <th class="buttons flex flex-column">
+      <th class="buttons flex flex-column" 
+      [ngStyle]="{ 
+        width: '15rem', 
+        flex: '0 0 auto' 
+      }">
         <div class="flex flex-row w-full top-header"></div>
         <div class="w-full foot-header"></div>
       </th>
@@ -120,7 +128,11 @@
   <ng-template pTemplate="body" let-itinerary let-columns="columns">
     <!-- Cuerpo de la tabla -->
     <tr [pSelectableRow]="itinerary">
-      <td *ngFor="let col of selectedColumnNames" class="{{ col.field }}">
+      <td *ngFor="let col of selectedColumnNames" class="{{ col.field }}"
+      [ngStyle]="{
+        width: col.field === 'codigo' ? '15rem' : 'auto', 
+        flex: col.field === 'codigo' ? '0 0 auto' : '1 1 auto'
+      }">
         <!-- Contenido de cada celda -->
         <div
           *ngIf="!col.fieldExtra && !col.parse"
@@ -155,23 +167,26 @@
           {{ col.parse(itinerary[col.field]) }}
         </div>
       </td>
-      <td class="buttons">
+      <td class="buttons" 
+      [ngStyle]="{ 
+        width: '15rem', 
+        flex: '0 0 auto',
+        justifyContent: 'center' 
+      }">
         <button
           pButton
           type="button"
           icon="pi pi-pencil"
-          class="p-button-secondary"
-          style="font-size: 1rem; background-color: transparent; color: gray"
-          tooltip="Editar"
+          class="p-button-rounded p-button-text"
+          pTooltip="Editar"
           (click)="editItinerary(itinerary.codigo)"
         ></button>
         <button
           pButton
           type="button"
           icon="pi pi-trash"
-          class="p-button-secondary"
-          style="font-size: 1rem; background-color: transparent; color: gray"
-          tooltip="Editar"
+          class="p-button-rounded p-button-danger p-button-text"
+          pTooltip="Eliminar"
           (click)="confirmDeleteItinerary(itinerary.id)"
         ></button>
       </td>
