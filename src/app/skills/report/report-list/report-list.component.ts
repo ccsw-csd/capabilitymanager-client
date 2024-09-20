@@ -47,19 +47,19 @@ export class ReportListComponent {
       },
       {
         header: 'Archivo Roles',
-        composeField: 'roleVersion',
+        composeField: 'roleVersion.descripcion',
         field: 'roleVersion',
         filterType: 'input',
       },
       {
         header: 'Archivo Staffing',
-        composeField: 'staffingVersion',
+        composeField: 'staffingVersion.descripcion',
         field: 'staffingVersion',
         filterType: 'input',
       },
       {
         header: 'Archivo Certificaciones',
-        composeField: 'certificatesVersion',
+        composeField: 'certificatesVersion.descripcion',
         field: 'certificatesVersion',
         filterType: 'input',
       },
