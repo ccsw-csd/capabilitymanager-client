@@ -5,6 +5,15 @@
 
   <div class="form flex flex-column gap-2 h-full">
     <div class="flex justify-center gap-2">
+
+      <div class="pl-3">
+        <i class="pi pi-user text-xl text-primary"></i>
+      </div>
+      <div class="flex flex-row align-items-center gap-1 text-sm">
+        <p>{{ totalActivities }}</p>
+        Actividades
+      </div>
+
       <fieldset class="info-fieldset">
         <legend class="info-legend">GGID</legend>
         <div class="info-value">{{ person.ggid }}</div>
@@ -215,30 +224,6 @@
 
     <div class="flex-1"></div>
 
-    <!-- Botones de Cancelar y Guardar -->
-    <div class="fixed-buttons" *ngIf="roleAdmin">
-      <button
-        pButton
-        type="button"
-        (click)="cancel()"
-        pRipple
-        icon="pi pi-times"
-        label="Cancelar"
-        class="p-button p-button-danger p-button-outlined"
-        style="width: 80px"
-        title="Cancelar"
-      ></button>
-      <button
-        pButton
-        type="button"
-        (click)="save()"
-        pRipple
-        icon="pi pi-save"
-        label="Guardar"
-        class="p-button p-button-primary p-button-outlined"
-        style="width: 80px"
-        title="Guardar"
-      ></button>
-    </div>
+    
   </div>
 </div>

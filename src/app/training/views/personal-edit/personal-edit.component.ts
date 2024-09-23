@@ -5,10 +5,11 @@ import { ActivityService } from '../../services/activity.service';
 import { Activity } from '../../models/Activity';
 import { SortEvent } from 'primeng/api';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
-import { forkJoin } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ActivityType } from 'src/app/training/models/ActivityType';
 import { ActivityTypeService } from 'src/app/training/services/activity-type.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-personal-edit',
@@ -18,6 +19,7 @@ import { ActivityTypeService } from 'src/app/training/services/activity-type.ser
 export class PersonalEditComponent implements OnInit {
   person: Person;
   activities: Activity[] = [];
+  totalActivities : number;
   columnNames: any[] = [];
   roleAdmin: boolean;
   showCreate = false;
@@ -52,24 +54,31 @@ export class PersonalEditComponent implements OnInit {
   ];
 
   constructor(
-    public dialogRef: DynamicDialogRef,
-    public config: DynamicDialogConfig,
+    //public dialogRef: DynamicDialogRef,
+    //public config: DynamicDialogConfig,
     private activityService: ActivityService,
     private activityTypeService: ActivityTypeService,
     private snackbarService: SnackbarService,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: Router
   ) {}
 
   ngOnInit(): void {
-    this.person = this.config.data.person;
+    // Recuperamos la persona almacenada en state
+    if (history.state) {
+      this.person = history.state;
+      
+      this.newActivity.ggid = this.person.ggid;
+      this.newActivity.saga = this.person.saga;
 
-    this.newActivity.ggid = this.person.ggid;
-    this.newActivity.saga = this.person.saga;
-
-    this.initializeColumns();
-    this.loadActivities();
-    this.loadActivityTypes();
-    this.roleAdmin = this.authService.hasRole('ADMIN');
+      this.initializeColumns();
+      this.loadActivities();
+      this.loadActivityTypes();
+      this.roleAdmin = this.authService.hasRole('ADMIN');
+    }
+    else {
+      console.log("ERROR: No se ha encontrado ninguna persona en el estado")
+    }
   }
 
   initializeColumns() {
@@ -144,6 +153,7 @@ export class PersonalEditComponent implements OnInit {
         });
 
         this.activities = Array.from(activitiesMap.values());
+        this.totalActivities = this.activities.length;
       },
       (error) => {
         console.error('Error loading activities:', error);
@@ -164,14 +174,6 @@ export class PersonalEditComponent implements OnInit {
     } else {
       return '';
     }
-  }
-
-  closeWindow(): void {
-    this.dialogRef.close();
-  }
-
-  cancel(): void {
-    this.dialogRef.close();
   }
 
   save(): void {
