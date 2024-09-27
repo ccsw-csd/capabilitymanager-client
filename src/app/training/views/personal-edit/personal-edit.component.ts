@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Person } from '../../models/Person';
-import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DynamicDialogRef, DynamicDialogConfig, DialogService } from 'primeng/dynamicdialog';
 import { ActivityService } from '../../services/activity.service';
 import { Activity } from '../../models/Activity';
-import { SortEvent } from 'primeng/api';
+import { ConfirmationService, MessageService, SortEvent } from 'primeng/api';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { Observable, forkJoin } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -60,7 +60,10 @@ export class PersonalEditComponent implements OnInit {
     private activityTypeService: ActivityTypeService,
     private snackbarService: SnackbarService,
     private authService: AuthService,
-    private route: Router
+    private route: Router,
+    private dialogService: DialogService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
   ) {}
 
   ngOnInit(): void {
@@ -83,29 +86,21 @@ export class PersonalEditComponent implements OnInit {
 
   initializeColumns() {
     this.columnNames = [
-      { header: 'Código', field: 'codigoActividad' },
-      { header: 'Nombre', field: 'nombreActividad' },
-      { header: 'Estado', field: 'estado', class: this.getEstadoClass },
-      { header: 'Fecha Última Act.', field: 'fechaUltimaActividad' },
-      { header: 'Fecha Inicio', field: 'fechaInicio' },
+      { header: 'Código', field: 'codigoActividad', filterType: 'input' },
+      { header: 'Nombre', field: 'nombreActividad', filterType: 'input' },
+      { header: 'Estado', field: 'estado', filterType: 'input', class: this.getEstadoClass },
+      { header: 'Fecha Última Act.', field: 'fechaUltimaActividad', filterType: 'input' },
+      { header: 'Fecha Inicio', field: 'fechaInicio', filterType: 'input' },
       {
         header: 'Fecha Finalización',
         field: 'fechaFinalizacion',
+        filterType: 'input',
         class: this.getFechaFinalizacionClass,
       },
-      { header: '% Avance', field: 'porcentajeAvance' },
-      { header: 'Observaciones', field: 'observaciones' },
-      { header: 'Tipo Actividad', field: 'tipoActividadId' },
+      { header: '% Avance', field: 'porcentajeAvance', filterType: 'input' },
+      { header: 'Observaciones', field: 'observaciones', filterType: 'input' },
+      { header: 'Tipo Actividad', field: 'tipoActividadId', filterType: 'input' },
     ];
-  }
-
-  onChangeActivityType(event) {
-    this.newActivity.tipoActividad = event.value.id;
-    this.newActivity.tipoActividadId = event.value.id;
-  }
-
-  onChangeActivityState(event){
-    this.newActivity.estado = event.value;
   }
 
   loadActivityTypes(): void {
@@ -176,47 +171,7 @@ export class PersonalEditComponent implements OnInit {
     }
   }
 
-  save(): void {
-    this.newActivity.estado = (this.newActivity.estado as any)?.name || 'No iniciado';
-
-    //Check new activity is valid
-    if (
-      this.newActivity.nombreActividad === '' ||
-      this.newActivity.estado === '' ||
-      this.newActivity.tipoActividadId === null ||
-      this.newActivity.fechaInicio === null ||
-      this.newActivity.fechaFinalizacion === null ||
-      this.newActivity.porcentajeAvance === null ||
-      this.newActivity.codigoActividad === ''
-    ) {
-      this.snackbarService.error('Debe rellenar todos los campos obligatorios');
-      return;
-    }
-
-    //Check dates
-    if (this.newActivity.fechaInicio > this.newActivity.fechaFinalizacion) {
-      this.snackbarService.error('La fecha de inicio no puede ser posterior a la fecha de finalización');
-      return;
-    } 
-
-    this.activityService.create(this.newActivity).subscribe({
-      next: () => {
-        this.snackbarService.showMessage('Actividad creada correctamente');
-        this.loadActivities();
-      },
-      error: (error) => {
-
-        if (error.message) {
-          this.snackbarService.error(error.message);
-          return;
-
-        }
-        this.snackbarService.error(
-          'Error al crear la actividad. Inténtelo de nuevo más tarde.'
-        );
-      },
-    });
-  }
+  
 
   customSort(event: SortEvent): void {
     event.data.sort((data1, data2) => {
@@ -352,4 +307,98 @@ export class PersonalEditComponent implements OnInit {
     // Convertir la diferencia de milisegundos a días y redondear hacia abajo
     return Math.floor(diffTime / (1000 * 60 * 60 * 24));
   }
+
+  confirmDeleteActivity(id: string) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: '¿Estás seguro de que quieres eliminar esta actividad?',
+      header: 'Confirmación',
+      icon: 'pi pi-question-circle',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+      acceptLabel: 'Si',
+      rejectLabel: 'No',
+      acceptButtonStyleClass: 'p-button p-button-danger p-button-outlined mx-2',
+      rejectButtonStyleClass: 'p-button p-button-info p-button-outlined mx-2',
+      accept: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Confirmado',
+          detail: 'Se ha borrado la actividad',
+        });
+        this.deleteActividad(id);
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Rechazado',
+          detail: 'No se ha borrado la actividad',
+          life: 3000,
+        });
+      },
+    });
+  }
+
+  deleteActividad(id: string) {
+    this.activityService.delete(id).subscribe(
+      () => {
+        // Actualizar la lista de actividades
+        //this.activities = this.activities.filter(activity => activity.id !== id);
+        this.loadActivities();
+      },
+      (error) => {
+        // Manejar el error si ocurre
+        console.error(`Error al eliminar la actividad con id ${id}:`, error);
+      }
+    );
+  }
+
+  editActivity(id: number) {
+    const activityToEdit = this.activities.find(
+      (activity) => activity.id === id
+    );
+    if (activityToEdit) {
+      console.log('Editar actividad con id:', id);
+      console.log('Datos de la actividad:', activityToEdit);
+      // TODO: poner el componente en el dialog
+      // Abrir el diálogo de edición de la actividad
+/*       const ref = this.dialogService.open(ActivityEditComponent, {
+        header: 'Editar Actividad',
+        width: '50%',
+        closable: false,
+        data: {
+          activity: activityToEdit,
+        },
+        contentStyle: { 'max-height': '500px', overflow: 'auto' },
+      });
+
+      ref.onClose.subscribe((result: any) => {
+        if (result) {
+          console.log('Actividad editada:', result);
+          this.loadActivities();
+        }
+      }); */
+    } else {
+      console.error('No se encontró ninguna actividad con el id:', id);
+    }
+  }
+
+  createActivity() {
+    console.log('Crear nueva actividad');
+    // TODO: poner el componente en el dialog
+    /* const ref = this.dialogService.open(ItineraryInsertComponent, {
+      header: 'Crear Itinerario',
+      width: '50%',
+      closable: false,
+    });
+
+    ref.onClose.subscribe((newItinerary: Itinerary | null) => {
+      if (newItinerary) {
+        console.log('Nuevo itinerario creado:', newItinerary);
+      } else {
+        console.log('Se canceló la creación del itinerario');
+      }
+    }); */
+  }
+
 }
