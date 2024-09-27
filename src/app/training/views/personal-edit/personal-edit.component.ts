@@ -86,7 +86,6 @@ export class PersonalEditComponent implements OnInit {
 
   initializeColumns() {
     this.columnNames = [
-      { header: 'Código', field: 'codigoActividad', filterType: 'input' },
       { header: 'Nombre', field: 'nombreActividad', filterType: 'input' },
       { header: 'Estado', field: 'estado', filterType: 'input', class: this.getEstadoClass },
       { header: 'Fecha Última Act.', field: 'fechaUltimaActividad', filterType: 'input' },
