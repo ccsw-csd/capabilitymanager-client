@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class ActivityService {
+
   private baseUrl: string = environment.server;
 
   constructor(private http: HttpClient) {}
@@ -26,5 +27,9 @@ export class ActivityService {
 
   findBySaga(saga: string): Observable<Activity[]> {
     return this.http.get<Activity[]>(`${this.baseUrl}/activity/saga/${saga}`);
+  }
+
+  delete(id: string): Observable<String> {
+    return this.http.delete<String>(`${this.baseUrl}/activity/delete/${id}`);
   }
 }

@@ -11,6 +11,7 @@ import { ReportListComponent } from './skills/report/report-list/report-list.com
 import { CertficationsListComponent } from './skills/certifications/certifications-list/certifications-list.component';
 import { PersonalListComponent } from './training/views/personal-list/personal-list.component';
 import { ItineraryListComponent } from './training/views/itinerary-list/itinerary-list.component';
+import { PersonalEditComponent } from './training/views/personal-edit/personal-edit.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
@@ -53,6 +54,11 @@ const routes: Routes = [
       {
         path: 'certifications',
         component: CertficationsListComponent,
+        data: { role: ['CONSULTA'] },
+      },
+      {
+        path: 'personal-edit',
+        component: PersonalEditComponent,
         data: { role: ['CONSULTA'] },
       },
       { path: '**', redirectTo: 'capabilitymanager', pathMatch: 'full' },

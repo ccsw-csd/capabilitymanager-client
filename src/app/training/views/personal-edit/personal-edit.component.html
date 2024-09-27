@@ -5,22 +5,30 @@
 
   <div class="form flex flex-column gap-2 h-full">
     <div class="flex justify-center gap-2">
+
+      <div
+      class="flex w-9rem h-2rem gap-2 border-round-2xl align-items-center mt-3"
+      style="background-color: #e7edef"
+      >
+        <div class="pl-3">
+          <i class="pi pi-user text-xl text-primary"></i>
+        </div>
+        <div class="flex flex-row align-items-center gap-1 text-sm">
+          <p>{{ totalActivities }}</p>
+          Actividades
+        </div>
+      </div>
       <fieldset class="info-fieldset">
         <legend class="info-legend">GGID</legend>
         <div class="info-value">{{ person.ggid }}</div>
       </fieldset>
 
       <fieldset class="info-fieldset">
-        <legend class="info-legend">SAGA</legend>
-        <div class="info-value">{{ person.saga }}</div>
-      </fieldset>
-
-      <fieldset class="info-fieldset" [style]="{ width: '400px' }">
         <legend class="info-legend">Nombre</legend>
         <div class="info-value">{{ person.nombre }}</div>
       </fieldset>
 
-      <fieldset class="info-fieldset" [style]="{ width: '400px' }">
+      <fieldset class="info-fieldset">
         <legend class="info-legend">Apellidos</legend>
         <div class="info-value">{{ person.apellidos }}</div>
       </fieldset>
@@ -32,100 +40,12 @@
         type="button"
         class="p-button p-button-outlined m-2"
         title="Crear Actividad"
-        (click)="showCreate = !showCreate"
+        (click)="createActivity()"
       ></button>
     </div>
 
     <!-- Verificador de actividades -->
-
-
     <div
-      *ngIf="showCreate"
-      class="flex flex-col gap-1 border-2 border-green-300 rounded-md p-1"
-      style="align-items: center;"
-    >
-      <h4 class="my-0 p-0 pb-1">Crear Actividad</h4>
-      <div class="flex flex-wrap gap-2 justify-content-center">
-        <input
-          type="text"
-          pInputText
-          [(ngModel)]="newActivity.nombreActividad"
-          [placeholder]="'Nombre de la actividad'"
-          style="width: 180px; height: 50px;"
-        />
-        <input
-          type="text"
-          pInputText
-          [(ngModel)]="newActivity.observaciones"
-          [placeholder]="'Observaciones'"
-          style="width: 180px; height: 50px;"
-        />
-      
-        <p-dropdown
-          [options]="stateOptions"
-          [style]="{ width: '180px', height:'50px' }"
-          (onChange)="onChangeActivityState($event)"
-          optionLabel="name"
-          [showClear]="false"
-          placeholder="Estado"
-          title="Estado"
-        >
-        </p-dropdown>
-
-        <p-calendar
-          [(ngModel)]="newActivity.fechaInicio"
-          [iconDisplay]="'input'"
-          [showIcon]="true"
-          [style]="{ width: '180px', height:'50px' }"
-          dateFormat="dd/mm/yy"
-          [firstDayOfWeek]="1"
-          placeholder="Fecha Inicio"
-          appendTo="body"
-        />
-
-        <p-calendar
-          [(ngModel)]="newActivity.fechaFinalizacion"
-          [iconDisplay]="'input'"
-          [showIcon]="true"
-          [style]="{ width: '180px', height:'50px' }"
-          [firstDayOfWeek]="1"
-          dateFormat="dd/mm/yy"
-          placeholder="Fecha Fin"
-          appendTo="body"
-        />
-
-        <p-dropdown
-          [options]="activityTypesOptions"
-          [style]="{ width: '180px', height:'50px' }"
-          optionLabel="name"
-          [showClear]="false"
-          [loading]="activityTypes.length === 0"
-          (onChange)="onChangeActivityType($event)"
-          placeholder="Tipo de Actividad"
-          title="Tipo de Actividad"
-        >
-        </p-dropdown>
-
-        <input
-          type="number"
-          [placeholder]="'Porcentaje Avance'"
-          pInputNumber
-          [(ngModel)]="newActivity.porcentajeAvance"
-          max="100"
-          min="0"
-          [style]="{ width: '180px', height:'50px' }"
-        />
-        <input
-          type="text"
-          pInputText
-          [(ngModel)]="newActivity.codigoActividad"
-          [placeholder]="'Código Actividad'"
-          [style]="{ width: '180px', height:'50px' }"
-        />
-      </div>
-    </div>
-
-        <div
       *ngIf="activities.length === 0"
       class="no-activities-message h-[250px]"
     >
@@ -137,7 +57,6 @@
       *ngIf="activities.length > 0"
       class="card"
       style="overflow: auto"
-      [style.height]="showCreate ? '13.125em' : '22em'"
     >
       <p-table
         [scrollable]="true"
@@ -168,6 +87,43 @@
                 }}</span>
                 <p-sortIcon field="{{ col.field }}"></p-sortIcon>
               </div>
+
+              <div class="w-full foot-header">
+                <!-- Filtros para las columnas -->
+                <p-columnFilter
+                  *ngIf="col.filterType === 'input'"
+                  class="w-full"
+                  type="text"
+                  field="{{ col.composeField }}"
+                  [showMenu]="false"
+                  [showClearButton]="false"
+                  matchMode="contains"
+                >
+                  <ng-template
+                    pTemplate="filter"
+                    let-value
+                    let-filter="filterCallback"
+                  >
+                    <input
+                      tabindex="1"
+                      type="text"
+                      pInputText
+                      [ngModel]="value"
+                      (ngModelChange)="filter($event)"
+                      class="p-inputtext"
+                    />
+                  </ng-template>
+                </p-columnFilter>
+              </div>
+              
+            </th>
+            <th class="buttons flex flex-column" 
+            [ngStyle]="{ 
+              width: '15rem', 
+              flex: '0 0 auto' 
+            }">
+              <div class="flex flex-row w-full top-header"></div>
+              <div class="w-full foot-header"></div>
             </th>
           </tr>
         </ng-template>
@@ -208,6 +164,30 @@
                 </div>
               </ng-template>
             </td>
+            <!-- Botones de edición y borrado -->
+            <td class="buttons" 
+            [ngStyle]="{ 
+              width: '15rem', 
+              flex: '0 0 auto',
+              justifyContent: 'center' 
+            }">
+              <button
+                pButton
+                type="button"
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-text"
+                pTooltip="Editar"
+                (click)="editActivity(activity.id)"
+              ></button>
+              <button
+                pButton
+                type="button"
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-danger p-button-text"
+                pTooltip="Eliminar"
+                (click)="confirmDeleteActivity(activity.id)"
+              ></button>
+            </td>
           </tr>
         </ng-template>
       </p-table>
@@ -215,30 +195,12 @@
 
     <div class="flex-1"></div>
 
-    <!-- Botones de Cancelar y Guardar -->
-    <div class="fixed-buttons" *ngIf="roleAdmin">
-      <button
-        pButton
-        type="button"
-        (click)="cancel()"
-        pRipple
-        icon="pi pi-times"
-        label="Cancelar"
-        class="p-button p-button-danger p-button-outlined"
-        style="width: 80px"
-        title="Cancelar"
-      ></button>
-      <button
-        pButton
-        type="button"
-        (click)="save()"
-        pRipple
-        icon="pi pi-save"
-        label="Guardar"
-        class="p-button p-button-primary p-button-outlined"
-        style="width: 80px"
-        title="Guardar"
-      ></button>
-    </div>
+    
   </div>
 </div>
+<p-confirmDialog
+  [closable]="false"
+  header="Confirmación"
+  icon="pi pi-exclamation-triangle"
+  #confirmDialog
+></p-confirmDialog>
