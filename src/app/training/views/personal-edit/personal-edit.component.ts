@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { ActivityType } from 'src/app/training/models/ActivityType';
 import { ActivityTypeService } from 'src/app/training/services/activity-type.service';
 import { Router } from '@angular/router';
+import { ActivityInsertComponent } from '../activity-insert/activity-insert.component';
 
 @Component({
   selector: 'app-personal-edit',
@@ -129,25 +130,21 @@ export class PersonalEditComponent implements OnInit {
     ]).subscribe(
       ([ggidActivities, sagaActivities]) => {
         const allActivities = [...ggidActivities, ...sagaActivities];
-        const activitiesMap = new Map<string, any>();
+        const uniqueActivitiesMap = new Map();
 
         allActivities.forEach((activity) => {
-          if (!activitiesMap.has(activity.codigoActividad)) {
-            activitiesMap.set(activity.codigoActividad, activity);
+          if (activity.porcentajeAvance === 100) {
+            activity.estado = 'Completado';
+          }
 
-            if (
-              activity.porcentajeAvance > 0 &&
-              activity.porcentajeAvance < 100
-            ) {
-              activity.estado = 'Iniciado';
-            } else if (activity.porcentajeAvance === 100) {
-              activity.estado = 'Completado';
-            }
+          const uniqueKey = activity.codigoActividad || `${activity.nombreActividad}-${activity.fechaInicio}`;
+
+          if (!uniqueActivitiesMap.has(uniqueKey)) {
+            uniqueActivitiesMap.set(uniqueKey, activity);
           }
         });
-
-        this.activities = Array.from(activitiesMap.values());
-        this.totalActivities = this.activities.length;
+        this.activities = Array.from(uniqueActivitiesMap.values());
+	      this.totalActivities = this.activities.length;
       },
       (error) => {
         console.error('Error loading activities:', error);
@@ -157,6 +154,7 @@ export class PersonalEditComponent implements OnInit {
       }
     );
   }
+
 
   formatDate(dateString: string): string {
     if (dateString != null) {
@@ -382,22 +380,28 @@ export class PersonalEditComponent implements OnInit {
     }
   }
 
-  createActivity() {
+  createActivity(person?: Person) {
     console.log('Crear nueva actividad');
-    // TODO: poner el componente en el dialog
-    /* const ref = this.dialogService.open(ItineraryInsertComponent, {
-      header: 'Crear Itinerario',
-      width: '50%',
+    const ref = this.dialogService.open(ActivityInsertComponent, {
+      width: '70%',
+      height: '70%',
+      data: {
+        person: person,
+      },
       closable: false,
+      showHeader: true,
     });
 
-    ref.onClose.subscribe((newItinerary: Itinerary | null) => {
-      if (newItinerary) {
-        console.log('Nuevo itinerario creado:', newItinerary);
-      } else {
-        console.log('Se canceló la creación del itinerario');
+    ref.onClose.subscribe((result: boolean) => {
+      if (result) {
+        this.loadData();
       }
-    }); */
+    });
   }
 
+  loadData() {
+    this.loadActivities();
+  }
 }
+
+
