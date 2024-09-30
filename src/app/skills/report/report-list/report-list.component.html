@@ -128,9 +128,14 @@
         </div>
 
         <div class="w-full foot-header">
-          <!-- Filtros para las columnas -->
+          <!-- Filtros para las columnas-->
           <p-columnFilter
-            *ngIf="col.filterType === 'input' && col.field !== 'screenshot'"
+            *ngIf="
+              col.filterType === 'input' &&
+              col.field !== 'screenshot' &&
+              col.field !== 'fechaImportacion' &&
+              col.field !== 'fechaModificacion'
+            "
             class="w-full"
             type="text"
             field="{{ col.composeField }}"
@@ -154,6 +159,7 @@
             </ng-template>
           </p-columnFilter>
 
+          <!-- Filtro para screenshot -->
           <p-columnFilter
             *ngIf="col.field === 'screenshot'"
             class="w-full"
@@ -174,6 +180,61 @@
                 [ngModel]="value"
                 (ngModelChange)="filter($event)"
               ></p-dropdown>
+            </ng-template>
+          </p-columnFilter>
+
+          <!-- Filtro para fechaImportacion -->
+          <p-columnFilter
+            *ngIf="
+              col.filterType === 'date' && col.field === 'fechaImportacion'
+            "
+            class="w-full"
+            type="date"
+            field="{{ col.composeField }}"
+            [showMenu]="false"
+            [showClearButton]="false"
+            matchMode="equals"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <input
+                type="date"
+                pInputText
+                [ngModel]="value"
+                (ngModelChange)="filter($event)"
+                class="p-inputtext"
+              />
+            </ng-template>
+          </p-columnFilter>
+
+          <!-- Filtro para fechaModificacion -->
+          <p-columnFilter
+            *ngIf="
+              col.filterType === 'date' && col.field === 'fechaModificacion'
+            "
+            class="w-full"
+            type="date"
+            field="{{ col.composeField }}"
+            [showMenu]="false"
+            [showClearButton]="false"
+            matchMode="equals"
+            d
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <input
+                type="date"
+                pInputText
+                [ngModel]="value"
+                (ngModelChange)="filter($event)"
+                class="p-inputtext"
+              />
             </ng-template>
           </p-columnFilter>
         </div>

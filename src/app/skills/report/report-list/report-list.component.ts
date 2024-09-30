@@ -79,7 +79,7 @@ export class ReportListComponent {
         header: 'Fecha de Generación',
         composeField: 'fechaImportacion',
         field: 'fechaImportacion',
-        filterType: 'input',
+        filterType: 'date',
       },
       {
         header: 'Descripción',
@@ -97,7 +97,7 @@ export class ReportListComponent {
         header: 'Fecha de Modificación',
         composeField: 'fechaModificacion',
         field: 'fechaModificacion',
-        filterType: 'input',
+        filterType: 'date',
       },
       {
         header: 'Comentarios',
@@ -253,7 +253,7 @@ export class ReportListComponent {
     this.defaultFilters = {};
 
     this.columnNames.forEach((column) => {
-      if (column.filterType === 'input') {
+      if (column.filterType === 'input' || column.filterType === 'date') {
         this.defaultFilters[column.composeField] = {
           value: '',
           matchMode: 'contains',

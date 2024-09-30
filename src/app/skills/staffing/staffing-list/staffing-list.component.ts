@@ -50,7 +50,7 @@ export class StaffingListComponent {
         header: 'Fecha de Importación',
         composeField: 'fechaImportacion',
         field: 'fechaImportacion',
-        filterType: 'input',
+        filterType: 'date',
       },
       {
         header: 'Tipo Interfaz',
@@ -80,7 +80,6 @@ export class StaffingListComponent {
 
     this.selectedColumnNames = this.loadSelected();
     this.loadData();
-    
   }
 
   isColumnVisible(field: string): boolean {
@@ -118,8 +117,11 @@ export class StaffingListComponent {
     this.defaultFilters = {};
 
     this.columnNames.forEach((column) => {
-      if (column.filterType === 'input') {
-        this.defaultFilters[column.composeField] = { value: '', matchMode: 'contains'  };
+      if (column.filterType === 'input' || column.filterType === 'date') {
+        this.defaultFilters[column.composeField] = {
+          value: '',
+          matchMode: 'contains',
+        };
       }
     });
   }
