@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ItineraryUploadComponent } from '../itinerary-upload/itinerary-upload.component';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-personal-list',
@@ -41,7 +42,8 @@ export class PersonalListComponent implements OnInit {
   constructor(
     private personService: PersonService,
     private dialogService: DialogService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -278,21 +280,7 @@ export class PersonalListComponent implements OnInit {
   }
 
   editPerson(person?: Person) {
-    const ref = this.dialogService.open(PersonalEditComponent, {
-      width: '80%',
-      height: '80%',
-      data: {
-        person: person,
-      },
-      closable: false,
-      showHeader: true,
-    });
-
-    ref.onClose.subscribe((result: boolean) => {
-      if (result) {
-        this.loadData();
-      }
-    });
+    this.router.navigate(['/personal-edit'], { state: person });
   }
 
   getData(data: any, att: string) {
