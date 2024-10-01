@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Person } from '../../models/Person';
-import { DynamicDialogRef, DynamicDialogConfig, DialogService } from 'primeng/dynamicdialog';
+import {
+  DynamicDialogRef,
+  DynamicDialogConfig,
+  DialogService,
+} from 'primeng/dynamicdialog';
 import { ActivityService } from '../../services/activity.service';
 import { Activity } from '../../models/Activity';
 import { ConfirmationService, MessageService, SortEvent } from 'primeng/api';
@@ -20,7 +24,7 @@ import { ActivityInsertComponent } from '../activity-insert/activity-insert.comp
 export class PersonalEditComponent implements OnInit {
   person: Person;
   activities: Activity[] = [];
-  totalActivities : number;
+  totalActivities: number;
   columnNames: any[] = [];
   roleAdmin: boolean;
   showCreate = false;
@@ -64,14 +68,14 @@ export class PersonalEditComponent implements OnInit {
     private route: Router,
     private dialogService: DialogService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
     // Recuperamos la persona almacenada en state
     if (history.state) {
       this.person = history.state;
-      
+
       this.newActivity.ggid = this.person.ggid;
       this.newActivity.saga = this.person.saga;
 
@@ -79,17 +83,25 @@ export class PersonalEditComponent implements OnInit {
       this.loadActivities();
       this.loadActivityTypes();
       this.roleAdmin = this.authService.hasRole('ADMIN');
-    }
-    else {
-      console.log("ERROR: No se ha encontrado ninguna persona en el estado")
+    } else {
+      console.log('ERROR: No se ha encontrado ninguna persona en el estado');
     }
   }
 
   initializeColumns() {
     this.columnNames = [
       { header: 'Nombre', field: 'nombreActividad', filterType: 'input' },
-      { header: 'Estado', field: 'estado', filterType: 'input', class: this.getEstadoClass },
-      { header: 'Fecha Última Act.', field: 'fechaUltimaActividad', filterType: 'input' },
+      {
+        header: 'Estado',
+        field: 'estado',
+        filterType: 'input',
+        class: this.getEstadoClass,
+      },
+      {
+        header: 'Fecha Última Act.',
+        field: 'fechaUltimaActividad',
+        filterType: 'input',
+      },
       { header: 'Fecha Inicio', field: 'fechaInicio', filterType: 'input' },
       {
         header: 'Fecha Finalización',
@@ -99,7 +111,11 @@ export class PersonalEditComponent implements OnInit {
       },
       { header: '% Avance', field: 'porcentajeAvance', filterType: 'input' },
       { header: 'Observaciones', field: 'observaciones', filterType: 'input' },
-      { header: 'Tipo Actividad', field: 'tipoActividadId', filterType: 'input' },
+      {
+        header: 'Tipo Actividad',
+        field: 'tipoActividadId',
+        filterType: 'input',
+      },
     ];
   }
 
@@ -137,14 +153,16 @@ export class PersonalEditComponent implements OnInit {
             activity.estado = 'Completado';
           }
 
-          const uniqueKey = activity.codigoActividad || `${activity.nombreActividad}-${activity.fechaInicio}`;
+          const uniqueKey =
+            activity.codigoActividad ||
+            `${activity.nombreActividad}-${activity.fechaInicio}`;
 
           if (!uniqueActivitiesMap.has(uniqueKey)) {
             uniqueActivitiesMap.set(uniqueKey, activity);
           }
         });
         this.activities = Array.from(uniqueActivitiesMap.values());
-	      this.totalActivities = this.activities.length;
+        this.totalActivities = this.activities.length;
       },
       (error) => {
         console.error('Error loading activities:', error);
@@ -154,7 +172,6 @@ export class PersonalEditComponent implements OnInit {
       }
     );
   }
-
 
   formatDate(dateString: string): string {
     if (dateString != null) {
@@ -167,8 +184,6 @@ export class PersonalEditComponent implements OnInit {
       return '';
     }
   }
-
-  
 
   customSort(event: SortEvent): void {
     event.data.sort((data1, data2) => {
@@ -359,7 +374,7 @@ export class PersonalEditComponent implements OnInit {
       console.log('Datos de la actividad:', activityToEdit);
       // TODO: poner el componente en el dialog
       // Abrir el diálogo de edición de la actividad
-/*       const ref = this.dialogService.open(ActivityEditComponent, {
+      /*       const ref = this.dialogService.open(ActivityEditComponent, {
         header: 'Editar Actividad',
         width: '50%',
         closable: false,
@@ -383,8 +398,6 @@ export class PersonalEditComponent implements OnInit {
   createActivity(person?: Person) {
     console.log('Crear nueva actividad');
     const ref = this.dialogService.open(ActivityInsertComponent, {
-      width: '70%',
-      height: '70%',
       data: {
         person: person,
       },
@@ -403,5 +416,3 @@ export class PersonalEditComponent implements OnInit {
     this.loadActivities();
   }
 }
-
-

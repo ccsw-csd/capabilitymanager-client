@@ -6,10 +6,9 @@
 
   <div class="form flex flex-column gap-2 h-full">
     <div class="flex justify-center gap-2">
-
       <div
-      class="flex w-9rem h-2rem gap-2 border-round-2xl align-items-center mt-3"
-      style="background-color: #e7edef"
+        class="flex w-9rem h-2rem gap-2 border-round-2xl align-items-center mt-3"
+        style="background-color: #e7edef"
       >
         <div class="pl-3">
           <i class="pi pi-user text-xl text-primary"></i>
@@ -54,11 +53,7 @@
     </div>
 
     <!-- Listado de actividades -->
-    <div
-      *ngIf="activities.length > 0"
-      class="card"
-      style="overflow: auto"
-    >
+    <div *ngIf="activities.length > 0" class="card" style="overflow: auto">
       <p-table
         [scrollable]="true"
         scrollHeight="flex"
@@ -116,13 +111,14 @@
                   </ng-template>
                 </p-columnFilter>
               </div>
-              
             </th>
-            <th class="buttons flex flex-column" 
-            [ngStyle]="{ 
-              width: '15rem', 
-              flex: '0 0 auto' 
-            }">
+            <th
+              class="buttons flex flex-column"
+              [ngStyle]="{
+                width: '15rem',
+                flex: '0 0 auto'
+              }"
+            >
               <div class="flex flex-row w-full top-header"></div>
               <div class="w-full foot-header"></div>
             </th>
@@ -166,12 +162,14 @@
               </ng-template>
             </td>
             <!-- Botones de edición y borrado -->
-            <td class="buttons" 
-            [ngStyle]="{ 
-              width: '15rem', 
-              flex: '0 0 auto',
-              justifyContent: 'center' 
-            }">
+            <td
+              class="buttons"
+              [ngStyle]="{
+                width: '15rem',
+                flex: '0 0 auto',
+                justifyContent: 'center'
+              }"
+            >
               <button
                 pButton
                 type="button"
@@ -195,8 +193,6 @@
     </div>
 
     <div class="flex-1"></div>
-
-    
   </div>
 </div>
 <p-confirmDialog
