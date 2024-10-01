@@ -1,6 +1,7 @@
 <div class="container overflow-auto h-full">
   <div class="header">
     <h2 class="title">Lista de Actividades</h2>
+    <p-toast></p-toast>
   </div>
 
   <div class="form flex flex-column gap-2 h-full">
@@ -40,7 +41,7 @@
         type="button"
         class="p-button p-button-outlined m-2"
         title="Crear Actividad"
-        (click)="createActivity()"
+        (click)="createActivity(person)"
       ></button>
     </div>
 

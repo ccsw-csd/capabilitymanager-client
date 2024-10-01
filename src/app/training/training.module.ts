@@ -18,6 +18,8 @@ import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+import { ActivityInsertComponent } from './views/activity-insert/activity-insert.component';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { CalendarModule } from 'primeng/calendar';
     ItineraryInsertComponent,
     ItineraryUploadComponent,
     PersonalEditComponent,
+    ActivityInsertComponent,
   ],
   imports: [
     CommonModule,
@@ -42,6 +45,7 @@ import { CalendarModule } from 'primeng/calendar';
     MultiSelectModule,
     DialogModule,
     FileUploadModule,
+    InputTextModule,
   ],
   providers: [DialogService],
 })
