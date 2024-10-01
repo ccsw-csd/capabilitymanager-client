@@ -355,7 +355,7 @@ export class PersonalEditComponent implements OnInit {
     this.activityService.delete(id).subscribe(
       () => {
         // Actualizar la lista de actividades
-        //this.activities = this.activities.filter(activity => activity.id !== id);
+        this.activities = this.activities.filter(activity => activity.id.toString() !== id);
         this.loadActivities();
       },
       (error) => {
