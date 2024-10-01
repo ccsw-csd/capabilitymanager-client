@@ -355,7 +355,9 @@ export class PersonalEditComponent implements OnInit {
     this.activityService.delete(id).subscribe(
       () => {
         // Actualizar la lista de actividades
-        this.activities = this.activities.filter(activity => activity.id.toString() !== id);
+        this.activities = this.activities.filter(
+          (activity) => activity.id.toString() !== id
+        );
         this.loadActivities();
       },
       (error) => {
@@ -398,6 +400,8 @@ export class PersonalEditComponent implements OnInit {
   createActivity(person?: Person) {
     console.log('Crear nueva actividad');
     const ref = this.dialogService.open(ActivityInsertComponent, {
+      width: '60rem',
+      height: '27rem',
       data: {
         person: person,
       },
