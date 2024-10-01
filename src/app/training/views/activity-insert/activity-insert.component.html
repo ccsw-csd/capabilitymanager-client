@@ -1,122 +1,132 @@
 <div class="container overflow-auto h-full p-4">
-    <div class="header mb-4">
-        <h2 class="title" style="margin-bottom: 2.5rem; margin-top: 0;">Crear Actividad</h2>
+  <div class="header mb-4">
+    <h2 class="title" style="margin-bottom: 2.5rem; margin-top: 0">
+      Crear Actividad
+    </h2>
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <div class="flex flex-row gap-2 md:flex-nowrap" style="width: 100%">
+      <span class="p-float-label flex-1 mt-2" style="width: 73.75%">
+        <input
+          type="text"
+          [(ngModel)]="newActivity.nombreActividad"
+          (ngModelChange)="validateForm()"
+          class="p-inputtext p-component p-element w-full ng-pristine ng-valid ng-touched"
+          id="nombreActividad"
+          pInputText
+        />
+        <label for="nombreActividad"
+          >Nombre de la actividad<span class="text-red-600">*</span></label
+        >
+      </span>
+      <span class="p-float-label min-w-max mt-2" style="width: 26.25%">
+        <p-dropdown
+          [options]="stateOptions"
+          (onChange)="onChangeActivityState($event); validateForm()"
+          [(ngModel)]="newActivity.estado"
+          optionLabel="name"
+          [showClear]="false"
+          styleClass="w-full"
+          id="estadoActividad"
+          [autoDisplayFirst]="false"
+        ></p-dropdown>
+        <label for="estadoActividad"
+          >Estado<span class="text-red-600">*</span></label
+        >
+      </span>
     </div>
-    <div class="flex flex-wrap gap-2">
-        <div class="flex flex-row gap-2 md:flex-nowrap" style="width: 100%;">
-          <span class="p-float-label flex-1 mt-2" style="width: 73.75%;">
-            <input
-              type="text"
-              [(ngModel)]="newActivity.nombreActividad"
-              (ngModelChange)="validateForm()"
-              class="p-inputtext p-component p-element w-full ng-pristine ng-valid ng-touched"
-              id="nombreActividad"
-              style="height: 2.65rem;"
-              pInputText
-            />
-            <label for="nombreActividad" >Nombre de la actividad<span class="text-red-600 text-base">*</span></label>
-          </span>
-          <span class="p-float-label min-w-max mt-2" style="width: 26.25%;" >
-            <p-dropdown
-              [options]="stateOptions"
-              (onChange)="onChangeActivityState($event); validateForm()"
-              [(ngModel)]="newActivity.estado"
-              optionLabel="name"
-              [showClear]="false"
-              styleClass="w-full"
-              id="estadoActividad"
-              [autoDisplayFirst]="false"
-            ></p-dropdown>
-            <label for="estadoActividad">Estado<span class="text-red-600 text-base">*</span></label>
-          </span>
-        </div>
 
-        <div class="flex flex-row gap-2 md:flex-nowrap" style="width: 100%;">
-          <span class="p-float-label min-w-max mt-2" style="width: 27%;" >
-            <p-dropdown
-              [options]="activityTypesOptions"
-              styleClass="w-full"
-              optionLabel="name"
-              [showClear]="false"
-              (onChange)="onChangeActivityType($event); validateForm()"
-              id="tipoActividad"
-              [autoDisplayFirst]="false"
-            ></p-dropdown>
-            <label for="tipoActividad">Tipo de actividad<span class="text-red-600 text-base">*</span></label>
-          </span>
-          <span class="p-float-label mt-2" style="width: 23%;">
-            <p-calendar
-              [(ngModel)]="newActivity.fechaInicio"
-              (ngModelChange)="validateForm()"
-              styleClass="w-full"
-              dateFormat="dd/mm/yy"
-              [firstDayOfWeek]="1"
-              appendTo="body"
-              id="fechaInicio"
-            />
-            <label for="fechaInicio">Fecha inicio<span class="text-red-600 text-base">*</span></label>
-          </span>
-          <span class="p-float-label mt-2" style="width: 23%;" >
-            <p-calendar
-              [(ngModel)]="newActivity.fechaFinalizacion"
-              styleClass="w-full"
-              [firstDayOfWeek]="1"
-              dateFormat="dd/mm/yy"
-              appendTo="body"
-              id="fechaFin"
-            />
-            <label for="fechaFin">Fecha fin</label>
-          </span>
-          <span class="p-float-label mt-2" style="width: 27%;" >
-            <input
-              type="number"
-              pInputText
-              [(ngModel)]="newActivity.porcentajeAvance"
-              (ngModelChange)="validateForm()"
-              max="100"
-              min="0"
-              class="p-inputtext p-component p-element w-full ng-pristine ng-valid ng-touched"
-              id="porcentajeAvance"
-              style="height: 2.65rem;"
-            />
-            <label for="porcentajeAvance">Porcentaje avance<span class="text-red-600 text-base">*</span></label>
-          </span>
-        </div>
-        <div class="p-float-label w-full mt-2">
-            <textarea
-              pInputText
-              [(ngModel)]="newActivity.observaciones"
-              class="p-inputtext p-component p-element w-full ng-pristine ng-valid ng-touched"
-              style="height: 6.25rem;"
-              id="observaciones"
-            ></textarea>
-            <label for="observaciones">Observaciones</label>
-        </div>
+    <div class="flex flex-row gap-2 md:flex-nowrap" style="width: 100%">
+      <span class="p-float-label min-w-max mt-2" style="width: 27%">
+        <p-dropdown
+          [options]="activityTypesOptions"
+          styleClass="w-full"
+          optionLabel="name"
+          [showClear]="false"
+          (onChange)="onChangeActivityType($event); validateForm()"
+          id="tipoActividad"
+          [autoDisplayFirst]="false"
+        ></p-dropdown>
+        <label for="tipoActividad"
+          >Tipo de actividad<span class="text-red-600">*</span></label
+        >
+      </span>
+      <span class="p-float-label mt-2" style="width: 23%">
+        <p-calendar
+          [(ngModel)]="newActivity.fechaInicio"
+          (ngModelChange)="validateForm()"
+          styleClass="w-full"
+          dateFormat="dd/mm/yy"
+          [firstDayOfWeek]="1"
+          appendTo="body"
+          id="fechaInicio"
+        />
+        <label for="fechaInicio"
+          >Fecha inicio<span class="text-red-600">*</span></label
+        >
+      </span>
+      <span class="p-float-label mt-2" style="width: 23%">
+        <p-calendar
+          [(ngModel)]="newActivity.fechaFinalizacion"
+          styleClass="w-full"
+          [firstDayOfWeek]="1"
+          dateFormat="dd/mm/yy"
+          appendTo="body"
+          id="fechaFin"
+        />
+        <label for="fechaFin">Fecha fin</label>
+      </span>
+      <span class="p-float-label mt-2" style="width: 27%">
+        <input
+          type="number"
+          pInputText
+          [(ngModel)]="newActivity.porcentajeAvance"
+          (ngModelChange)="validateForm()"
+          max="100"
+          min="0"
+          class="p-inputtext p-component p-element w-full ng-pristine ng-valid ng-touched"
+          id="porcentajeAvance"
+        />
+        <label for="porcentajeAvance"
+          >Porcentaje avance<span class="text-red-600">*</span></label
+        >
+      </span>
     </div>
-    
-    <div class="flex flex-row justify-content-end gap-2 md:flex-wrap mt-3">
-        <button
-          pButton
-          type="button"
-          (click)="cancel()"
-          pRipple
-          icon="pi pi-times"
-          label="Cancelar"
-          class="p-button-secondary p-button-outlined"
-          style="width: 5rem;"
-          title="Cancelar"
-        ></button>
-        <button
-          pButton
-          type="button"
-          (click)="save()"
-          pRipple
-          icon="pi pi-save"
-          label="Guardar"
-          class="p-button-primary"
-          [disabled]="!isFormValid"
-          style="width: 5rem;"
-          title="Guardar"
-        ></button>
+    <div class="p-float-label w-full mt-2">
+      <textarea
+        pInputText
+        [(ngModel)]="newActivity.observaciones"
+        class="p-inputtext p-component p-element w-full ng-pristine ng-valid ng-touched"
+        style="height: 6.25rem"
+        id="observaciones"
+      ></textarea>
+      <label for="observaciones">Observaciones</label>
     </div>
+  </div>
+
+  <div class="flex flex-row justify-content-end gap-2 md:flex-wrap mt-3">
+    <button
+      pButton
+      type="button"
+      (click)="cancel()"
+      pRipple
+      icon="pi pi-times"
+      label="Cancelar"
+      class="p-button-secondary p-button-outlined"
+      style="width: 5rem"
+      title="Cancelar"
+    ></button>
+    <button
+      pButton
+      type="button"
+      (click)="save()"
+      pRipple
+      icon="pi pi-save"
+      label="Guardar"
+      class="p-button-primary"
+      [disabled]="!isFormValid"
+      style="width: 5rem"
+      title="Guardar"
+    ></button>
+  </div>
 </div>
