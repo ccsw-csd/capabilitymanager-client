@@ -46,7 +46,7 @@
       title="Importar archivo certificaciones"
     ></button>
     <!-- Antiguo botón con el icono "+" -->
-     <!--
+    <!--
     <button
       #b
       pButton
@@ -59,23 +59,23 @@
     -->
     <!-- Nuevo botón -->
     <button
-    pButton
-    label="Generar informe"
-    type="button"
-    class="p-button m-2"
-    (click)="generateReport()"
-    title="Generar informe"
-  ></button>
-  <button
-  tooltipPosition="top"
-  pButton
-  pRipple
-  type="button"
-  icon="pi pi-filter-slash"
-  class="p-button-lg m-2 p-button-outlined p-button-secondary"
-  pTooltip="Limpiar filtros"
-  (click)="cleanFilters()"
-></button>
+      pButton
+      label="Generar informe"
+      type="button"
+      class="p-button m-2"
+      (click)="generateReport()"
+      title="Generar informe"
+    ></button>
+    <button
+      tooltipPosition="top"
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-filter-slash"
+      class="p-button-lg m-2 p-button-outlined p-button-secondary"
+      pTooltip="Limpiar filtros"
+      (click)="cleanFilters()"
+    ></button>
     <button
       tooltipPosition="top"
       pButton
@@ -128,31 +128,115 @@
         </div>
 
         <div class="w-full foot-header">
-               <!-- Filtros para las columnas -->
-               <p-columnFilter
-               *ngIf="col.filterType === 'input'"
-               class="w-full"
-               type="text"
-               field="{{ col.composeField }}"
-               [showMenu]="false"
-               [showClearButton]="false"
-               matchMode="contains"
-             >
-               <ng-template
-                 pTemplate="filter"
-                 let-value
-                 let-filter="filterCallback"
-               >
-                 <input
-                   tabindex="1"
-                   type="text"
-                   pInputText
-                   [ngModel]="value"
-                   (ngModelChange)="filter($event)"
-                   class="p-inputtext"
-                 />
-               </ng-template>
-             </p-columnFilter>
+          <!-- Filtros para las columnas-->
+          <p-columnFilter
+            *ngIf="
+              col.filterType === 'input' &&
+              col.field !== 'screenshot' &&
+              col.field !== 'fechaImportacion' &&
+              col.field !== 'fechaModificacion'
+            "
+            class="w-full"
+            type="text"
+            field="{{ col.composeField }}"
+            [showMenu]="false"
+            [showClearButton]="false"
+            matchMode="contains"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <input
+                tabindex="1"
+                type="text"
+                pInputText
+                [ngModel]="value"
+                (ngModelChange)="filter($event)"
+                class="p-inputtext"
+              />
+            </ng-template>
+          </p-columnFilter>
+
+          <!-- Filtro para screenshot -->
+          <p-columnFilter
+            *ngIf="col.field === 'screenshot'"
+            class="w-full"
+            type="text"
+            field="{{ col.composeField }}"
+            [showMenu]="false"
+            [showClearButton]="false"
+            matchMode="equals"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <p-dropdown
+                [options]="screenshotOptions"
+                [ngModel]="defaultScreenshotFilter"
+                [ngModel]="value"
+                (ngModelChange)="filter($event)"
+              ></p-dropdown>
+            </ng-template>
+          </p-columnFilter>
+
+          <!-- Filtro para fechaImportacion -->
+          <p-columnFilter
+            *ngIf="
+              col.filterType === 'date' && col.field === 'fechaImportacion'
+            "
+            class="w-full"
+            type="date"
+            field="{{ col.composeField }}"
+            [showMenu]="false"
+            [showClearButton]="false"
+            matchMode="equals"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <input
+                type="date"
+                pInputText
+                [ngModel]="value"
+                (ngModelChange)="filter($event)"
+                class="p-inputtext"
+              />
+            </ng-template>
+          </p-columnFilter>
+
+          <!-- Filtro para fechaModificacion -->
+          <p-columnFilter
+            *ngIf="
+              col.filterType === 'date' && col.field === 'fechaModificacion'
+            "
+            class="w-full"
+            type="date"
+            field="{{ col.composeField }}"
+            [showMenu]="false"
+            [showClearButton]="false"
+            matchMode="equals"
+            d
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <input
+                type="date"
+                pInputText
+                [ngModel]="value"
+                (ngModelChange)="filter($event)"
+                class="p-inputtext"
+              />
+            </ng-template>
+          </p-columnFilter>
         </div>
       </th>
       <th class="buttons flex flex-column">
@@ -168,7 +252,9 @@
           *ngIf="!col.fieldExtra && !col.parse"
           class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
           pTooltip="{{
-            col.field === 'roleVersion' || col.field === 'staffingVersion' || col.field === 'certificatesVersion'
+            col.field === 'roleVersion' ||
+            col.field === 'staffingVersion' ||
+            col.field === 'certificatesVersion'
               ? report[col.field]?.descripcion || ''
               : col.field === 'screenshot'
               ? report[col.field]

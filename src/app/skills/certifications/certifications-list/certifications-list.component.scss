@@ -11,16 +11,25 @@
 .fechaImportacion {
   min-width: 240px;
   max-width: 240px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .idTipoInterfaz {
-  min-width: 140px;
-  max-width: 140px;
+  min-width: 160px;
+  max-width: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .numRegistros {
   min-width: 140px;
   max-width: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .usuario {

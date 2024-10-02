@@ -50,7 +50,7 @@ export class CertficationsListComponent {
         header: 'Fecha de Importación',
         composeField: 'fechaImportacion',
         field: 'fechaImportacion',
-        filterType: 'input',
+        filterType: 'date',
       },
       {
         header: 'Tipo Interfaz',
@@ -135,8 +135,11 @@ export class CertficationsListComponent {
     this.defaultFilters = {};
 
     this.columnNames.forEach((column) => {
-      if (column.filterType === 'input') {
-        this.defaultFilters[column.composeField] = { value: '', matchMode: 'contains' };
+      if (column.filterType === 'input' || column.filterType === 'date') {
+        this.defaultFilters[column.composeField] = {
+          value: '',
+          matchMode: 'contains',
+        };
       }
     });
   }
@@ -251,7 +254,7 @@ export class CertficationsListComponent {
       this.certificationsService.downloadFile(id, defaultFileName);
     }
   }
-  
+
   onPageChange(event) {
     const currentPage = event.page + 1;
     console.log('Página actual:', currentPage);

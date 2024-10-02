@@ -65,7 +65,7 @@ export class CapabilitiesListComponent implements OnInit {
         header: 'Fecha de Importación',
         composeField: 'fechaImportacion',
         field: 'fechaImportacion',
-        filterType: 'input',
+        filterType: 'date',
       },
       {
         header: 'Tipo Interfaz',
@@ -183,8 +183,11 @@ export class CapabilitiesListComponent implements OnInit {
     this.defaultFilters = {};
 
     this.columnNames.forEach((column) => {
-      if (column.filterType === 'input') {
-        this.defaultFilters[column.composeField] = { value: '' , matchMode: 'contains'};
+      if (column.filterType === 'input' || column.filterType === 'date') {
+        this.defaultFilters[column.composeField] = {
+          value: '',
+          matchMode: 'contains',
+        };
       }
     });
   }

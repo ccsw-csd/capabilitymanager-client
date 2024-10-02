@@ -4,28 +4,34 @@
 }
 
 .roleVersion {
-  min-width: 280px;
-  max-width: 280px;
+  min-width: 260px;
+  max-width: 260px;
 }
 
 .staffingVersion {
-  min-width: 280px;
-  max-width: 280px;
+  min-width: 260px;
+  max-width: 260px;
 }
 
 .certificatesVersion {
-  min-width: 280px;
-  max-width: 280px;
+  min-width: 260px;
+  max-width: 260px;
 }
 
 .screenshot {
   min-width: 120px;
   max-width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .fechaImportacion {
-  min-width: 180px;
-  max-width: 180px;
+  min-width: 215px;
+  max-width: 215px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .descripcion {
@@ -39,16 +45,19 @@
 }
 
 .fechaModificacion {
-  min-width: 180px;
-  max-width: 180px;
+  min-width: 225px;
+  max-width: 225px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .comentarios {
-  min-width: 340px;
+  min-width: 310px;
   display: flex;
 }
 
-/* Clases adicionales */
+/* Clases adicionales  */
 .parents {
   min-width: 140px;
   max-width: 200px;
