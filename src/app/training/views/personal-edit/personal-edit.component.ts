@@ -400,13 +400,12 @@ export class PersonalEditComponent implements OnInit {
   createActivity(person?: Person) {
     console.log('Crear nueva actividad');
     const ref = this.dialogService.open(ActivityInsertComponent, {
+      header: 'Crear actividad',
       width: '60rem',
-      height: '27rem',
       data: {
         person: person,
       },
       closable: false,
-      showHeader: true,
     });
 
     ref.onClose.subscribe((result: boolean) => {
