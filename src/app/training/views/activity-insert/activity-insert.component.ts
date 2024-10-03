@@ -122,6 +122,22 @@ export class ActivityInsertComponent {
 
   save(): void {
     this.newActivity.estado = (this.newActivity.estado as any)?.name || 'No iniciado';
+
+    if (this.newActivity.fechaInicio) {
+      this.newActivity.fechaInicio = new Date(Date.UTC(
+        this.newActivity.fechaInicio.getFullYear(),
+        this.newActivity.fechaInicio.getMonth(),
+        this.newActivity.fechaInicio.getDate()
+      ));
+    }
+  
+    if (this.newActivity.fechaFinalizacion) {
+      this.newActivity.fechaFinalizacion = new Date(Date.UTC(
+        this.newActivity.fechaFinalizacion.getFullYear(),
+        this.newActivity.fechaFinalizacion.getMonth(),
+        this.newActivity.fechaFinalizacion.getDate()
+      ));
+    }
     
     if (this.newActivity.fechaInicio && this.newActivity.fechaFinalizacion > this.newActivity.fechaFinalizacion) {
       this.snackbarService.error('La fecha de inicio no puede ser posterior a la fecha de finalización');
