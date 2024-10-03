@@ -15,6 +15,7 @@ import { ActivityType } from 'src/app/training/models/ActivityType';
 import { ActivityTypeService } from 'src/app/training/services/activity-type.service';
 import { Router } from '@angular/router';
 import { ActivityInsertComponent } from '../activity-insert/activity-insert.component';
+import { ActivityEditComponent } from '../activity-edit/activity-edit.component';
 
 @Component({
   selector: 'app-personal-edit',
@@ -374,24 +375,20 @@ export class PersonalEditComponent implements OnInit {
     if (activityToEdit) {
       console.log('Editar actividad con id:', id);
       console.log('Datos de la actividad:', activityToEdit);
-      // TODO: poner el componente en el dialog
-      // Abrir el diálogo de edición de la actividad
-      /*       const ref = this.dialogService.open(ActivityEditComponent, {
-        header: 'Editar Actividad',
-        width: '50%',
-        closable: false,
+      const ref = this.dialogService.open(ActivityEditComponent, {
+        header: 'Editar actividad',
+        width: '60rem',
         data: {
           activity: activityToEdit,
         },
-        contentStyle: { 'max-height': '500px', overflow: 'auto' },
+        closable: false,
       });
-
-      ref.onClose.subscribe((result: any) => {
+  
+      ref.onClose.subscribe((result: boolean) => {
         if (result) {
-          console.log('Actividad editada:', result);
-          this.loadActivities();
+          this.loadData();
         }
-      }); */
+      });
     } else {
       console.error('No se encontró ninguna actividad con el id:', id);
     }
