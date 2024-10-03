@@ -113,7 +113,7 @@ export class PersonalListComponent implements OnInit {
         header: 'Fecha de Inicio de Asignación',
         composeField: 'fechaInicioAsignacion',
         field: 'fechaInicioAsignacion',
-        filterType: 'input',
+        filterType: 'date',
       },
       {
         header: 'Inglés Escrito',
@@ -235,7 +235,7 @@ export class PersonalListComponent implements OnInit {
     this.defaultFilters = {};
 
     this.columnNames.forEach((column) => {
-      if (column.filterType === 'input') {
+      if (column.filterType === 'input' || column.filterType === 'date') {
         this.defaultFilters[column.composeField] = { value: '' };
       }
     });
@@ -244,7 +244,6 @@ export class PersonalListComponent implements OnInit {
   setFilters(): void {
     this.setDefaultFilters();
   }
-  
 
   cleanFilters(): void {
     this.table.clear();
