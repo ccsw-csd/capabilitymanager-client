@@ -24,9 +24,16 @@ export class ItineraryInsertComponent implements OnInit {
   ) {
   }
 
+  isFormValid: boolean = false;
+  
+  validateForm(): void {
+    this.isFormValid = this.itinerary.codigo !== null && this.itinerary.name !== null;
+  }
+
   ngOnInit(): void {
     this.itinerary = this.config.data.itinerary;
     this.updatedItinerary = { ...this.itinerary };
+    this.validateForm();
   }
   updateId(codigo: string) {
     this.updatedItinerary = { ...this.updatedItinerary, codigo };
