@@ -32,4 +32,9 @@ export class ActivityService {
   delete(id: string): Observable<String> {
     return this.http.delete<String>(`${this.baseUrl}/activity/delete/${id}`);
   }
+
+  update(activity: Activity): Observable<String> {
+    console.log('Actualizando actividad:', activity);
+    return this.http.put<String>(`${this.baseUrl}/activity/update`, activity);
+  }
 }
