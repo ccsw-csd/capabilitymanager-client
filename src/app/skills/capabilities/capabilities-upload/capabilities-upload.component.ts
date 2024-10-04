@@ -42,13 +42,13 @@ export class CapabilitiesUploadComponent implements OnInit {
     }
 
     const formData = new FormData();
-    formData.append('documentType', '2');
+    formData.append('tipoFichero', '2');
     formData.append('fileData', this.capabilityFile);
-    formData.append('user', this.userName);
-    formData.append('description', this.capabilityFile.name);
+    formData.append('usuario', this.userName);
+    formData.append('nombreFichero', this.capabilityFile.name);
 
     this.isLoading = true;
-    this.capabilitiesService.uploadCapability(formData).subscribe({
+    this.capabilitiesService.uploadCapability_new(formData).subscribe({
       next: (respuesta) => {
         const errorMessage = this.getErrorMessage(respuesta);
         this.isLoading = false;

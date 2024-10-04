@@ -1,45 +1,19 @@
 <!-- Sección contenido -->
 <div class="mb-3">
-  <p-fileUpload
-    name="capability"
-    [showUploadButton]="false"
-    [showCancelButton]="false"
-    auto="false"
+  <p-fileUpload name="capability" [showUploadButton]="false" [showCancelButton]="false" auto="false" 
     accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    invalidFileTypeMessageSummary="Error en tipo de archivo:"
-    invalidFileTypeMessageDetail="Debe subir un archivo de Microsoft Excel (.xls, .xlsx)"
-    (onSelect)="onSelect($event)"
-    (onRemove)="onRemove()"
-    chooseIcon="hidden"
-    chooseLabel="Seleccionar archivo"
-    [disabled]="this.isLoading"
-  >
+    invalidFileTypeMessageSummary="Error en tipo de archivo:" invalidFileTypeMessageDetail="Debe subir un archivo de Microsoft Excel (.xls, .xlsx)"
+    (onSelect)="onSelect($event)" (onRemove)="onRemove()" chooseIcon="hidden" chooseLabel="Seleccionar archivo" [disabled]="this.isLoading">
   </p-fileUpload>
 </div>
 
 <!-- Sección botones de acción -->
 <div class="flex justify-content-end gap-3">
-  <button
-    pButton
-    label="Cancelar"
-    class="p-button-secondary p-button-outlined"
-    (click)="onCancel()"
-    [disabled]="this.isLoading"
-  ></button>
-  <button
-    pButton
-    label="Importar"
-    class="p-button"
-    (click)="onImport()"
-    [disabled]="this.capabilityFile == null || this.isLoading"
-  ></button>
+  <button pButton label="Cancelar" class="p-button-secondary p-button-outlined" (click)="onCancel()" [disabled]="this.isLoading"></button>
+  <button pButton label="Importar" class="p-button" (click)="onImport()" [disabled]="this.capabilityFile == null || this.isLoading"></button>
 </div>
 
 <!-- Mostrar animación en proceso de carga -->
 <div class="mt-6">
-  <p-progressBar
-    *ngIf="isLoading"
-    mode="indeterminate"
-    [style]="{ height: '6px' }"
-  ></p-progressBar>
+  <p-progressBar *ngIf="isLoading" mode="indeterminate" [style]="{ height: '6px' }"></p-progressBar>
 </div>
