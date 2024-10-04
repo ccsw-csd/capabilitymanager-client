@@ -31,14 +31,16 @@ export class PersonalEditComponent implements OnInit {
   roleAdmin: boolean;
   showCreate = false;
   activityTypes: ActivityType[] = [];
+  reportsToExport: ActivityColumns[];
   activityTypesOptions: any[] = [];
+  filteredActivities = [...this.activities];
   activityColumns: ActivityColumns = {
     id: 0,
     nombreActividad: '',
     estado: '',
-    fechaUltimaActividad: undefined,
-    fechaInicio: undefined,
-    fechaFinalizacion: undefined,
+    fechaUltimaActividad: new Date(),
+    fechaInicio: new Date(),
+    fechaFinalizacion: new Date(),
     porcentajeAvance: 0,
     tipoActividadName: '',
     observaciones: '',
@@ -243,7 +245,7 @@ export class PersonalEditComponent implements OnInit {
   formatDate(dateString: string): string {
     if (dateString != null) {
       const date = new Date(dateString);
-      const day = ('0' + date.getDate()).slice(-2);
+      const day = ('0' + date.getDate()).slice(-2)+1;
       const month = ('0' + (date.getMonth() + 1)).slice(-2);
       const year = date.getFullYear();
       return `${day}/${month}/${year}`;
@@ -279,30 +281,6 @@ export class PersonalEditComponent implements OnInit {
       return event.order * result;
     });
   }
-
-  /*
-  getTipoActividadName(tipoActividadId: number): string {
-    switch (tipoActividadId) {
-      case 1:
-        return 'Formacion';
-      case 2:
-        return 'Bootcamp';
-      case 3:
-        return 'Shadowing/TOJ';
-      case 4:
-        return 'Colaboraciones';
-      case 5:
-        return 'Proyecto interno';
-      case 6:
-        return 'Preparación certificación';
-      case 7:
-        return 'Certificación';
-      case 8:
-        return 'Itinerario Formativo';
-      default:
-        return 'Desconocido';
-    }
-  }*/
 
   getEstadoClass(activity: any): string {
     let dias = 0;
@@ -492,10 +470,17 @@ export class PersonalEditComponent implements OnInit {
 
     this.columnNames.forEach((column) => {
       if (column.filterType === 'input' || column.filterType === 'date') {
-        this.defaultFilters[column.field] = { value: null };
+        this.defaultFilters[column.field] = {
+          value: '',
+          matchMode: 'contains',
+        };
       }
     });
   }
+
+ /*  onFilter(event) {
+    this.reportsToExport = event.filteredValue;
+  } */
 
   setFilters(): void {
     this.setDefaultFilters();
@@ -505,4 +490,21 @@ export class PersonalEditComponent implements OnInit {
     this.loadActivities();
     this.setFilters();
   }
+
+   parseDateFromString(dateString: string): Date {
+    const [day, month, year] = dateString.split('/');
+    return new Date(+year, +month - 1, +day);
+  }
+
+
+/*   onFilter(event: any, field: string) {
+    const filteredValue = event.target.value;
+    const filterDate = this.parseDateFromString(filteredValue);
+
+    this.filteredActivities = this.activities.filter(activity => {
+      const activityDate = this.parseDateFromString(activity[field]);
+      return activityDate.toDateString() === filterDate.toDateString();
+    });
+  } */
+
 }
