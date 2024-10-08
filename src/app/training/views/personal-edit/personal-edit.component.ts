@@ -12,6 +12,7 @@ import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { Observable, forkJoin } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ActivityType } from 'src/app/training/models/ActivityType';
+import { ActivityColumns } from 'src/app/training/models/ActivityColumns';
 import { ActivityTypeService } from 'src/app/training/services/activity-type.service';
 import { Router } from '@angular/router';
 import { ActivityInsertComponent } from '../activity-insert/activity-insert.component';
@@ -24,18 +25,33 @@ import { ActivityEditComponent } from '../activity-edit/activity-edit.component'
 })
 export class PersonalEditComponent implements OnInit {
   person: Person;
-  activities: Activity[] = [];
+  activities: ActivityColumns[] = [];
   totalActivities: number;
   columnNames: any[] = [];
+  defaultFilters: any = {};
   roleAdmin: boolean;
   showCreate = false;
   activityTypes: ActivityType[] = [];
+  reportsToExport: ActivityColumns[];
   activityTypesOptions: any[] = [];
-  newActivity: Activity = {
+  filteredActivities = [...this.activities];
+  activityColumns: ActivityColumns = {
+    id: 0,
+    nombreActividad: '',
+    estado: '',
+    fechaUltimaActividad: '',
+    fechaInicio: '',
+    fechaFinalizacion: '',
+    porcentajeAvance: 0,
+    tipoActividadName: '',
+    observaciones: '',
+  };
+
+  /*newActivity: Activity = {
     id: null,
     nombreActividad: '',
     codigoActividad: '',
-    fechaInicio: null,
+    fechaInicio: new Date(),
     fechaUltimaActividad: new Date(),
     porcentajeAvance: null,
     estado: '',
@@ -43,12 +59,12 @@ export class PersonalEditComponent implements OnInit {
     saga: '',
     ggid: '',
     tipoActividadId: null,
-    fechaFinalizacion: null,
+    fechaFinalizacion: new Date(),
     tipoActividad: {
       id: 0,
       nombre: '',
     },
-  };
+  };*/
 
   stateOptions: any[] = [
     { name: 'Iniciado' },
@@ -77,12 +93,13 @@ export class PersonalEditComponent implements OnInit {
     if (history.state) {
       this.person = history.state;
 
-      this.newActivity.ggid = this.person.ggid;
-      this.newActivity.saga = this.person.saga;
+      //this.newActivity.ggid = this.person.ggid;
+      //this.newActivity.saga = this.person.saga;
 
       this.initializeColumns();
-      this.loadActivities();
       this.loadActivityTypes();
+      this.loadActivities();
+
       this.roleAdmin = this.authService.hasRole('ADMIN');
     } else {
       console.log('ERROR: No se ha encontrado ninguna persona en el estado');
@@ -91,33 +108,60 @@ export class PersonalEditComponent implements OnInit {
 
   initializeColumns() {
     this.columnNames = [
-      { header: 'Nombre', field: 'nombreActividad', filterType: 'input' },
+      {
+        header: 'Nombre',
+        field: 'nombreActividad',
+        composeField: 'nombreActividad',
+        filterType: 'input',
+      },
       {
         header: 'Estado',
         field: 'estado',
+        composeField: 'estado',
         filterType: 'input',
         class: this.getEstadoClass,
       },
+
       {
         header: 'Fecha Última Act.',
         field: 'fechaUltimaActividad',
-        filterType: 'input',
+        composeField: 'fechaUltimaActividad',
+        filterType: 'date',
       },
-      { header: 'Fecha Inicio', field: 'fechaInicio', filterType: 'input' },
+      {
+        header: 'Fecha Inicio',
+        field: 'fechaInicio',
+        composeField: 'fechaInicio',
+        filterType: 'date',
+      },
       {
         header: 'Fecha Finalización',
         field: 'fechaFinalizacion',
-        filterType: 'input',
+        composeField: 'fechaFinalizacion',
+        filterType: 'date',
         class: this.getFechaFinalizacionClass,
       },
-      { header: '% Avance', field: 'porcentajeAvance', filterType: 'input' },
-      { header: 'Observaciones', field: 'observaciones', filterType: 'input' },
+      {
+        header: '% Avance',
+        field: 'porcentajeAvance',
+        composeField: 'porcentajeAvance',
+        filterType: 'input',
+      },
       {
         header: 'Tipo Actividad',
-        field: 'tipoActividadId',
+        field: 'tipoActividadName',
+        composeField: 'tipoActividadName',
+        filterType: 'input',
+      },
+      {
+        header: 'Observaciones',
+        field: 'observaciones',
+        composeField: 'observaciones',
         filterType: 'input',
       },
     ];
+
+    this.loadData();
   }
 
   loadActivityTypes(): void {
@@ -158,12 +202,15 @@ export class PersonalEditComponent implements OnInit {
             activity.codigoActividad ||
             `${activity.nombreActividad}-${activity.fechaInicio}`;
 
+          activity = this.coverDatetUtc(activity);
+
           if (!uniqueActivitiesMap.has(uniqueKey)) {
-            uniqueActivitiesMap.set(uniqueKey, activity);
+            uniqueActivitiesMap.set(uniqueKey, this.mapActivity(activity));
           }
         });
         this.activities = Array.from(uniqueActivitiesMap.values());
         this.totalActivities = this.activities.length;
+        this.setDefaultFilters();
       },
       (error) => {
         console.error('Error loading activities:', error);
@@ -174,16 +221,82 @@ export class PersonalEditComponent implements OnInit {
     );
   }
 
-  formatDate(dateString: string): string {
-    if (dateString != null) {
-      const date = new Date(dateString);
-      const day = ('0' + date.getDate()).slice(-2);
-      const month = ('0' + (date.getMonth() + 1)).slice(-2);
-      const year = date.getFullYear();
-      return `${day}/${month}/${year}`;
-    } else {
-      return '';
+  coverDatetUtc(activity: Activity): Activity {
+    if (activity.fechaInicio) {
+      const fechaInicio = new Date(activity.fechaInicio);
+      activity.fechaInicio = new Date(
+        Date.UTC(
+          fechaInicio.getFullYear(),
+          fechaInicio.getMonth(),
+          fechaInicio.getDate()
+        )
+      );
     }
+    if (activity.fechaFinalizacion) {
+      const fechaFinalizacion = new Date(activity.fechaFinalizacion);
+      activity.fechaFinalizacion = new Date(
+        Date.UTC(
+          fechaFinalizacion.getFullYear(),
+          fechaFinalizacion.getMonth(),
+          fechaFinalizacion.getDate()
+        )
+      );
+    }
+    if (activity.fechaUltimaActividad) {
+      const fechaUltimaActividad = new Date(activity.fechaUltimaActividad);
+      activity.fechaUltimaActividad = new Date(
+        Date.UTC(
+          fechaUltimaActividad.getFullYear(),
+          fechaUltimaActividad.getMonth(),
+          fechaUltimaActividad.getDate()
+        )
+      );
+    }
+    return activity;
+  }
+
+  mapActivity(activity: Activity): ActivityColumns {
+    const mappedActivity: ActivityColumns = {
+      id: activity.id,
+      nombreActividad: activity.nombreActividad,
+      estado: activity.estado,
+      fechaUltimaActividad: this.formatDateForFilter(
+        activity.fechaUltimaActividad
+      ),
+      fechaInicio: this.formatDateForFilter(activity.fechaInicio),
+      fechaFinalizacion: this.formatDateForFilter(activity.fechaFinalizacion),
+      porcentajeAvance: activity.porcentajeAvance,
+      tipoActividadName: this.mapActivityTypeName(activity),
+      observaciones: activity.observaciones,
+    };
+    return mappedActivity;
+  }
+
+  formatDateForFilter(date: Date): string {
+    if (date) {
+      const year = date.getFullYear();
+      const month = ('0' + (date.getMonth() + 1)).slice(-2);
+      const day = ('0' + date.getDate()).slice(-2);
+      return `${year}-${month}-${day}`;
+    }
+    return null;
+  }
+
+  mapActivityTypeName(activity: Activity): string {
+    const activityType = this.activityTypes.find(
+      (type) => type.id === activity.tipoActividadId
+    );
+    if (activityType) {
+      return activityType.nombre;
+    }
+  }
+
+  dateFilter(value: Date, filter: string): boolean {
+    if (!value || !filter) {
+      return false;
+    }
+    const dateValue = this.formatDateForFilter(value);
+    return dateValue === filter;
   }
 
   customSort(event: SortEvent): void {
@@ -212,29 +325,6 @@ export class PersonalEditComponent implements OnInit {
 
       return event.order * result;
     });
-  }
-
-  getTipoActividadName(tipoActividadId: number): string {
-    switch (tipoActividadId) {
-      case 1:
-        return 'Formacion';
-      case 2:
-        return 'Bootcamp';
-      case 3:
-        return 'Shadowing/TOJ';
-      case 4:
-        return 'Colaboraciones';
-      case 5:
-        return 'Proyecto interno';
-      case 6:
-        return 'Preparación certificación';
-      case 7:
-        return 'Certificación';
-      case 8:
-        return 'Itinerario Formativo';
-      default:
-        return 'Desconocido';
-    }
   }
 
   getEstadoClass(activity: any): string {
@@ -383,7 +473,7 @@ export class PersonalEditComponent implements OnInit {
         },
         closable: false,
       });
-  
+
       ref.onClose.subscribe((result: boolean) => {
         if (result) {
           this.loadData();
@@ -414,5 +504,32 @@ export class PersonalEditComponent implements OnInit {
 
   loadData() {
     this.loadActivities();
+  }
+
+  setDefaultFilters() {
+    this.defaultFilters = {};
+
+    this.columnNames.forEach((column) => {
+      if (column.filterType === 'input' || column.filterType === 'date') {
+        this.defaultFilters[column.field] = {
+          value: '',
+          matchMode: 'contains',
+        };
+      }
+    });
+  }
+
+  setFilters(): void {
+    this.setDefaultFilters();
+  }
+
+  cleanFilters(): void {
+    this.loadActivities();
+    this.setFilters();
+  }
+
+  parseDateFromString(dateString: string): Date {
+    const [day, month, year] = dateString.split('/');
+    return new Date(+year, +month - 1, +day);
   }
 }

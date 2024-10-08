@@ -19,16 +19,17 @@
   </div>
   <div>
     <!-- Botón para  -->
-    <button *ngIf="this.roleAdmin"
-    #b
-    pButton
-    label="Importar itinerarios"
-    type="button"
-    class="p-button p-button-outlined m-2"
-    (click)="importItinerarioFile()"
-    title="Importar archivo itinerario"
-  ></button>
-      <!-- Botón para limpiar filtros -->
+    <button
+      *ngIf="this.roleAdmin"
+      #b
+      pButton
+      label="Importar itinerarios"
+      type="button"
+      class="p-button p-button-outlined m-2"
+      (click)="importItinerarioFile()"
+      title="Importar archivo itinerario"
+    ></button>
+    <!-- Botón para limpiar filtros -->
     <button
       tooltipPosition="top"
       pButton
@@ -92,7 +93,10 @@
         <div class="w-full foot-header">
           <!-- Filtros para las columnas -->
           <p-columnFilter
-            *ngIf="col.filterType === 'input'"
+            *ngIf="
+              col.filterType === 'input' &&
+              col.field !== 'fechaInicioAsignacion'
+            "
             class="w-full"
             type="text"
             field="{{ col.composeField }}"
@@ -108,6 +112,32 @@
               <input
                 tabindex="1"
                 type="text"
+                pInputText
+                [ngModel]="value"
+                (ngModelChange)="filter($event)"
+                class="p-inputtext"
+              />
+            </ng-template>
+          </p-columnFilter>
+          <!-- Filtro para fechaInicioAsignacion -->
+          <p-columnFilter
+            *ngIf="
+              col.filterType === 'date' && col.field === 'fechaInicioAsignacion'
+            "
+            class="w-full"
+            type="date"
+            field="{{ col.field }}"
+            [showMenu]="false"
+            [showClearButton]="false"
+            matchMode="equal"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <input
+                type="date"
                 pInputText
                 [ngModel]="value"
                 (ngModelChange)="filter($event)"
