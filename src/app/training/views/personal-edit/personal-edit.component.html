@@ -77,37 +77,36 @@
         [reorderableColumns]="true"
         [(filters)]="defaultFilters"
         (sortFunction)="customSort($event)"
-
       >
-        <ng-template pTemplate="header" let-columns style="width: 500px">
+        <ng-template pTemplate="header" let-columns>
           <tr>
             <th
               *ngFor="let col of columnNames"
-              class="{{ col.composeField  }} flex flex-column"
+              class="{{ col.composeField }} flex flex-column"
               pReorderableColumn
             >
               <div
                 class="flex flex-row w-full top-header"
-                pSortableColumn="{{ col.composeField  }}"
+                pSortableColumn="{{ col.composeField }}"
               >
                 <span class="flex flex-1 justify-content-center">{{
                   col.header
                 }}</span>
-                <p-sortIcon field="{{ col.composeField  }}"></p-sortIcon>
+                <p-sortIcon field="{{ col.composeField }}"></p-sortIcon>
               </div>
 
-              <div class="w-full foot-header" style="width: 100%">
+              <div class="w-full foot-header">
                 <!-- Filtros para las columnas -->
                 <p-columnFilter
                   *ngIf="
                     col.filterType === 'input' &&
-                    col.composeField  !== 'fechaInicio' &&
-                    col.composeField  !== 'fechaUltimaActividad' &&
-                    col.composeField  !== 'fechaFinalizacion'
+                    col.composeField !== 'fechaInicio' &&
+                    col.composeField !== 'fechaUltimaActividad' &&
+                    col.composeField !== 'fechaFinalizacion'
                   "
                   class="w-full"
                   type="text"
-                  field="{{ col.composeField  }}"
+                  field="{{ col.composeField }}"
                   [showMenu]="false"
                   [showClearButton]="false"
                   matchMode="contains"
@@ -131,14 +130,16 @@
                 <!-- Filtro para fechaInicio -->
                 <p-columnFilter
                   *ngIf="
-                    col.filterType === 'date' && col.composeField  === 'fechaInicio'
+                    col.filterType === 'date' &&
+                    col.composeField === 'fechaInicio'
                   "
                   class="w-full"
                   type="date"
-                  field="{{ col.composeField  }}"
+                  field="{{ col.composeField }}"
                   [showMenu]="false"
                   [showClearButton]="false"
                   matchMode="equals"
+                  [filterFunction]="dateFilter"
                 >
                   <ng-template
                     pTemplate="filter"
@@ -159,14 +160,15 @@
                 <p-columnFilter
                   *ngIf="
                     col.filterType === 'date' &&
-                    col.composeField  === 'fechaUltimaActividad'
+                    col.composeField === 'fechaUltimaActividad'
                   "
                   class="w-full"
                   type="date"
-                  field="{{ col.composeField  }}"
+                  field="{{ col.composeField }}"
                   [showMenu]="false"
                   [showClearButton]="false"
                   matchMode="equals"
+                  [filterFunction]="dateFilter"
                 >
                   <ng-template
                     pTemplate="filter"
@@ -191,10 +193,11 @@
                   "
                   class="w-full"
                   type="date"
-                  field="{{ col.composeField  }}"
+                  field="{{ col.composeField }}"
                   [showMenu]="false"
                   [showClearButton]="false"
                   matchMode="equals"
+                  [filterFunction]="dateFilter"
                 >
                   <ng-template
                     pTemplate="filter"
@@ -216,26 +219,10 @@
               <div class="flex flex-row w-full top-header"></div>
               <div class="w-full foot-header"></div>
             </th>
-            <th class="buttons flex flex-column">
-            <th
-              class="buttons flex flex-column"
-              [ngStyle]="{
-                width: '5rem',
-                flex: '0 0 auto'
-              }"
-            >
-              <div class="flex flex-row w-full top-header"></div>
-              <div class="w-full foot-header"></div>
-            </th>
           </tr>
         </ng-template>
 
-        <ng-template
-          pTemplate="body"
-          let-activity
-          let-columns="columns"
-          style="width: 100%"
-        >
+        <ng-template pTemplate="body" let-activity let-columns="columns">
           <!-- Cuerpo de la tabla -->
           <tr [pSelectableRow]="activity">
             <td

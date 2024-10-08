@@ -39,9 +39,9 @@ export class PersonalEditComponent implements OnInit {
     id: 0,
     nombreActividad: '',
     estado: '',
-    fechaUltimaActividad: new Date(),
-    fechaInicio: new Date(),
-    fechaFinalizacion: new Date(),
+    fechaUltimaActividad: '',
+    fechaInicio: '',
+    fechaFinalizacion: '',
     porcentajeAvance: 0,
     tipoActividadName: '',
     observaciones: '',
@@ -202,6 +202,8 @@ export class PersonalEditComponent implements OnInit {
             activity.codigoActividad ||
             `${activity.nombreActividad}-${activity.fechaInicio}`;
 
+          activity = this.coverDatetUtc(activity);
+
           if (!uniqueActivitiesMap.has(uniqueKey)) {
             uniqueActivitiesMap.set(uniqueKey, this.mapActivity(activity));
           }
@@ -219,19 +221,65 @@ export class PersonalEditComponent implements OnInit {
     );
   }
 
+  coverDatetUtc(activity: Activity): Activity {
+    if (activity.fechaInicio) {
+      const fechaInicio = new Date(activity.fechaInicio);
+      activity.fechaInicio = new Date(
+        Date.UTC(
+          fechaInicio.getFullYear(),
+          fechaInicio.getMonth(),
+          fechaInicio.getDate()
+        )
+      );
+    }
+    if (activity.fechaFinalizacion) {
+      const fechaFinalizacion = new Date(activity.fechaFinalizacion);
+      activity.fechaFinalizacion = new Date(
+        Date.UTC(
+          fechaFinalizacion.getFullYear(),
+          fechaFinalizacion.getMonth(),
+          fechaFinalizacion.getDate()
+        )
+      );
+    }
+    if (activity.fechaUltimaActividad) {
+      const fechaUltimaActividad = new Date(activity.fechaUltimaActividad);
+      activity.fechaUltimaActividad = new Date(
+        Date.UTC(
+          fechaUltimaActividad.getFullYear(),
+          fechaUltimaActividad.getMonth(),
+          fechaUltimaActividad.getDate()
+        )
+      );
+    }
+    return activity;
+  }
+
   mapActivity(activity: Activity): ActivityColumns {
     const mappedActivity: ActivityColumns = {
       id: activity.id,
       nombreActividad: activity.nombreActividad,
       estado: activity.estado,
-      fechaUltimaActividad: activity.fechaUltimaActividad,
-      fechaInicio: activity.fechaInicio,
-      fechaFinalizacion: activity.fechaFinalizacion,
+      fechaUltimaActividad: this.formatDateForFilter(
+        activity.fechaUltimaActividad
+      ),
+      fechaInicio: this.formatDateForFilter(activity.fechaInicio),
+      fechaFinalizacion: this.formatDateForFilter(activity.fechaFinalizacion),
       porcentajeAvance: activity.porcentajeAvance,
       tipoActividadName: this.mapActivityTypeName(activity),
       observaciones: activity.observaciones,
     };
     return mappedActivity;
+  }
+
+  formatDateForFilter(date: Date): string {
+    if (date) {
+      const year = date.getFullYear();
+      const month = ('0' + (date.getMonth() + 1)).slice(-2);
+      const day = ('0' + date.getDate()).slice(-2);
+      return `${year}-${month}-${day}`;
+    }
+    return null;
   }
 
   mapActivityTypeName(activity: Activity): string {
@@ -243,16 +291,12 @@ export class PersonalEditComponent implements OnInit {
     }
   }
 
-  formatDate(dateString: string): string {
-    if (dateString != null) {
-      const date = new Date(dateString);
-      const day = ('0' + date.getDate()).slice(-2)+1;
-      const month = ('0' + (date.getMonth() + 1)).slice(-2);
-      const year = date.getFullYear();
-      return `${day}/${month}/${year}`;
-    } else {
-      return '';
+  dateFilter(value: Date, filter: string): boolean {
+    if (!value || !filter) {
+      return false;
     }
+    const dateValue = this.formatDateForFilter(value);
+    return dateValue === filter;
   }
 
   customSort(event: SortEvent): void {
@@ -429,7 +473,7 @@ export class PersonalEditComponent implements OnInit {
         },
         closable: false,
       });
-  
+
       ref.onClose.subscribe((result: boolean) => {
         if (result) {
           this.loadData();
@@ -475,10 +519,6 @@ export class PersonalEditComponent implements OnInit {
     });
   }
 
- /*  onFilter(event) {
-    this.reportsToExport = event.filteredValue;
-  } */
-
   setFilters(): void {
     this.setDefaultFilters();
   }
@@ -488,20 +528,8 @@ export class PersonalEditComponent implements OnInit {
     this.setFilters();
   }
 
-   parseDateFromString(dateString: string): Date {
+  parseDateFromString(dateString: string): Date {
     const [day, month, year] = dateString.split('/');
     return new Date(+year, +month - 1, +day);
   }
-
-
-/*   onFilter(event: any, field: string) {
-    const filteredValue = event.target.value;
-    const filterDate = this.parseDateFromString(filteredValue);
-
-    this.filteredActivities = this.activities.filter(activity => {
-      const activityDate = this.parseDateFromString(activity[field]);
-      return activityDate.toDateString() === filterDate.toDateString();
-    });
-  } */
-
 }

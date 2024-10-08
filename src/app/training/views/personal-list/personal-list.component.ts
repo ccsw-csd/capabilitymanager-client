@@ -236,18 +236,17 @@ export class PersonalListComponent implements OnInit {
 
     this.columnNames.forEach((column) => {
       if (column.filterType === 'input' || column.filterType === 'date') {
-        this.defaultFilters[column.composeField] = { value: '' };
+        this.defaultFilters[column.composeField] = {
+          value: null,
+          matchMode: 'contains',
+        };
       }
     });
   }
 
-  setFilters(): void {
-    this.setDefaultFilters();
-  }
-
   cleanFilters(): void {
-    this.table.clear();
-    this.setFilters();
+    this.loadData();
+    this.setDefaultFilters();
   }
 
   customSort(event: SortEvent) {

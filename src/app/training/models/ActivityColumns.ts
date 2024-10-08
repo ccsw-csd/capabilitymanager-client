@@ -2,9 +2,9 @@ export interface ActivityColumns {
   id: number;
   nombreActividad: string;
   estado: string;
-  fechaUltimaActividad: Date;
-  fechaInicio: Date;
-  fechaFinalizacion: Date;
+  fechaUltimaActividad: string;
+  fechaInicio: string;
+  fechaFinalizacion: string;
   porcentajeAvance: number;
   tipoActividadName: string;
   observaciones: string;
