@@ -369,29 +369,30 @@ export class PersonalEditComponent implements OnInit {
   }
 
   editActivity(id: number) {
+    // Busca la actividad
     const activityToEdit = this.activities.find(
       (activity) => activity.id === id
     );
-    if (activityToEdit) {
-      console.log('Editar actividad con id:', id);
-      console.log('Datos de la actividad:', activityToEdit);
-      const ref = this.dialogService.open(ActivityEditComponent, {
-        header: 'Editar actividad',
-        width: '60rem',
-        data: {
-          activity: activityToEdit,
-        },
-        closable: false,
-      });
-  
-      ref.onClose.subscribe((result: boolean) => {
-        if (result) {
-          this.loadData();
-        }
-      });
-    } else {
-      console.error('No se encontró ninguna actividad con el id:', id);
-    }
+
+    // Carga el pop-up
+    const ref = this.dialogService.open(ActivityEditComponent, {
+      header: 'Editar actividad',
+      width: '60rem',
+      data: {
+        activity: activityToEdit,
+      },
+      closable: false,
+    });
+
+    // Quitar el foco del botón de edición
+    const activeElement = document.activeElement as HTMLElement;
+    activeElement.blur();
+
+    ref.onClose.subscribe((result: boolean) => {
+      if (result) {
+        this.loadData();
+      }
+    });
   }
 
   createActivity(person?: Person) {
