@@ -42,6 +42,16 @@
         title="Crear Actividad"
         (click)="createActivity(person)"
       ></button>
+      <button
+        tooltipPosition="top"
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-filter-slash"
+        class="p-button-lg m-2 p-button-outlined p-button-secondary"
+        pTooltip="Limpiar filtros"
+        (click)="cleanFilters()"
+      ></button>
     </div>
 
     <!-- Verificador de actividades -->
@@ -65,29 +75,35 @@
         (sortFunction)="customSort($event)"
         [columns]="columnNames"
         [reorderableColumns]="true"
+        [(filters)]="defaultFilters"
+        (sortFunction)="customSort($event)"
       >
         <ng-template pTemplate="header" let-columns>
-          <tr class="table-header">
-            <!-- Encabezados de las columnas -->
+          <tr>
             <th
               *ngFor="let col of columnNames"
-              class="{{ col.field }} flex flex-column"
+              class="{{ col.composeField }} flex flex-column"
               pReorderableColumn
             >
               <div
                 class="flex flex-row w-full top-header"
-                pSortableColumn="{{ col.field }}"
+                pSortableColumn="{{ col.composeField }}"
               >
                 <span class="flex flex-1 justify-content-center">{{
                   col.header
                 }}</span>
-                <p-sortIcon field="{{ col.field }}"></p-sortIcon>
+                <p-sortIcon field="{{ col.composeField }}"></p-sortIcon>
               </div>
 
               <div class="w-full foot-header">
                 <!-- Filtros para las columnas -->
                 <p-columnFilter
-                  *ngIf="col.filterType === 'input'"
+                  *ngIf="
+                    col.filterType === 'input' &&
+                    col.composeField !== 'fechaInicio' &&
+                    col.composeField !== 'fechaUltimaActividad' &&
+                    col.composeField !== 'fechaFinalizacion'
+                  "
                   class="w-full"
                   type="text"
                   field="{{ col.composeField }}"
@@ -110,15 +126,96 @@
                     />
                   </ng-template>
                 </p-columnFilter>
+
+                <!-- Filtro para fechaInicio -->
+                <p-columnFilter
+                  *ngIf="
+                    col.filterType === 'date' &&
+                    col.composeField === 'fechaInicio'
+                  "
+                  class="w-full"
+                  type="date"
+                  field="{{ col.composeField }}"
+                  [showMenu]="false"
+                  [showClearButton]="false"
+                  matchMode="equals"
+                  [filterFunction]="dateFilter"
+                >
+                  <ng-template
+                    pTemplate="filter"
+                    let-value
+                    let-filter="filterCallback"
+                  >
+                    <input
+                      type="date"
+                      pInputText
+                      [ngModel]="value"
+                      (ngModelChange)="filter($event)"
+                      class="p-inputtext"
+                    />
+                  </ng-template>
+                </p-columnFilter>
+
+                <!-- Filtro para fechaUltimaActividad -->
+                <p-columnFilter
+                  *ngIf="
+                    col.filterType === 'date' &&
+                    col.composeField === 'fechaUltimaActividad'
+                  "
+                  class="w-full"
+                  type="date"
+                  field="{{ col.composeField }}"
+                  [showMenu]="false"
+                  [showClearButton]="false"
+                  matchMode="equals"
+                  [filterFunction]="dateFilter"
+                >
+                  <ng-template
+                    pTemplate="filter"
+                    let-value
+                    let-filter="filterCallback"
+                  >
+                    <input
+                      type="date"
+                      pInputText
+                      [ngModel]="value"
+                      (ngModelChange)="filter($event)"
+                      class="p-inputtext"
+                    />
+                  </ng-template>
+                </p-columnFilter>
+
+                <!-- Filtro para fechaFinalizacion -->
+                <p-columnFilter
+                  *ngIf="
+                    col.filterType === 'date' &&
+                    col.field === 'fechaFinalizacion'
+                  "
+                  class="w-full"
+                  type="date"
+                  field="{{ col.composeField }}"
+                  [showMenu]="false"
+                  [showClearButton]="false"
+                  matchMode="equals"
+                  [filterFunction]="dateFilter"
+                >
+                  <ng-template
+                    pTemplate="filter"
+                    let-value
+                    let-filter="filterCallback"
+                  >
+                    <input
+                      type="date"
+                      pInputText
+                      [ngModel]="value"
+                      (ngModelChange)="filter($event)"
+                      class="p-inputtext"
+                    />
+                  </ng-template>
+                </p-columnFilter>
               </div>
             </th>
-            <th
-              class="buttons flex flex-column"
-              [ngStyle]="{
-                width: '5rem',
-                flex: '0 0 auto'
-              }"
-            >
+            <th class="buttons flex flex-column">
               <div class="flex flex-row w-full top-header"></div>
               <div class="w-full foot-header"></div>
             </th>
@@ -133,33 +230,59 @@
               class="{{ col.field }}"
               [ngClass]="col.field === 'estado' ? getEstadoClass(activity) : ''"
             >
-              <ng-container
-                *ngIf="
-                  col.field !== 'fechaUltimaActividad' &&
-                    col.field !== 'fechaInicio' &&
-                    col.field !== 'fechaFinalizacion';
-                  else dateTemplate
-                "
+              <div
+                *ngIf="!col.fieldExtra && !col.parse"
+                class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+                pTooltip="{{
+                  col.field === 'tipoActividadId'
+                    ? getTipoActividadName(activity[col.field])
+                    : col.field === 'fechaUltimaActividad' ||
+                      col.field === 'fechaInicio' ||
+                      col.field === 'fechaFinalizacion'
+                    ? (activity[col.field] | date : 'dd/MM/yyyy')
+                    : activity[col.field]
+                }}"
+                tooltipPosition="top"
               >
-                <div
-                  class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-                  [pTooltip]="activity[col.field]"
+                <ng-container *ngIf="col.field === 'fechaUltimaActividad'">
+                  {{ activity[col.field] | date : "dd/MM/yyyy" }}
+                </ng-container>
+                <ng-container *ngIf="col.field === 'fechaInicio'">
+                  {{ activity[col.field] | date : "dd/MM/yyyy" }}
+                </ng-container>
+                <ng-container *ngIf="col.field === 'fechaFinalizacion'">
+                  {{ activity[col.field] | date : "dd/MM/yyyy" }}
+                </ng-container>
+                <ng-container *ngIf="col.field === 'tipoActividadId'">
+                  {{ getTipoActividadName(activity[col.field]) }}
+                </ng-container>
+                <ng-container
+                  *ngIf="
+                    col.field !== 'fechaUltimaActividad' &&
+                    col.field !== 'fechaInicio' &&
+                    col.field !== 'fechaFinalizacion' &&
+                    col.field !== 'tipoActividadId'
+                  "
                 >
-                  {{
-                    col.field === "tipoActividadId"
-                      ? getTipoActividadName(activity[col.field])
-                      : activity[col.field]
-                  }}
-                </div>
-              </ng-container>
-              <ng-template #dateTemplate>
-                <div
-                  class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
-                  [pTooltip]="formatDate(activity[col.field])"
-                >
-                  {{ formatDate(activity[col.field]) }}
-                </div>
-              </ng-template>
+                  {{ activity[col.field] }}
+                </ng-container>
+              </div>
+              <div
+                *ngIf="col.fieldExtra && !col.parse"
+                class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+                pTooltip="{{activity[col.field]?.[col.fieldExtra]}}"
+                tooltipPosition="top"
+              >
+                {{ activity[col.field]?.[col.fieldExtra] }}
+              </div>
+              <div
+                *ngIf="col.parse"
+                class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+                pTooltip="{{ col.parse(activity[col.field]) }}"
+                tooltipPosition="top"
+              >
+                {{ col.parse(activity[col.field]) }}
+              </div>
             </td>
             <!-- Botones de edición y borrado -->
             <td
