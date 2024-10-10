@@ -148,20 +148,30 @@ h3 {
   max-width: 170px;
 }
 
-.observaciones {
-  min-width: 200px;
-  width: 100%;
-}
-
 .tipoActividadId {
   min-width: 160px;
+  max-width: 160px;
 }
 
+.observaciones {
+  min-width: 200px;
+  max-width: auto;
+}
+
+/* Additional styles */
+.buttons {
+  min-width: 80px;
+  max-width: 80px;
+}
+
+.p-button.p-button-icon-only.p-button-rounded {
+  width: 2rem;
+  height: 2rem;
+}
 .p-table thead th {
   text-align: center;
   width: 100%;
 }
-
 ::ng-deep .p-calendar .p-datepicker {
   height: 250px;
   overflow: hidden;
@@ -193,15 +203,27 @@ h3 {
   border-radius: 0.25em; /* Esquinas menos redondeadas */
   padding: 0.1875em 0.5em; /* Reducir el espaciado interno */
   margin-top: 0.9375em;
-  height: 2.375em;
+  height: 2.75em;
   display: flex;
   align-items: center;
-  position: relative;
+  position: relative; 
+}
+
+.info-fieldset.ggid {
+  flex-grow: 0.5; 
+}
+
+.info-fieldset.nombre {
+  flex-grow: 1; 
+}
+
+.info-fieldset.apellidos {
+  flex-grow: 2; 
 }
 
 .info-legend {
-  font-size: 0.625em; /* Tamaño de fuente más pequeño para el label */
-  color: #000000;
+  font-size: 0.85em; /* Tamaño de fuente más pequeño para el label */
+  color: #000000; 
   padding: 0 0.375em; /* Espaciado alrededor del label */
   position: absolute;
   top: -0.4375em; /* Elevar el label */
@@ -210,7 +232,7 @@ h3 {
 }
 
 .info-value {
-  font-size: 0.875em; /* Tamaño del texto principal */
+  font-size: 1.05em; /* Tamaño del texto principal */
   color: #bbbbbb; /* Color del texto principal en gris claro */
   display: flex; /* Usar flex para centrar verticalmente */
   align-items: center; /* Centrar verticalmente */

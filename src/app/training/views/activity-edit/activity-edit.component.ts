@@ -13,9 +13,10 @@ import { ActivityTypeService } from 'src/app/training/services/activity-type.ser
 @Component({
   selector: 'app-activity-edit',
   templateUrl: './activity-edit.component.html',
-  styleUrls: ['./activity-edit.component.scss']
+  styleUrls: ['./activity-edit.component.scss'],
 })
 export class ActivityEditComponent {
+  target?: EventTarget;
   person: Person;
   activities: Activity[] = [];
   roleAdmin: boolean;
@@ -63,7 +64,9 @@ export class ActivityEditComponent {
     this.newActivity = { ...this.activity };
     this.newActivity.id = this.activity.id;
     this.newActivity.fechaInicio = new Date(this.activity.fechaInicio);
-    this.newActivity.fechaFinalizacion = new Date(this.activity.fechaFinalizacion);
+    this.newActivity.fechaFinalizacion = new Date(
+      this.activity.fechaFinalizacion
+    );
     this.newActivity.estado = this.activity.estado;
     this.newActivity.tipoActividadId = this.activity.tipoActividadId;
 
@@ -95,7 +98,7 @@ export class ActivityEditComponent {
     this.newActivity.tipoActividadId = event.value;
   }
 
-  onChangeActivityState(event){
+  onChangeActivityState(event) {
     this.newActivity.estado = event.value;
   }
 
@@ -124,39 +127,45 @@ export class ActivityEditComponent {
   }
 
   save(): void {
-    
-    if (this.newActivity.fechaInicio && this.newActivity.fechaFinalizacion > this.newActivity.fechaFinalizacion) {
-      this.snackbarService.error('La fecha de inicio no puede ser posterior a la fecha de finalización');
+    if (
+      this.newActivity.fechaInicio &&
+      this.newActivity.fechaFinalizacion > this.newActivity.fechaFinalizacion
+    ) {
+      this.snackbarService.error(
+        'La fecha de inicio no puede ser posterior a la fecha de finalización'
+      );
       return;
-    } 
+    }
 
     if (this.newActivity.fechaInicio) {
-      this.newActivity.fechaInicio = new Date(Date.UTC(
-        this.newActivity.fechaInicio.getFullYear(),
-        this.newActivity.fechaInicio.getMonth(),
-        this.newActivity.fechaInicio.getDate()
-      ));
+      this.newActivity.fechaInicio = new Date(
+        Date.UTC(
+          this.newActivity.fechaInicio.getFullYear(),
+          this.newActivity.fechaInicio.getMonth(),
+          this.newActivity.fechaInicio.getDate()
+        )
+      );
     }
-  
+
     if (this.newActivity.fechaFinalizacion) {
-      this.newActivity.fechaFinalizacion = new Date(Date.UTC(
-        this.newActivity.fechaFinalizacion.getFullYear(),
-        this.newActivity.fechaFinalizacion.getMonth(),
-        this.newActivity.fechaFinalizacion.getDate()
-      ));
+      this.newActivity.fechaFinalizacion = new Date(
+        Date.UTC(
+          this.newActivity.fechaFinalizacion.getFullYear(),
+          this.newActivity.fechaFinalizacion.getMonth(),
+          this.newActivity.fechaFinalizacion.getDate()
+        )
+      );
     }
-    
+
     this.activityService.update(this.newActivity).subscribe({
       next: () => {
         this.snackbarService.showMessage('Actividad actualizada correctamente');
         this.cancel();
       },
       error: (error) => {
-
         if (error.message) {
           this.snackbarService.error(error.message);
           return;
-
         }
         this.snackbarService.error(
           'Error al actualizar la actividad. Inténtelo de nuevo más tarde.'
