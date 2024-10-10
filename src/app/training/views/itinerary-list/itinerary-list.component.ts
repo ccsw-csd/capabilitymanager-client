@@ -212,9 +212,9 @@ export class ItineraryListComponent implements OnInit {
       console.log('Editar itinerario con codigo:', codigo);
       console.log('Datos del itinerario:', itineraryToEdit);
       // Abrir el diálogo de edición del itinerario
-      const ref = this.dialogService.open(ItineraryEditComponent, {
+      const ref = this.dialogService.open(ItineraryInsertComponent, {
         header: 'Editar Itinerario',
-        width: '50%',
+        width: '35%',
         closable: false,
         data: {
           itinerary: itineraryToEdit,
@@ -237,7 +237,7 @@ export class ItineraryListComponent implements OnInit {
     console.log('Crear nuevo itinerario');
     const ref = this.dialogService.open(ItineraryInsertComponent, {
       header: 'Crear Itinerario',
-      width: '50%',
+      width: '35%',
       closable: false,
       data: {
         itinerary: { codigo: '', name: '' , usuario: this.userName},
