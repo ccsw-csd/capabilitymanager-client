@@ -12,7 +12,6 @@ import { ItineraryListComponent } from '../../views/itinerary-list/itinerary-lis
 })
 export class ItineraryInsertComponent implements OnInit {
   itinerary: Itinerary | null = null;
-  updatedItinerary: Itinerary | null = null;
   isEditMode: boolean;
 
   constructor(
@@ -27,28 +26,27 @@ export class ItineraryInsertComponent implements OnInit {
   isFormValid: boolean = false;
   
   validateForm(): void {
-    this.isFormValid = this.itinerary.codigo !== null && this.itinerary.name !== null;
+    this.isFormValid = this.itinerary.codigo !== null && this.itinerary.codigo !== '' && this.itinerary.name !== null && this.itinerary.name !== '';
   }
 
   ngOnInit(): void {
     this.itinerary = this.config.data.itinerary;
-    this.updatedItinerary = { ...this.itinerary };
     this.validateForm();
   }
   updateId(codigo: string) {
-    this.updatedItinerary = { ...this.updatedItinerary, codigo };
+    this.itinerary = { ...this.itinerary, codigo };
   }
 
   updateName(name: string) {
-    this.updatedItinerary = { ...this.updatedItinerary, name };
+    this.itinerary = { ...this.itinerary, name };
   }
   onSave() {
-    if (this.updatedItinerary) {
+    if (this.itinerary) {
       this.itineraryService
-        .saveItinerary(this.updatedItinerary)
+        .saveItinerary(this.itinerary)
         .subscribe({
           next: () => {
-            this.dialogRef.close(this.updatedItinerary);
+            this.dialogRef.close(this.itinerary);
             this.snackbarService.showMessage('Se ha insertado el itinerario formativo correctamente');
             this.itineraryListComponent.loadData();
           },

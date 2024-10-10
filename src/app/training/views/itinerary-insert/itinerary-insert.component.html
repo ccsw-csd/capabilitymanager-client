@@ -1,6 +1,7 @@
-<div class="p-fluid">
-  <div class="p-field p-mb-6">
-    <span class="p-float-label flex-1 mt-2">
+
+<div class="flex flex-column gap-2">
+  <div class="flex flex-row gap-2 md:flex-nowrap" style="width: 100%">
+    <span class="p-float-label flex-1 mt-2" style="width: 30%">
     <input
       type="text"
       pInputText
@@ -11,10 +12,8 @@
     />
     <label for="id">Código<span class="text-red-600">*</span></label>
   </span>
-  </div>
 
-  <div class="p-field mt-4">
-    <span class="p-float-label flex-1 mt-2">
+  <span class="p-float-label min-w-max mt-2" style="width: 70%">
     <input
       type="text"
       pInputText
@@ -27,8 +26,9 @@
   </span>
   </div>
 
+  <div class="h-2rem"></div>
   <!-- Botones de cancelar y guardar -->
-  <div class="p-dialog-footer">
+  <div class="flex flex-row justify-content-end gap-2">
     <button
       type="button"
       pButton
@@ -42,7 +42,7 @@
       label="Guardar"
       class="p-button"
       (click)="onSave()"
-      [disabled]="this.validateForm == null || this.isFormValid"
+      [disabled]="!this.isFormValid"
     ></button>
   </div>
 </div>
