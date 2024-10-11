@@ -144,13 +144,15 @@ h3 {
 }
 
 .porcentajeAvance {
-  min-width: 170px;
-  max-width: 170px;
+  min-width: auto;
+  max-width: auto;
+  white-space: nowrap;
 }
 
-.tipoActividadId {
-  min-width: 160px;
-  max-width: 160px;
+.tipoActividadName {
+  min-width: auto;
+  max-width: auto;
+  white-space: nowrap;
 }
 
 .observaciones {
@@ -214,11 +216,11 @@ h3 {
 }
 
 .info-fieldset.nombre {
-  flex-grow: 1; 
+  flex-grow: 2; 
 }
 
 .info-fieldset.apellidos {
-  flex-grow: 2; 
+  flex-grow: 5; 
 }
 
 .info-legend {
