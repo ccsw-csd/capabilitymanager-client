@@ -12,7 +12,6 @@ import { Table } from 'primeng/table';
 import { Dropdown } from 'primeng/dropdown';
 import { PersonService } from '../../services/person.service';
 import { Person } from '../../models/Person';
-import { PersonalEditComponent } from '../personal-edit/personal-edit.component';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ItineraryUploadComponent } from '../itinerary-upload/itinerary-upload.component';

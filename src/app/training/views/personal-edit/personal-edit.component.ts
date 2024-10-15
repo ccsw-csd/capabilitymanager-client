@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Person } from '../../models/Person';
 import {
-  DynamicDialogRef,
-  DynamicDialogConfig,
-  DialogService,
+    DialogService,
 } from 'primeng/dynamicdialog';
 import { ActivityService } from '../../services/activity.service';
 import { Activity } from '../../models/Activity';
