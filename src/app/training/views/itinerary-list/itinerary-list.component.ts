@@ -4,7 +4,7 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
-  Injectable ,
+  Injectable,
 } from '@angular/core';
 import { MessageService, SortEvent } from 'primeng/api';
 import { ColumnConfigComponent } from 'src/app/core/views/column-config/column-config.component';
@@ -25,7 +25,6 @@ import { ItineraryInsertComponent } from '../itinerary-insert/itinerary-insert.c
   styleUrls: ['./itinerary-list.component.scss'],
   providers: [DialogService],
 })
-
 export class ItineraryListComponent implements OnInit {
   @ViewChild(Table) table: Table;
   @ViewChildren('filterDropdown') filterDropdowns!: QueryList<Dropdown>;
@@ -44,7 +43,7 @@ export class ItineraryListComponent implements OnInit {
     private dialogService: DialogService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    public authService: AuthService,
+    public authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -77,8 +76,6 @@ export class ItineraryListComponent implements OnInit {
       this.setDefaultFilters();
     });
   }
-
-  
 
   loadSelected(): any[] {
     let selectedColumnNames: any = localStorage.getItem('itineraryListColumns');
@@ -150,7 +147,10 @@ export class ItineraryListComponent implements OnInit {
 
     this.columnNames.forEach((column) => {
       if (column.filterType === 'input') {
-        this.defaultFilters[column.composeField] = { value: '', matchMode: 'contains' };
+        this.defaultFilters[column.composeField] = {
+          value: '',
+          matchMode: 'contains',
+        };
       }
     });
   }
@@ -222,6 +222,10 @@ export class ItineraryListComponent implements OnInit {
         contentStyle: { 'max-height': '500px', overflow: 'auto' },
       });
 
+      // Quitar el foco del botón de edición
+      const activeElement = document.activeElement as HTMLElement;
+      activeElement.blur();
+
       ref.onClose.subscribe((result: any) => {
         if (result) {
           console.log('Itinerario editado:', result);
@@ -240,7 +244,7 @@ export class ItineraryListComponent implements OnInit {
       width: '35%',
       closable: false,
       data: {
-        itinerary: { codigo: '', name: '' , usuario: this.userName},
+        itinerary: { codigo: '', name: '', usuario: this.userName },
       },
     });
 
@@ -304,7 +308,9 @@ export class ItineraryListComponent implements OnInit {
     this.itineraryService.deleteItinerary(id).subscribe(
       () => {
         // Actualizar la lista de itinerarios
-        this.itineraries = this.itineraries.filter(itinerary => itinerary.codigo !== id);
+        this.itineraries = this.itineraries.filter(
+          (itinerary) => itinerary.codigo !== id
+        );
         this.loadData();
       },
       (error) => {
