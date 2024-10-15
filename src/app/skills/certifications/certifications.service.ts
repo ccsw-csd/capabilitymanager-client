@@ -24,6 +24,10 @@ export class CertificationsService {
     );
   }
 
+  uploadCertifications_new(formData: FormData): Observable<String> {
+    return this.http.put<String>(environment.server + '/upload', formData);
+  }
+
   downloadFile(id: string, filename: string): void {
     const url = `${this.baseUrl}/version-certificaciones/download-file/${id}`;
 
