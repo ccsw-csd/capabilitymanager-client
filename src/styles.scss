@@ -85,3 +85,11 @@ h3 {
   color: #272936;
   font-size: 20px;
 }
+
+
+.modalButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem; 
+  margin-top: 2rem;
+}

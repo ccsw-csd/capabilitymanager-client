@@ -28,15 +28,15 @@
       title="Importar archivo staffing"
     ></button>
     <button
-    tooltipPosition="top"
-    pButton
-    pRipple
-    type="button"
-    icon="pi pi-filter-slash"
-    class="p-button-lg m-2 p-button-outlined p-button-secondary"
-    pTooltip="Limpiar filtros"
-    (click)="cleanFilters()"
-  ></button>
+      tooltipPosition="top"
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-filter-slash"
+      class="p-button-lg m-2 p-button-outlined p-button-secondary"
+      pTooltip="Limpiar filtros"
+      (click)="cleanFilters()"
+    ></button>
     <button
       tooltipPosition="top"
       pButton
@@ -89,36 +89,58 @@
         </div>
 
         <div class="w-full foot-header">
-              <!-- Filtros para las columnas -->
-              <p-columnFilter
-              *ngIf="col.filterType === 'input'"
-              class="w-full"
-              type="text"
-              field="{{ col.composeField }}"
-              [showMenu]="false"
-              [showClearButton]="false"
-              matchMode="contains"
+          <!-- Filtros para las columnas -->
+          <p-columnFilter
+            *ngIf="col.filterType === 'input'"
+            class="w-full"
+            type="text"
+            field="{{ col.composeField }}"
+            [showMenu]="false"
+            [showClearButton]="false"
+            matchMode="contains"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
             >
-              <ng-template
-                pTemplate="filter"
-                let-value
-                let-filter="filterCallback"
-              >
-                <input
-                  tabindex="1"
-                  type="text"
-                  pInputText
-                  [ngModel]="value"
-                  (ngModelChange)="filter($event)"
-                  class="p-inputtext"
-                />
-              </ng-template>
-            </p-columnFilter>
+              <input
+                tabindex="1"
+                type="text"
+                pInputText
+                [ngModel]="value"
+                (ngModelChange)="filter($event)"
+                class="p-inputtext"
+              />
+            </ng-template>
+          </p-columnFilter>
+          <!-- Filtro para fechaImportacion -->
+          <p-columnFilter
+            *ngIf="
+              col.filterType === 'date' && col.field === 'fechaImportacion'
+            "
+            class="w-full"
+            type="date"
+            field="{{ col.composeField }}"
+            [showMenu]="false"
+            [showClearButton]="false"
+            matchMode="equals"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <input
+                type="date"
+                pInputText
+                [ngModel]="value"
+                (ngModelChange)="filter($event)"
+                class="p-inputtext"
+              />
+            </ng-template>
+          </p-columnFilter>
         </div>
-      </th>
-      <th class="buttons flex flex-column">
-        <div class="flex flex-row w-full top-header"></div>
-        <div class="w-full foot-header"></div>
       </th>
       <th class="buttons flex flex-column">
         <div class="flex flex-row w-full top-header"></div>
@@ -142,12 +164,8 @@
           <ng-container *ngIf="col.field === 'fechaImportacion'">
             {{ staffing[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
-          
-          <ng-container
-            *ngIf="
-              col.field !== 'fechaImportacion'
-            "
-          >
+
+          <ng-container *ngIf="col.field !== 'fechaImportacion'">
             {{ staffing[col.field] }}
           </ng-container>
         </div>

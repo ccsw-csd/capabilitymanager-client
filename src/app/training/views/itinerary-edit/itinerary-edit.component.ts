@@ -15,6 +15,12 @@ export class ItineraryEditComponent implements OnInit {
   updatedItinerary: Itinerary | null = null;
   isEditMode: boolean;
 
+  isFormValid: boolean = false;
+  
+  validateForm(): void {
+    this.isFormValid = this.itinerary.codigo !== null && this.itinerary.name !== null;
+  }
+  
   constructor(
     public dialogRef: DynamicDialogRef,
     private itineraryService: ItineraryService,

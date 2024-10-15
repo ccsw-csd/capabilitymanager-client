@@ -18,7 +18,7 @@
 </div>
 
 <!-- Sección botones de acción -->
-<div class="flex justify-content-end gap-3">
+<div class="modalButtons">
   <button
     pButton
     label="Cancelar"
@@ -36,9 +36,8 @@
 </div>
 
 <!-- Mostrar animación en proceso de carga -->
-<div class="mt-6">
-  <p-progressBar
-    *ngIf="isLoading"
+<div class="mt-6" *ngIf="isLoading">
+  <p-progressBar    
     mode="indeterminate"
     [style]="{ height: '6px' }"
   ></p-progressBar>

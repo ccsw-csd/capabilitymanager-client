@@ -31,6 +31,12 @@ export class ReportListComponent {
   totalReports: number;
   reportsToExport: Report[];
   reports: Report[];
+  screenshotOptions: any[] = [
+    { label: ' ', value: null },
+    { label: 'SI', value: 1 },
+    { label: 'NO', value: 0 },
+  ];
+  defaultScreenshotFilter: any = null;
 
   constructor(
     private reportService: ReportService,
@@ -73,7 +79,7 @@ export class ReportListComponent {
         header: 'Fecha de Generación',
         composeField: 'fechaImportacion',
         field: 'fechaImportacion',
-        filterType: 'input',
+        filterType: 'date',
       },
       {
         header: 'Descripción',
@@ -91,7 +97,7 @@ export class ReportListComponent {
         header: 'Fecha de Modificación',
         composeField: 'fechaModificacion',
         field: 'fechaModificacion',
-        filterType: 'input',
+        filterType: 'date',
       },
       {
         header: 'Comentarios',
@@ -247,8 +253,11 @@ export class ReportListComponent {
     this.defaultFilters = {};
 
     this.columnNames.forEach((column) => {
-      if (column.filterType === 'input') {
-        this.defaultFilters[column.composeField] = { value: '' , matchMode: 'contains'};
+      if (column.filterType === 'input' || column.filterType === 'date') {
+        this.defaultFilters[column.composeField] = {
+          value: '',
+          matchMode: 'contains',
+        };
       }
     });
   }

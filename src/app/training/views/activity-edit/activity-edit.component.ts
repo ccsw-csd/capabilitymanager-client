@@ -11,11 +11,12 @@ import { ActivityType } from 'src/app/training/models/ActivityType';
 import { ActivityTypeService } from 'src/app/training/services/activity-type.service';
 
 @Component({
-  selector: 'app-activity-insert',
-  templateUrl: './activity-insert.component.html',
-  styleUrls: ['./activity-insert.component.scss']
+  selector: 'app-activity-edit',
+  templateUrl: './activity-edit.component.html',
+  styleUrls: ['./activity-edit.component.scss'],
 })
-export class ActivityInsertComponent {
+export class ActivityEditComponent {
+  target?: EventTarget;
   person: Person;
   activities: Activity[] = [];
   roleAdmin: boolean;
@@ -40,8 +41,8 @@ export class ActivityInsertComponent {
       nombre: '',
     },
   };
-
   isFormValid: boolean = false;
+  activity: Activity;
 
   constructor(
     public dialogRef: DynamicDialogRef,
@@ -54,15 +55,22 @@ export class ActivityInsertComponent {
 
   ngOnInit(): void {
     this.person = this.config.data.person;
-
-    this.newActivity.ggid = this.person.ggid;
-    this.newActivity.saga = this.person.saga;
+    this.activity = this.config.data.activity;
 
     this.fillStateOptions();
     this.loadActivityTypes();
     //this.roleAdmin = this.authService.hasRole('ADMIN');
-    this.validateForm();
 
+    this.newActivity = { ...this.activity };
+    this.newActivity.id = this.activity.id;
+    this.newActivity.fechaInicio = new Date(this.activity.fechaInicio);
+    this.newActivity.fechaFinalizacion = new Date(
+      this.activity.fechaFinalizacion
+    );
+    this.newActivity.estado = this.activity.estado;
+    this.newActivity.tipoActividadId = this.activity.tipoActividadId;
+
+    this.validateForm();
   }
 
   fillStateOptions(): void {
@@ -77,8 +85,6 @@ export class ActivityInsertComponent {
   }
 
   validateForm(): void {
-    console.log(this.newActivity.estado);
-    console.log(this.newActivity.tipoActividadId);
     this.isFormValid =
       this.newActivity.nombreActividad !== '' &&
       this.newActivity.estado !== null &&
@@ -88,11 +94,11 @@ export class ActivityInsertComponent {
   }
 
   onChangeActivityType(event) {
-    this.newActivity.tipoActividad = event.value.id;
-    this.newActivity.tipoActividadId = event.value.id;
+    this.newActivity.tipoActividad = event.value;
+    this.newActivity.tipoActividadId = event.value;
   }
 
-  onChangeActivityState(event){
+  onChangeActivityState(event) {
     this.newActivity.estado = event.value;
   }
 
@@ -121,42 +127,48 @@ export class ActivityInsertComponent {
   }
 
   save(): void {
-    this.newActivity.estado = (this.newActivity.estado as any)?.name || 'No iniciado';
+    if (
+      this.newActivity.fechaInicio &&
+      this.newActivity.fechaFinalizacion > this.newActivity.fechaFinalizacion
+    ) {
+      this.snackbarService.error(
+        'La fecha de inicio no puede ser posterior a la fecha de finalización'
+      );
+      return;
+    }
 
     if (this.newActivity.fechaInicio) {
-      this.newActivity.fechaInicio = new Date(Date.UTC(
-        this.newActivity.fechaInicio.getFullYear(),
-        this.newActivity.fechaInicio.getMonth(),
-        this.newActivity.fechaInicio.getDate()
-      ));
+      this.newActivity.fechaInicio = new Date(
+        Date.UTC(
+          this.newActivity.fechaInicio.getFullYear(),
+          this.newActivity.fechaInicio.getMonth(),
+          this.newActivity.fechaInicio.getDate()
+        )
+      );
     }
-  
+
     if (this.newActivity.fechaFinalizacion) {
-      this.newActivity.fechaFinalizacion = new Date(Date.UTC(
-        this.newActivity.fechaFinalizacion.getFullYear(),
-        this.newActivity.fechaFinalizacion.getMonth(),
-        this.newActivity.fechaFinalizacion.getDate()
-      ));
+      this.newActivity.fechaFinalizacion = new Date(
+        Date.UTC(
+          this.newActivity.fechaFinalizacion.getFullYear(),
+          this.newActivity.fechaFinalizacion.getMonth(),
+          this.newActivity.fechaFinalizacion.getDate()
+        )
+      );
     }
-    
-    if (this.newActivity.fechaInicio && this.newActivity.fechaFinalizacion > this.newActivity.fechaFinalizacion) {
-      this.snackbarService.error('La fecha de inicio no puede ser posterior a la fecha de finalización');
-      return;
-    } 
-    this.activityService.create(this.newActivity).subscribe({
+
+    this.activityService.update(this.newActivity).subscribe({
       next: () => {
-        this.snackbarService.showMessage('Actividad creada correctamente');
+        this.snackbarService.showMessage('Actividad actualizada correctamente');
         this.cancel();
       },
       error: (error) => {
-
         if (error.message) {
           this.snackbarService.error(error.message);
           return;
-
         }
         this.snackbarService.error(
-          'Error al crear la actividad. Inténtelo de nuevo más tarde.'
+          'Error al actualizar la actividad. Inténtelo de nuevo más tarde.'
         );
       },
     });

@@ -20,6 +20,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { ActivityInsertComponent } from './views/activity-insert/activity-insert.component';
 import { InputTextModule } from 'primeng/inputtext';
+import { ActivityEditComponent } from './views/activity-edit/activity-edit.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { InputTextModule } from 'primeng/inputtext';
     ItineraryUploadComponent,
     PersonalEditComponent,
     ActivityInsertComponent,
+    ActivityEditComponent,
   ],
   imports: [
     CommonModule,

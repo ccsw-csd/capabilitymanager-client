@@ -23,6 +23,7 @@
           (onChange)="onChangeActivityState($event); validateForm()"
           [(ngModel)]="newActivity.estado"
           optionLabel="name"
+          optionValue="name"
           [showClear]="false"
           styleClass="w-full"
           id="estadoActividad"
@@ -38,8 +39,10 @@
       <span class="p-float-label min-w-max mt-2" style="width: 27%">
         <p-dropdown
           [options]="activityTypesOptions"
+          [(ngModel)]="newActivity.tipoActividadId"
           styleClass="w-full"
           optionLabel="name"
+          optionValue="id"
           [showClear]="false"
           (onChange)="onChangeActivityType($event); validateForm()"
           id="tipoActividad"

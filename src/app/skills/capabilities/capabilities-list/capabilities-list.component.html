@@ -5,47 +5,143 @@
 </div>
 
 <div class="flex flex-row justify-content-between">
-  <div class="flex w-12rem h-2rem gap-2 border-round-2xl align-items-center mt-3" style="background-color: #e7edef">
+  <div
+    class="flex w-12rem h-2rem gap-2 border-round-2xl align-items-center mt-3"
+    style="background-color: #e7edef"
+  >
     <div class="pl-3">
       <i class="pi pi-file text-xl text-primary"></i>
     </div>
     <div class="flex flex-row align-items-center gap-1 text-sm">
-      <p>{{ totalCapabilities }}</p> Archivos de Roles
+      <p>{{ totalCapabilities }}</p>
+      Archivos de Roles
     </div>
   </div>
   <div>
-    <button #b pButton label="Importar roles" type="button" class="p-button p-button-outlined m-2" (click)="importRolesFile()" title="Importar archivo roles"></button>
-    <button tooltipPosition="top" pButton pRipple type="button" icon="pi pi-filter-slash" class="p-button-lg m-2 p-button-outlined p-button-secondary" 
-      pTooltip="Limpiar filtros" (click)="cleanFilters()"></button>
-    <button tooltipPosition="top" pButton pRipple type="button" icon="pi pi-cog" class="p-button-lg m-2 p-button-outlined p-button-secondary" 
-      pTooltip="Visualización columnas" (click)="showConfig()"></button>
+    <button
+      #b
+      pButton
+      label="Importar roles"
+      type="button"
+      class="p-button p-button-outlined m-2"
+      (click)="importRolesFile()"
+      title="Importar archivo roles"
+    ></button>
+    <button
+      tooltipPosition="top"
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-filter-slash"
+      class="p-button-lg m-2 p-button-outlined p-button-secondary"
+      pTooltip="Limpiar filtros"
+      (click)="cleanFilters()"
+    ></button>
+    <button
+      tooltipPosition="top"
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-cog"
+      class="p-button-lg m-2 p-button-outlined p-button-secondary"
+      pTooltip="Visualización columnas"
+      (click)="showConfig()"
+    ></button>
   </div>
 </div>
 
-<p-table [style]="{ height: 'calc(100vh - 210px)', width: tableWidth }" [scrollable]="true" scrollHeight="flex" selectionMode="single" [value]="capabilities" 
-  styleClass="p-datatable-striped" [paginator]="true" [rows]="15" [totalRecords]="totalCapabilities" (onPage)="onPageChange($event)" sortField="id" [sortOrder]="-1"
-  [(filters)]="defaultFilters" (onFilter)="onFilter($event)" [columns]="selectedColumnNames" [reorderableColumns]="true" (onColReorder)="onColReorder($event)" 
-  (sortFunction)="customSort($event)" [customSort]="true">
+<p-table
+  [style]="{ height: 'calc(100vh - 210px)', width: tableWidth }"
+  [scrollable]="true"
+  scrollHeight="flex"
+  selectionMode="single"
+  [value]="capabilities"
+  styleClass="p-datatable-striped "
+  [paginator]="true"
+  [rows]="15"
+  [totalRecords]="totalCapabilities"
+  (onPage)="onPageChange($event)"
+  sortField="id"
+  [sortOrder]="-1"
+  [(filters)]="defaultFilters"
+  (onFilter)="onFilter($event)"
+  [columns]="selectedColumnNames"
+  [reorderableColumns]="true"
+  (onColReorder)="onColReorder($event)"
+  (sortFunction)="customSort($event)"
+  [customSort]="true"
+>
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th *ngFor="let col of selectedColumnNames" class="{{ col.field }} flex flex-column" pReorderableColumn>
-        <div class="flex flex-row w-full top-header" pSortableColumn="{{ col.composeField }}">
-          <span class="flex flex-1 justify-content-center">{{col.header}}</span>
+      <th
+        *ngFor="let col of selectedColumnNames"
+        class="{{ col.field }} flex flex-column"
+        pReorderableColumn
+      >
+        <div
+          class="flex flex-row w-full top-header"
+          pSortableColumn="{{ col.composeField }}"
+        >
+          <span class="flex flex-1 justify-content-center">{{
+            col.header
+          }}</span>
           <p-sortIcon field="{{ col.composeField }}"></p-sortIcon>
         </div>
 
         <div class="w-full foot-header">
-           <!-- Filtros para las columnas -->
-           <p-columnFilter *ngIf="col.filterType === 'input'" class="w-full" type="text" field="{{ col.composeField }}" [showMenu]="false" [showClearButton]="false" matchMode="contains">
-           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-             <input tabindex="1" type="text" pInputText [ngModel]="value" (ngModelChange)="filter($event)" class="p-inputtext"/>
-           </ng-template>
-         </p-columnFilter>
+          <!-- Filtros para las columnas -->
+          <p-columnFilter
+            *ngIf="col.filterType === 'input'"
+            class="w-full"
+            type="text"
+            field="{{ col.composeField }}"
+            [showMenu]="false"
+            [showClearButton]="false"
+            matchMode="contains"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <input
+                tabindex="1"
+                type="text"
+                pInputText
+                [ngModel]="value"
+                (ngModelChange)="filter($event)"
+                class="p-inputtext"
+              />
+            </ng-template>
+          </p-columnFilter>
+
+          <!-- Filtro para fechaImportacion -->
+          <p-columnFilter
+            *ngIf="
+              col.filterType === 'date' && col.field === 'fechaImportacion'
+            "
+            class="w-full"
+            type="date"
+            field="{{ col.composeField }}"
+            [showMenu]="false"
+            [showClearButton]="false"
+            matchMode="equals"
+          >
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <input
+                type="date"
+                pInputText
+                [ngModel]="value"
+                (ngModelChange)="filter($event)"
+                class="p-inputtext"
+              />
+            </ng-template>
+          </p-columnFilter>
         </div>
-      </th>
-      <th class="buttons flex flex-column">
-        <div class="flex flex-row w-full top-header"></div>
-        <div class="w-full foot-header"></div>
       </th>
       <th class="buttons flex flex-column">
         <div class="flex flex-row w-full top-header"></div>
@@ -56,31 +152,59 @@
   <ng-template pTemplate="body" let-capability let-columns="columns">
     <tr [pSelectableRow]="capability">
       <td *ngFor="let col of selectedColumnNames" class="{{ col.field }}">
-        <div *ngIf="!col.fieldExtra && !col.parse" class="white-space-nowrap overflow-hidden text-overflow-ellipsis" 
-          pTooltip="{{col.field === 'fechaImportacion' ? (capability[col.field] | date : 'dd/MM/yyyy') : capability[col.field]}}">
+        <div
+          *ngIf="!col.fieldExtra && !col.parse"
+          class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+          pTooltip="{{
+            col.field === 'fechaImportacion'
+              ? (capability[col.field] | date : 'dd/MM/yyyy')
+              : capability[col.field]
+          }}"
+        >
           <ng-container *ngIf="col.field === 'fechaImportacion'">
             {{ capability[col.field] | date : "dd/MM/yyyy" }}
           </ng-container>
-          
+
           <ng-container *ngIf="col.field !== 'fechaImportacion'">
             {{ capability[col.field] }}
           </ng-container>
         </div>
-        <div *ngIf="col.fieldExtra && !col.parse" class="white-space-nowrap overflow-hidden text-overflow-ellipsis" pTooltip="{{capability[col.field]?.[col.fieldExtra]}}" 
-          tooltipPosition="top">
+        <div
+          *ngIf="col.fieldExtra && !col.parse"
+          class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+          pTooltip="{{capability[col.field]?.[col.fieldExtra]}}"
+          tooltipPosition="top"
+        >
           {{capability[col.field]?.[col.fieldExtra]}}
         </div>
-        <div *ngIf="col.parse" class="white-space-nowrap overflow-hidden text-overflow-ellipsis" pTooltip="{{ col.parse(person[col.field]) }}" tooltipPosition="top">
+        <div
+          *ngIf="col.parse"
+          class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+          pTooltip="{{ col.parse(person[col.field]) }}"
+          tooltipPosition="top"
+        >
           {{ col.parse(capability[col.field]) }}
         </div>
       </td>
       <td class="buttons">
-        <button pButton type="button" icon="pi pi-download" class="p-button-secondary" style="font-size: 1rem; background-color: transparent; color: gray" tooltip="Descargar"
-          (click)="downloadCapability(capability.id)"></button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-download"
+          class="p-button-secondary"
+          style="font-size: 1rem; background-color: transparent; color: gray"
+          tooltip="Descargar"
+          (click)="downloadCapability(capability.id)"
+        ></button>
       </td>
     </tr>
   </ng-template>
 </p-table>
 
 <p-toast position="top-center"></p-toast>
-<p-confirmDialog [closable]="false" header="Confirmación" icon="pi pi-exclamation-triangle" #confirmDialog></p-confirmDialog>
+<p-confirmDialog
+  [closable]="false"
+  header="Confirmación"
+  icon="pi pi-exclamation-triangle"
+  #confirmDialog
+></p-confirmDialog>
