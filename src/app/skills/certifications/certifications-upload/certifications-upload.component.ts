@@ -3,7 +3,7 @@ import { CertificationsService } from '../certifications.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { AuthService } from 'src/app/core/services/auth.service';
-
+import { WebsocketService } from '../../services/websocket.service';
 @Component({
   selector: 'app-certifications-upload',
   templateUrl: './certifications-upload.component.html',
@@ -20,7 +20,8 @@ export class CertificationsUploadComponent implements OnInit {
     public authService: AuthService,
     public dialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private websocketService: WebsocketService
   ) {}
 
   ngOnInit(): void {
@@ -42,13 +43,13 @@ export class CertificationsUploadComponent implements OnInit {
     }
 
     const formData = new FormData();
-    formData.append('documentType', '3');
+    formData.append('tipoFichero', '3');
     formData.append('fileData', this.certificationsFile);
-    formData.append('user', this.userName);
-    formData.append('description', this.certificationsFile.name);
+    formData.append('usuario', this.userName);
+    formData.append('nombreFichero', this.certificationsFile.name);
 
     this.isLoading = true;
-    this.certificationsService.uploadCertifications(formData).subscribe({
+    this.certificationsService.uploadCertifications_new(formData).subscribe({
       next: (respuesta) => {
         const errorMessage = this.getErrorMessage(respuesta);
         this.isLoading = false;

@@ -24,6 +24,10 @@ export class CapabilitiesService {
     );
   }
 
+  uploadCapability_new(formData: FormData): Observable<String> {
+    return this.http.put<String>(environment.server + '/upload', formData);
+  }
+
   downloadFile(id: string, filename: string): void {
     const url = `${this.baseUrl}/version-role/download-file/${id}`;
 

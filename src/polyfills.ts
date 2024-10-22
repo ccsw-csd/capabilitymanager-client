@@ -45,6 +45,7 @@
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
+(window as any).global = window; // para problema "Uncaught ReferenceError: global is not defined" cuando utilizamos websockets
 import 'zone.js';  // Included with Angular CLI.
 
 
