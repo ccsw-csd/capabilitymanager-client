@@ -13,6 +13,7 @@ export class WebsocketService implements OnDestroy {
   private subscription: StompSubscription | null = null;
 
   constructor(private snackbarService: SnackbarService) {
+    console.log('websocket url: ' + environment.server + '/ws');
     this.stompClient = new Client({
       webSocketFactory: () => new SockJS(environment.server + '/ws'), // Use SockJS for the WebSocket connection
       reconnectDelay: 5000, // Reconnect automatically after 5 seconds if disconnected
