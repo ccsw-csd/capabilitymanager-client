@@ -158,11 +158,31 @@ export class PersonalListComponent implements OnInit {
     this.roleAdmin = this.authService.hasRole('ADMIN');
   }
 
+  /*
   loadData() {
     this.totalPersons$ = this.personService
       .getAllPersons()
       .pipe(map((persons) => persons.length));
     this.persons$ = this.personService.getAllPersons();
+  }
+  */
+
+  loadData() {
+    const globalId = this.authService.getUserInfo().globalId;
+  
+    if (this.authService.hasRole('ADMIN')) {
+      this.totalPersons$ = this.personService
+        .getAllPersons()
+        .pipe(map((persons) => persons.length));
+      
+      this.persons$ = this.personService.getAllPersons();
+    } else {
+      this.totalPersons$ = this.personService
+        .getStaffingByDepartment(globalId)
+        .pipe(map((persons) => persons.length));
+      
+      this.persons$ = this.personService.getStaffingByDepartment(globalId);
+    }
   }
 
   loadSelected(): any[] {
