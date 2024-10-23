@@ -19,4 +19,8 @@ export class PersonService {
   getPersonBySaga(saga: string): Observable<Person[]> {
     return this.http.get<Person[]>(`${this.baseUrl}/listadobench/${saga}`);
   }
+
+  getStaffingByDepartment(ggid: string): Observable<Person[]> {
+    return this.http.get<Person[]>(`${this.baseUrl}/listadobench/ggid/${ggid}`);
+  }
 }

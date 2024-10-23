@@ -25,4 +25,5 @@ export interface Person {
   inglesHablado: string; // Agregado
   jornada: string; // Agregado
   mesesBench: string;
+  practiceArea: string;
 }
